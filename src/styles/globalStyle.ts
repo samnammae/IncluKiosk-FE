@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
       --main-color: #1E40AF;  
       --sub-color: #6c757d;    
       --text-color: #212529;  
+      --disabled-color:#d1d5db;
     }
 
   * {

@@ -1,6 +1,11 @@
 export const theme = {
   colors: {
+    main: 'var(--main-color)',
+    sub: 'var(--sub-color)',
+    text: 'var(--text-color)',
+    disabled: 'var(--disabled-color)',
     standard: '#1E40AF',
+    standardText: '#212529',
     background: '#1e3a8a',
     white: '#ffffff',
     grey: {
