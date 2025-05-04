@@ -2,23 +2,30 @@ import styled from 'styled-components';
 import Header from './components/Header';
 import Category from './components/Category';
 import MenuList from './components/MenuList';
-import { OptionCategory, useMenuStore } from './stores/menuStore';
+import { OptionCategoryType, useMenuStore } from './stores/menuStore';
 import { menu } from './data/menu';
 import { useEffect } from 'react';
 import { brandtheme } from './data/theme';
 import { useBrandStore } from './stores/brandStore';
 const Home = () => {
-  const { setMenuCategories, setMenusByCategory, setOptionCategories } =
-    useMenuStore();
+  const {
+    setMenuCategories,
+    setMenusByCategory,
+    setOptionCategories,
+    selectMenuCategory,
+  } = useMenuStore();
   const { setName, setImg } = useBrandStore();
+  // const brandName = 'ediya';
+  const brandName = 'starbucks';
+  // const brandName = 'twosomeplace';
   useEffect(() => {
     // 브랜드별 데이터 로드
-    const brandData = menu['ediya'];
+    const brandData = menu[brandName];
 
     if (brandData) {
       // 카테고리 설정
       setMenuCategories(brandData.categories);
-
+      selectMenuCategory(brandData.categories[0]);
       // 카테고리별 메뉴 설정
       Object.entries(brandData.menusByCategory).forEach(([category, menus]) => {
         setMenusByCategory(category, menus);
@@ -26,13 +33,13 @@ const Home = () => {
 
       // 옵션 카테고리 설정
       setOptionCategories(
-        brandData.optionCategories as { [id: string]: OptionCategory }
+        brandData.optionCategories as { [id: string]: OptionCategoryType }
       );
     }
 
     //색상 로드
-    const brandTheme = brandtheme['ediya'];
-    setName('ediya');
+    const brandTheme = brandtheme[brandName];
+    setName(brandName);
     setImg(brandTheme.logoImg);
     if (brandTheme) {
       // CSS 변수 설정
@@ -59,10 +66,20 @@ const Home = () => {
     <BaseContainer>
       <Header />
       <Category />
-      <MenuList />
+      <ScrollWrapper>
+        <MenuList />
+      </ScrollWrapper>
     </BaseContainer>
   );
 };
 
 export default Home;
-const BaseContainer = styled.div``;
+const BaseContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const ScrollWrapper = styled.div`
+  height: calc(1920px - 300px);
+  overflow-y: auto;
+  display: block;
+`;

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // 메뉴 아이템 타입
-export interface MenuItem {
+export interface MenuItemType {
   id: string;
   name: string;
   price: number;
@@ -12,7 +12,7 @@ export interface MenuItem {
 }
 
 // 개별 옵션 타입
-interface Option {
+interface OptionType {
   id: string;
   name: string;
   price: number;
@@ -20,7 +20,7 @@ interface Option {
 }
 
 // 옵션 카테고리 타입
-export interface OptionCategory {
+export interface OptionCategoryType {
   id: string;
   name: string;
   type: 'single' | 'multiple'; // 단일 선택 또는 다중 선택
@@ -28,7 +28,7 @@ export interface OptionCategory {
   min?: number; // 최소 선택 개수 (multiple일 때)
   max?: number; // 최대 선택 개수 (multiple일 때)
   displayOrder?: number; // 표시 순서
-  options: Option[];
+  options: OptionType[];
 }
 
 // 선택된 옵션 타입
@@ -39,7 +39,7 @@ interface SelectedOptions {
 // 장바구니 아이템 타입
 interface CartItem {
   id: string;
-  menuItem: MenuItem;
+  MenuItemType: MenuItemType;
   selectedOptions: SelectedOptions;
   quantity: number;
   totalPrice: number;
@@ -51,17 +51,17 @@ export interface MenuStore {
 
   // 메뉴 카테고리별 메뉴 목록
   menusByCategory: {
-    [category: string]: MenuItem[];
+    [category: string]: MenuItemType[];
   };
 
   // 모든 옵션 카테고리들
   optionCategories: {
-    [categoryId: string]: OptionCategory;
+    [categoryId: string]: OptionCategoryType;
   };
 
   selectedMenuCategory: string | null; // 현재 선택된 메뉴 카테고리
 
-  selectedMenu: MenuItem | null; // 현재 선택된 메뉴
+  selectedMenu: MenuItemType | null; // 현재 선택된 메뉴
 
   selectedOptions: SelectedOptions; // 현재 선택된 옵션들
 
@@ -70,12 +70,12 @@ export interface MenuStore {
 
   // 액션들
   setMenuCategories: (categories: string[]) => void;
-  setMenusByCategory: (category: string, menus: MenuItem[]) => void;
+  setMenusByCategory: (category: string, menus: MenuItemType[]) => void;
   setOptionCategories: (optionCategories: {
-    [id: string]: OptionCategory;
+    [id: string]: OptionCategoryType;
   }) => void;
   selectMenuCategory: (category: string) => void;
-  selectMenu: (menu: MenuItem) => void;
+  selectMenu: (menu: MenuItemType) => void;
   setSelectedOptions: (options: SelectedOptions) => void;
   setCart: (cart: CartItem[]) => void;
   clearSelection: () => void;
