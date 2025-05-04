@@ -15,13 +15,12 @@ export const theme = {
   },
   fonts: {
     sizes: {
-      cs: '10px',
-      cl: '12px',
-      ms: '14px',
-      mm: '16px',
-      ml: '18px',
-      ts: '22px',
-      tl: '24px',
+      xs: '18px',
+      sm: '24px',
+      md: '32px',
+      lg: '40px',
+      xl: '48px',
+      logo: '128px',
     },
     weights: {
       light: 400,
@@ -30,9 +29,10 @@ export const theme = {
     },
   },
   borderRadius: {
-    sm: '4px',
-    md: '8px',
-    lg: '16px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
   },
   shadows: {
     sm: '0 2px 4px rgba(0, 0, 0, 0.1)',
