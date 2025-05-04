@@ -7,16 +7,16 @@ export const brandtheme = {
     logoImg: 'https://i.imgur.com/ERWUmXR.png',
   },
   starbucks: {
-    primary: '#00704A', // 스타벅스 그린
-    secondary: '#1E3932', // 스타벅스 다크 그린
-    disabled: '#BDBDBD', // 비활성화
+    mainColor: '#00704A', // 스타벅스 그린
+    subColor: '#1E3932', // 스타벅스 다크 그린
+    disabledColor: '#BDBDBD', // 비활성화
     textColor: '#212529',
     logoImg: 'https://i.imgur.com/8aHKZoI.png',
   },
   twosomeplace: {
-    primary: '#D5202C', // 투썸플레이스 레드
-    secondary: '#8B0000', // 투썸플레이스 다크 레드
-    disabled: '#BDBDBD', // 비활성화
+    mainColor: '#D5202C', // 투썸플레이스 레드
+    subColor: '#8B0000', // 투썸플레이스 다크 레드
+    disabledColor: '#BDBDBD', // 비활성화
     textColor: '#212529',
     logoImg: 'https://i.imgur.com/eSbE0ST.png',
   },
