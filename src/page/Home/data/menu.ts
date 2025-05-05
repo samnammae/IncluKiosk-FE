@@ -10,6 +10,7 @@ export const menu = {
           description: '스타벅스 에스프레소로 추출한 아메리카노',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          isSoldOut: false,
         },
         {
           id: 'cafe-latte',
@@ -18,6 +19,7 @@ export const menu = {
           description: '부드러운 우유와 진한 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cappuccino',
@@ -26,6 +28,7 @@ export const menu = {
           description: '풍부한 폼 밀크와 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'caramel-macchiato',
@@ -34,6 +37,7 @@ export const menu = {
           description: '바닐라 시럽과 카라멜 드리즐의 달콤한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'vanilla-latte',
@@ -42,6 +46,7 @@ export const menu = {
           description: '바닐라 시럽이 들어간 부드러운 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cafe-mocha',
@@ -50,6 +55,7 @@ export const menu = {
           description: '초콜릿과 에스프레소의 달콤한 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cold-brew',
@@ -58,6 +64,7 @@ export const menu = {
           description: '14시간 저온 추출한 부드러운 콜드브루',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'size', 'ice'],
+          isSoldOut: false,
         },
         {
           id: 'espresso',
@@ -66,6 +73,7 @@ export const menu = {
           description: '진한 풍미의 에스프레소 샷',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'flat-white',
@@ -74,6 +82,7 @@ export const menu = {
           description: '더 진한 에스프레소와 부드러운 우유 폼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: true,
         },
         {
           id: 'honey-latte',
@@ -82,6 +91,7 @@ export const menu = {
           description: '달콤한 꿀이 들어간 스페셜 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'dolce-latte',
@@ -90,6 +100,7 @@ export const menu = {
           description: '연유가 들어간 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: true,
         },
         {
           id: 'einspanner',
@@ -98,6 +109,7 @@ export const menu = {
           description: '진한 에스프레소 위에 올린 생크림',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          isSoldOut: false,
         },
         {
           id: 'irish-coffee',
@@ -106,6 +118,7 @@ export const menu = {
           description: '위스키 향이 나는 특별한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'affogato',
@@ -114,6 +127,7 @@ export const menu = {
           description: '바닐라 아이스크림에 에스프레소를 부은 디저트 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'hazelnut-latte',
@@ -122,6 +136,7 @@ export const menu = {
           description: '고소한 헤이즐넛 시럽이 들어간 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'spanish-latte',
@@ -130,6 +145,7 @@ export const menu = {
           description: '연유와 우유가 어우러진 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'dalgona-latte',
@@ -138,36 +154,40 @@ export const menu = {
           description: '달고나 폼이 올라간 트렌디한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'size', 'milk'],
+          isSoldOut: false,
         },
       ],
       음료: [
         {
           id: 'sweet-peach-iced-tea',
           name: '복숭아 아이스티',
-          price: 3500,
+          price: 4300,
           description: '달콤한 복숭아와 홍차의 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'ice'],
+          isSoldOut: false,
         },
       ],
       디저트: [
         {
           id: 'chocolate-cake',
           name: '초콜릿 케이크',
-          price: 5500,
+          price: 6000,
           description: '진한 초콜릿 풍미가 가득한 케이크',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving'],
+          isSoldOut: false,
         },
       ],
       베이커리: [
         {
           id: 'croissant',
           name: '크로아상',
-          price: 3500,
+          price: 3800,
           description: '버터 풍미 가득한 프랑스식 크로아상',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving'],
+          isSoldOut: false,
         },
       ],
     },
@@ -252,6 +272,7 @@ export const menu = {
           description: '스타벅스 에스프레소로 추출한 아메리카노',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          isSoldOut: false,
         },
         {
           id: 'cafe-latte',
@@ -260,6 +281,7 @@ export const menu = {
           description: '부드러운 우유와 진한 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cappuccino',
@@ -268,6 +290,7 @@ export const menu = {
           description: '풍부한 폼 밀크와 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'caramel-macchiato',
@@ -276,6 +299,7 @@ export const menu = {
           description: '바닐라 시럽과 카라멜 드리즐의 달콤한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'vanilla-latte',
@@ -284,6 +308,7 @@ export const menu = {
           description: '바닐라 시럽이 들어간 부드러운 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cafe-mocha',
@@ -292,6 +317,7 @@ export const menu = {
           description: '초콜릿과 에스프레소의 달콤한 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cold-brew',
@@ -300,6 +326,7 @@ export const menu = {
           description: '14시간 저온 추출한 부드러운 콜드브루',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'size', 'ice'],
+          isSoldOut: false,
         },
         {
           id: 'espresso',
@@ -308,6 +335,7 @@ export const menu = {
           description: '진한 풍미의 에스프레소 샷',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'flat-white',
@@ -316,6 +344,7 @@ export const menu = {
           description: '더 진한 에스프레소와 부드러운 우유 폼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: true,
         },
         {
           id: 'honey-latte',
@@ -324,6 +353,7 @@ export const menu = {
           description: '달콤한 꿀이 들어간 스페셜 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'dolce-latte',
@@ -332,6 +362,7 @@ export const menu = {
           description: '연유가 들어간 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: true,
         },
         {
           id: 'einspanner',
@@ -340,6 +371,7 @@ export const menu = {
           description: '진한 에스프레소 위에 올린 생크림',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          isSoldOut: false,
         },
         {
           id: 'irish-coffee',
@@ -348,6 +380,7 @@ export const menu = {
           description: '위스키 향이 나는 특별한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'affogato',
@@ -356,6 +389,7 @@ export const menu = {
           description: '바닐라 아이스크림에 에스프레소를 부은 디저트 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'hazelnut-latte',
@@ -364,6 +398,7 @@ export const menu = {
           description: '고소한 헤이즐넛 시럽이 들어간 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'spanish-latte',
@@ -372,6 +407,7 @@ export const menu = {
           description: '연유와 우유가 어우러진 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'dalgona-latte',
@@ -380,46 +416,51 @@ export const menu = {
           description: '달고나 폼이 올라간 트렌디한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'size', 'milk'],
+          isSoldOut: false,
         },
       ],
       음료: [
         {
           id: 'sweet-peach-iced-tea',
           name: '복숭아 아이스티',
-          price: 4800,
+          price: 4300,
           description: '달콤한 복숭아와 홍차의 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'ice'],
+          isSoldOut: false,
         },
       ],
       디저트: [
         {
           id: 'chocolate-cake',
           name: '초콜릿 케이크',
-          price: 6500,
+          price: 6000,
           description: '진한 초콜릿 풍미가 가득한 케이크',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving'],
+          isSoldOut: false,
         },
       ],
       베이커리: [
         {
           id: 'croissant',
           name: '크로아상',
-          price: 4200,
+          price: 3800,
           description: '버터 풍미 가득한 프랑스식 크로아상',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving'],
+          isSoldOut: false,
         },
       ],
       커피1: [
         {
-          id: 'cold-brew',
-          name: '콜드브루',
-          price: 4900,
-          description: '14시간 저온 추출한 부드러운 콜드브루',
+          id: 'dutch-coffee',
+          name: '더치커피',
+          price: 5500,
+          description: '12시간 더치 추출 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'size', 'ice'],
+          isSoldOut: false,
         },
       ],
     },
@@ -512,6 +553,7 @@ export const menu = {
           description: '스타벅스 에스프레소로 추출한 아메리카노',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          isSoldOut: false,
         },
         {
           id: 'cafe-latte',
@@ -520,6 +562,7 @@ export const menu = {
           description: '부드러운 우유와 진한 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cappuccino',
@@ -528,6 +571,7 @@ export const menu = {
           description: '풍부한 폼 밀크와 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'caramel-macchiato',
@@ -536,6 +580,7 @@ export const menu = {
           description: '바닐라 시럽과 카라멜 드리즐의 달콤한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'vanilla-latte',
@@ -544,6 +589,7 @@ export const menu = {
           description: '바닐라 시럽이 들어간 부드러운 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cafe-mocha',
@@ -552,6 +598,7 @@ export const menu = {
           description: '초콜릿과 에스프레소의 달콤한 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'cold-brew',
@@ -560,6 +607,7 @@ export const menu = {
           description: '14시간 저온 추출한 부드러운 콜드브루',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'size', 'ice'],
+          isSoldOut: false,
         },
         {
           id: 'espresso',
@@ -568,6 +616,7 @@ export const menu = {
           description: '진한 풍미의 에스프레소 샷',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'flat-white',
@@ -576,6 +625,7 @@ export const menu = {
           description: '더 진한 에스프레소와 부드러운 우유 폼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: true,
         },
         {
           id: 'honey-latte',
@@ -584,6 +634,7 @@ export const menu = {
           description: '달콤한 꿀이 들어간 스페셜 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'dolce-latte',
@@ -592,6 +643,7 @@ export const menu = {
           description: '연유가 들어간 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: true,
         },
         {
           id: 'einspanner',
@@ -600,6 +652,7 @@ export const menu = {
           description: '진한 에스프레소 위에 올린 생크림',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          isSoldOut: false,
         },
         {
           id: 'irish-coffee',
@@ -608,6 +661,7 @@ export const menu = {
           description: '위스키 향이 나는 특별한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'affogato',
@@ -616,6 +670,7 @@ export const menu = {
           description: '바닐라 아이스크림에 에스프레소를 부은 디저트 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'shot'],
+          isSoldOut: false,
         },
         {
           id: 'hazelnut-latte',
@@ -624,6 +679,7 @@ export const menu = {
           description: '고소한 헤이즐넛 시럽이 들어간 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'spanish-latte',
@@ -632,6 +688,7 @@ export const menu = {
           description: '연유와 우유가 어우러진 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          isSoldOut: false,
         },
         {
           id: 'dalgona-latte',
@@ -640,6 +697,7 @@ export const menu = {
           description: '달고나 폼이 올라간 트렌디한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'size', 'milk'],
+          isSoldOut: false,
         },
       ],
       음료: [
@@ -650,6 +708,7 @@ export const menu = {
           description: '달콤한 복숭아와 홍차의 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'ice'],
+          isSoldOut: false,
         },
       ],
       디저트: [
@@ -660,6 +719,7 @@ export const menu = {
           description: '진한 초콜릿 풍미가 가득한 케이크',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving'],
+          isSoldOut: false,
         },
       ],
       베이커리: [
@@ -670,6 +730,7 @@ export const menu = {
           description: '버터 풍미 가득한 프랑스식 크로아상',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving'],
+          isSoldOut: false,
         },
       ],
       커피1: [
@@ -680,8 +741,10 @@ export const menu = {
           description: '12시간 더치 추출 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'size', 'ice'],
+          isSoldOut: false,
         },
       ],
+
       커피2: [
         {
           id: 'hand-drip',
@@ -690,6 +753,7 @@ export const menu = {
           description: '바리스타가 직접 내려드리는 핸드드립',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving'],
+          isSoldOut: false,
         },
       ],
       커피3: [
@@ -700,6 +764,7 @@ export const menu = {
           description: '투썸플레이스 특별 블렌드 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
           optionCategories: ['serving', 'temperature', 'size'],
+          isSoldOut: false,
         },
       ],
     },

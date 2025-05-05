@@ -8,7 +8,7 @@ export interface MenuItemType {
   description?: string;
   image?: string;
   isSoldOut?: boolean;
-  optionCategories?: string[]; // 이 메뉴에 적용되는 옵션 카테고리 ID들
+  optionCategories?: string[];
 }
 
 // 개별 옵션 타입
