@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import MenuItem from './MenuItem';
 import { useMenuStore } from '../stores/menuStore';
+import { Grow } from '@mui/material';
 
 const MenuList = () => {
   const { menusByCategory, selectedMenuCategory } = useMenuStore();
@@ -8,14 +9,22 @@ const MenuList = () => {
   return (
     <BaseContainer>
       {selectedMenuCategory !== null
-        ? menusByCategory[selectedMenuCategory].map((item) => (
-            <MenuItem key={item.id} item={item} />
+        ? menusByCategory[selectedMenuCategory].map((item, index) => (
+            <Grow
+              in={true}
+              key={item.id}
+              style={{ transformOrigin: '0 0 0' }}
+              {...(index > 0 ? { timeout: 300 + index * 200 } : {})}
+            >
+              <div>
+                <MenuItem item={item} />
+              </div>
+            </Grow>
           ))
         : null}
     </BaseContainer>
   );
 };
-
 export default MenuList;
 
 const BaseContainer = styled.div`
