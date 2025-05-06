@@ -5,6 +5,7 @@ import ButtonSection from './components/ButtonSection';
 import TootalScetion from './components/TootalScetion';
 import Infosection from './components/Infosection';
 import Optionsection from './components/Optionsection';
+import { useState } from 'react';
 
 export interface MenuItemType {
   id: string;
@@ -19,13 +20,28 @@ export interface MenuItemType {
 const DetailModal = () => {
   const { isDetailModalOpen, setIsDetailModalOpen, selectedMenu } =
     useMenuStore();
+  //전체 금액 계산 관련 state
+  const [quantity, setQuantity] = useState<number>(1);
+  const [optionCost, setOptionCost] = useState(0);
 
-  if (!isDetailModalOpen) return null;
-
+  //모달 닫기
   const onClose = (): void => {
     setIsDetailModalOpen(false);
   };
 
+  const totalPrice = selectedMenu
+    ? selectedMenu.price * quantity + optionCost
+    : 0; //전체 금액
+
+  //수량 핸들러
+  const handleQuantity = (num: number): void => {
+    if (num < 0) {
+      if (quantity > 1) setQuantity((prev) => prev + num);
+    } else {
+      setQuantity((prev) => prev + num);
+    }
+  };
+  if (!isDetailModalOpen) return null;
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
@@ -38,9 +54,13 @@ const DetailModal = () => {
             <ContentWrapper>
               <Infosection />
               <Divider />
-              <Optionsection />
+              <Optionsection setOptionCost={setOptionCost} />
               <Divider />
-              <TootalScetion />
+              <TootalScetion
+                quantity={quantity}
+                totalPrice={totalPrice}
+                handleQuantity={handleQuantity}
+              />
               <ButtonSection />
             </ContentWrapper>
           </>

@@ -1,32 +1,25 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { useMenuStore } from '../../Home/stores/menuStore';
-
-const TootalScetion = () => {
-  const { selectedMenu } = useMenuStore();
-  const [quantity, setQuantity] = useState<number>(1);
-
-  const handleIncrement = (): void => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const handleDecrement = (): void => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
-  };
-
-  const totalPrice = selectedMenu ? selectedMenu.price * quantity : 0;
+interface TootalScetionProps {
+  quantity: number;
+  totalPrice: number;
+  handleQuantity: (num: number) => void;
+}
+const TootalScetion = ({
+  quantity,
+  totalPrice,
+  handleQuantity,
+}: TootalScetionProps) => {
   return (
     <>
-      {' '}
       <Wrapper>
         <QuantitySection>
           <QuantityLabel>수량:</QuantityLabel>
           <QuantityControl>
-            <QuantityButton onClick={handleDecrement}>-</QuantityButton>
+            <QuantityButton onClick={() => handleQuantity(-1)}>
+              -
+            </QuantityButton>
             <QuantityDisplay>{quantity}</QuantityDisplay>
-            <QuantityButton onClick={handleIncrement}>+</QuantityButton>
+            <QuantityButton onClick={() => handleQuantity(1)}>+</QuantityButton>
           </QuantityControl>
         </QuantitySection>
 
