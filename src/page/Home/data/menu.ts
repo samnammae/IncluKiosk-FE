@@ -221,8 +221,9 @@ export const menu = {
         required: true,
         displayOrder: 3,
         options: [
-          { id: 'regular', name: 'Regular', price: 0 },
-          { id: 'extra', name: 'Extra', price: 500 },
+          { id: 'smal', name: 'smal', price: 0 },
+          { id: 'regular', name: 'Regular', price: 500 },
+          { id: 'extra', name: 'Extra', price: 1000 },
         ],
       },
       shot: {
@@ -494,8 +495,9 @@ export const menu = {
         required: true,
         displayOrder: 3,
         options: [
-          { id: 'regular', name: 'Regular', price: 0 },
-          { id: 'extra', name: 'Extra', price: 500 },
+          { id: 'smal', name: 'smal', price: 0 },
+          { id: 'regular', name: 'Regular', price: 500 },
+          { id: 'extra', name: 'Extra', price: 1000 },
         ],
       },
       shot: {
@@ -798,8 +800,9 @@ export const menu = {
         required: true,
         displayOrder: 3,
         options: [
-          { id: 'regular', name: 'Regular', price: 0 },
-          { id: 'extra', name: 'Extra', price: 500 },
+          { id: 'smal', name: 'smal', price: 0 },
+          { id: 'regular', name: 'Regular', price: 500 },
+          { id: 'extra', name: 'Extra', price: 1000 },
         ],
       },
       shot: {
