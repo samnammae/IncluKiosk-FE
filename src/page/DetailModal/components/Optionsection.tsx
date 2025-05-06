@@ -65,7 +65,7 @@ const Optionsection = ({ setOptionCost }: OptionsectionProps) => {
   };
 
   return (
-    <InfoContent>
+    <Container>
       {optionList.map((category) => (
         <OptionContainer key={category.id}>
           <OptionCategoryName>
@@ -92,13 +92,13 @@ const Optionsection = ({ setOptionCost }: OptionsectionProps) => {
           </OptionsWrapper>
         </OptionContainer>
       ))}
-    </InfoContent>
+    </Container>
   );
 };
 
 export default Optionsection;
 
-const InfoContent = styled.div`
+const Container = styled.div`
   flex: 1;
   padding: 24px;
   display: flex;
@@ -106,6 +106,7 @@ const InfoContent = styled.div`
   gap: 10px;
   align-items: center;
   width: 100%;
+  overflow-y: auto;
 `;
 
 const OptionContainer = styled.div`

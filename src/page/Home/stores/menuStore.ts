@@ -37,7 +37,7 @@ interface SelectedOptions {
 }
 
 // 장바구니 아이템 타입
-interface CartItem {
+export interface CartItem {
   id: string;
   MenuItemType: MenuItemType;
   selectedOptions: SelectedOptions;

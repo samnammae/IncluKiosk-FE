@@ -1,11 +1,11 @@
 import styled, { keyframes } from 'styled-components';
-import { useMenuStore } from '../Home/stores/menuStore';
+import { CartItem, useMenuStore } from '../Home/stores/menuStore';
 import CloseIcon from '@mui/icons-material/CloseRounded';
 import ButtonSection from './components/ButtonSection';
 import TootalScetion from './components/TootalScetion';
 import Infosection from './components/Infosection';
 import Optionsection from './components/Optionsection';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface MenuItemType {
   id: string;
@@ -18,10 +18,16 @@ export interface MenuItemType {
 }
 
 const DetailModal = () => {
-  const { isDetailModalOpen, setIsDetailModalOpen, selectedMenu } =
-    useMenuStore();
+  const {
+    isDetailModalOpen,
+    setIsDetailModalOpen,
+    selectedMenu,
+    setCart,
+    selectedOptions,
+    cart,
+  } = useMenuStore();
   //전체 금액 계산 관련 state
-  const [quantity, setQuantity] = useState<number>(1);
+  const [quantity, setQuantity] = useState(1);
   const [optionCost, setOptionCost] = useState(0);
 
   //모달 닫기
@@ -41,6 +47,32 @@ const DetailModal = () => {
       setQuantity((prev) => prev + num);
     }
   };
+
+  //장바구니 담기
+  const onSubmit = () => {
+    // 고유 ID 생성 (현재 시간과 랜덤 문자열 조합)
+    const uniqueId = `cart-${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2, 9)}`;
+
+    // 새로운 장바구니 아이템 생성
+    const newCartItem: CartItem = {
+      id: uniqueId,
+      MenuItemType: selectedMenu!,
+      selectedOptions: selectedOptions,
+      quantity: quantity,
+      totalPrice: totalPrice,
+    };
+
+    const updatedCart = [...cart, newCartItem];
+
+    // 업데이트된 장바구니 설정
+    setCart(updatedCart);
+    setIsDetailModalOpen(false);
+  };
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
   if (!isDetailModalOpen) return null;
   return (
     <ModalOverlay onClick={onClose}>
@@ -61,7 +93,7 @@ const DetailModal = () => {
                 totalPrice={totalPrice}
                 handleQuantity={handleQuantity}
               />
-              <ButtonSection />
+              <ButtonSection onSubmit={onSubmit} />
             </ContentWrapper>
           </>
         )}

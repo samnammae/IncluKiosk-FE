@@ -1,7 +1,10 @@
 import styled from 'styled-components';
-const ButtonSection = () => {
+interface ButtonSectionProps {
+  onSubmit: () => void;
+}
+const ButtonSection = ({ onSubmit }: ButtonSectionProps) => {
   return (
-    <ButtonWrapper>
+    <ButtonWrapper onClick={onSubmit}>
       <AddCartButton>장바구니 담기</AddCartButton>
     </ButtonWrapper>
   );
