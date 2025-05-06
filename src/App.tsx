@@ -26,7 +26,8 @@ const KioskWrapper = styled.div`
 
 const App = () => {
   const queryClient = new QueryClient();
-  const isDevelopment = 'development';
+  // const isDevelopment = 'development';
+  const isDevelopment = '';
 
   return (
     <ThemeProvider theme={theme}>

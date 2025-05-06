@@ -7,6 +7,7 @@ import { menu } from './data/menu';
 import { useEffect } from 'react';
 import { brandtheme } from './data/theme';
 import { useBrandStore } from './stores/brandStore';
+import DetailModal from '../DetailModal/DetailModal';
 const Home = () => {
   const {
     setMenuCategories,
@@ -15,8 +16,8 @@ const Home = () => {
     selectMenuCategory,
   } = useMenuStore();
   const { setName, setImg } = useBrandStore();
-  // const brandName = 'ediya';
-  const brandName = 'starbucks';
+  const brandName = 'ediya';
+  // const brandName = 'starbucks';
   // const brandName = 'twosomeplace';
   useEffect(() => {
     // 브랜드별 데이터 로드
@@ -64,6 +65,7 @@ const Home = () => {
 
   return (
     <BaseContainer>
+      <DetailModal />
       <Header />
       <Category />
       <ScrollWrapper>
