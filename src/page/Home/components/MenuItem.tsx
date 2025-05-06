@@ -1,11 +1,17 @@
 import styled from 'styled-components';
-import { MenuItemType } from '../stores/menuStore';
+import { MenuItemType, useMenuStore } from '../stores/menuStore';
 interface MenuItemProps {
   item: MenuItemType;
 }
 const MenuItem = ({ item }: MenuItemProps) => {
+  const { setIsDetailModalOpen, selectMenu } = useMenuStore();
+  const onItemClick = () => {
+    if (item.isSoldOut) return;
+    setIsDetailModalOpen(true);
+    selectMenu(item);
+  };
   return (
-    <BaseContainer>
+    <BaseContainer onClick={onItemClick}>
       {item.isSoldOut && (
         <SoldOutOverlay>
           <SoldOutText>품절</SoldOutText>

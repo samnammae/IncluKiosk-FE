@@ -60,13 +60,10 @@ export interface MenuStore {
   };
 
   selectedMenuCategory: string | null; // 현재 선택된 메뉴 카테고리
-
   selectedMenu: MenuItemType | null; // 현재 선택된 메뉴
-
   selectedOptions: SelectedOptions; // 현재 선택된 옵션들
-
-  // 장바구니
-  cart: CartItem[];
+  cart: CartItem[]; // 장바구니
+  isDetailModalOpen: boolean;
 
   // 액션들
   setMenuCategories: (categories: string[]) => void;
@@ -79,6 +76,7 @@ export interface MenuStore {
   setSelectedOptions: (options: SelectedOptions) => void;
   setCart: (cart: CartItem[]) => void;
   clearSelection: () => void;
+  setIsDetailModalOpen: (value: boolean) => void;
 }
 
 export const useMenuStore = create<MenuStore>((set) => ({
@@ -89,6 +87,7 @@ export const useMenuStore = create<MenuStore>((set) => ({
   selectedMenu: null,
   selectedOptions: {},
   cart: [],
+  isDetailModalOpen: false,
 
   setMenuCategories: (categories) => set({ menuCategories: categories }),
 
@@ -111,4 +110,5 @@ export const useMenuStore = create<MenuStore>((set) => ({
   setCart: (cart) => set({ cart }),
 
   clearSelection: () => set({ selectedMenu: null, selectedOptions: {} }),
+  setIsDetailModalOpen: (value) => set({ isDetailModalOpen: value }),
 }));
