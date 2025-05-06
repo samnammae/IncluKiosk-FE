@@ -6,7 +6,7 @@ interface OptionsectionProps {
   setOptionCost: (value: number) => void;
 }
 const Optionsection = ({ setOptionCost }: OptionsectionProps) => {
-  const { selectedMenu, optionCategories } = useMenuStore();
+  const { selectedMenu, optionCategories, setSelectedOptions } = useMenuStore();
 
   const optionList = selectedMenu!
     .optionCategories!.map((categoryId) => optionCategories[categoryId])
@@ -59,7 +59,7 @@ const Optionsection = ({ setOptionCost }: OptionsectionProps) => {
       if (newOptions[categoryId]?.includes(optionId))
         newOptions[categoryId] = [];
       else newOptions[categoryId] = [optionId];
-
+      setSelectedOptions(newOptions);
       return newOptions;
     });
   };
