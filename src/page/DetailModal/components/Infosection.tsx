@@ -3,8 +3,6 @@ import { useMenuStore } from '../../Home/stores/menuStore';
 
 const Infosection = () => {
   const { selectedMenu } = useMenuStore();
-  console.log(selectedMenu);
-  console.log(selectedMenu!.optionCategories);
 
   return (
     <>
