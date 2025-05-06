@@ -6,6 +6,34 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import GlobalStyle from './styles/globalStyle';
 import Router from './Router';
 
+const App = () => {
+  const queryClient = new QueryClient();
+  // const isDevelopment = 'development';
+  const isDevelopment = '';
+
+  return (
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyle />
+        {isDevelopment ? (
+          <KioskWrapper>
+            <Router />
+          </KioskWrapper>
+        ) : (
+          <Wrapper>
+            <Router />
+          </Wrapper>
+        )}
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
+};
+
+export default App;
+const Wrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+`;
 // 개발용 키오스크 래퍼 컴포넌트
 const KioskWrapper = styled.div`
   width: 1080px;
@@ -23,26 +51,3 @@ const KioskWrapper = styled.div`
     margin-top: 50px;
   }
 `;
-
-const App = () => {
-  const queryClient = new QueryClient();
-  // const isDevelopment = 'development';
-  const isDevelopment = '';
-
-  return (
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <GlobalStyle />
-        {isDevelopment ? (
-          <KioskWrapper>
-            <Router />
-          </KioskWrapper>
-        ) : (
-          <Router />
-        )}
-      </QueryClientProvider>
-    </ThemeProvider>
-  );
-};
-
-export default App;
