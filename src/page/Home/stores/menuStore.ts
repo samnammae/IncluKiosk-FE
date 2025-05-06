@@ -32,7 +32,7 @@ export interface OptionCategoryType {
 }
 
 // 선택된 옵션 타입
-interface SelectedOptions {
+export interface SelectedOptions {
   [categoryId: string]: string[]; // 카테고리별 선택된 옵션 ID들
 }
 
@@ -44,7 +44,11 @@ export interface CartItem {
   quantity: number;
   totalPrice: number;
 }
-
+// 장바구니 요약 정보
+export interface CartSummary {
+  totalItems: number; // 총 아이템 개수 (수량 합계)
+  totalAmount: number; // 총 금액
+}
 // 스토어 인터페이스
 export interface MenuStore {
   menuCategories: string[]; // 메뉴 카테고리들 (커피, 디저트 등)
@@ -63,6 +67,7 @@ export interface MenuStore {
   selectedMenu: MenuItemType | null; // 현재 선택된 메뉴
   selectedOptions: SelectedOptions; // 현재 선택된 옵션들
   cart: CartItem[]; // 장바구니
+  cartSummary: CartSummary;
   isDetailModalOpen: boolean;
 
   // 액션들
@@ -77,9 +82,12 @@ export interface MenuStore {
   setCart: (cart: CartItem[]) => void;
   clearSelection: () => void;
   setIsDetailModalOpen: (value: boolean) => void;
+  removeCartItem: (cartItemId: string) => void;
+  clearCart: () => void;
+  calculateCartSummary: () => void;
 }
 
-export const useMenuStore = create<MenuStore>((set) => ({
+export const useMenuStore = create<MenuStore>((set, get) => ({
   menuCategories: [],
   menusByCategory: {},
   optionCategories: {},
@@ -88,6 +96,7 @@ export const useMenuStore = create<MenuStore>((set) => ({
   selectedOptions: {},
   cart: [],
   isDetailModalOpen: false,
+  cartSummary: { totalItems: 0, totalAmount: 0 },
 
   setMenuCategories: (categories) => set({ menuCategories: categories }),
 
@@ -107,8 +116,47 @@ export const useMenuStore = create<MenuStore>((set) => ({
 
   setSelectedOptions: (options) => set({ selectedOptions: options }),
 
-  setCart: (cart) => set({ cart }),
+  setCart: (cart) => {
+    set({ cart });
+    get().calculateCartSummary();
+  },
 
   clearSelection: () => set({ selectedMenu: null, selectedOptions: {} }),
   setIsDetailModalOpen: (value) => set({ isDetailModalOpen: value }),
+
+  // 장바구니 아이템 제거
+  removeCartItem: (cartItemId) => {
+    set((state) => ({
+      cart: state.cart.filter((item) => item.id !== cartItemId),
+    }));
+
+    // 장바구니가 업데이트되면 요약 정보도 업데이트
+    get().calculateCartSummary();
+  },
+
+  // 장바구니 비우기
+  clearCart: () => {
+    set({ cart: [] });
+    get().calculateCartSummary();
+  },
+
+  // 장바구니 요약 정보 계산
+  calculateCartSummary: () => {
+    set((state) => {
+      const totalItems = state.cart.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+      const totalAmount = state.cart.reduce(
+        (sum, item) => sum + item.totalPrice,
+        0
+      );
+      return {
+        cartSummary: {
+          totalItems,
+          totalAmount,
+        },
+      };
+    });
+  },
 }));

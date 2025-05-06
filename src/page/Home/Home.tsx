@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { brandtheme } from './data/theme';
 import { useBrandStore } from './stores/brandStore';
 import DetailModal from '../DetailModal/DetailModal';
+import ShoppingCart from './components/ShoppingCart';
 const Home = () => {
   const {
     setMenuCategories,
@@ -71,6 +72,7 @@ const Home = () => {
       <ScrollWrapper>
         <MenuList />
       </ScrollWrapper>
+      <ShoppingCart />
     </BaseContainer>
   );
 };
@@ -79,9 +81,12 @@ export default Home;
 const BaseContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 const ScrollWrapper = styled.div`
   height: calc(1920px - 300px);
   overflow-y: auto;
   display: block;
+  flex: 1;
 `;
