@@ -5,6 +5,7 @@ export const brandtheme = {
     disabledColor: 'rgba(0, 0, 0, 0.7)', // 비활성화
     textColor: '#212529',
     logoImg: 'https://i.imgur.com/ERWUmXR.png',
+    titleImg: 'https://i.imgur.com/ERWUmXR.png',
   },
   starbucks: {
     mainColor: '#00704A', // 스타벅스 그린
@@ -12,6 +13,7 @@ export const brandtheme = {
     disabledColor: 'rgba(0, 0, 0, 0.7)', // 비활성화
     textColor: '#212529',
     logoImg: 'https://i.imgur.com/8aHKZoI.png',
+    titleImg: 'https://i.imgur.com/8aHKZoI.png',
   },
   twosomeplace: {
     mainColor: '#D5202C', // 투썸플레이스 레드
@@ -19,5 +21,6 @@ export const brandtheme = {
     disabledColor: 'rgba(0, 0, 0, 0.7)', // 비활성화
     textColor: '#212529',
     logoImg: 'https://i.imgur.com/eSbE0ST.png',
+    titleImg: 'https://i.imgur.com/eSbE0ST.png',
   },
 };

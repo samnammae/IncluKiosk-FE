@@ -42,7 +42,7 @@ const Home = () => {
     //색상 로드
     const brandTheme = brandtheme[brandName];
     setName(brandName);
-    setImg(brandTheme.logoImg);
+    setImg(brandTheme.titleImg);
     if (brandTheme) {
       // CSS 변수 설정
       document.documentElement.style.setProperty(
