@@ -5,7 +5,7 @@ import ButtonSection from './components/ButtonSection';
 import TootalScetion from './components/TootalScetion';
 import Infosection from './components/Infosection';
 import Optionsection from './components/Optionsection';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export interface MenuItemType {
   id: string;
@@ -79,9 +79,7 @@ const DetailModal = () => {
       setIsDetailModalOpen(false);
     }
   };
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
+
   if (!isDetailModalOpen) return null;
   return (
     <ModalOverlay onClick={onClose}>

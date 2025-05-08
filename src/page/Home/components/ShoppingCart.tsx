@@ -11,7 +11,6 @@ interface OptionSummaryParams {
 const ShoppingCart = () => {
   const { cart, cartSummary, optionCategories, removeCartItem } =
     useMenuStore();
-  console.log(cart);
 
   // 선택된 옵션들을 하나의 문자열로 합치는 함수
   const getOptionSummary = ({
