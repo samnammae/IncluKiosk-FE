@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useMenuStore } from '../../Home/stores/menuStore';
+import { useMenuStore } from '../../../../stores/menuStore';
 
 const Infosection = () => {
   const { selectedMenu } = useMenuStore();

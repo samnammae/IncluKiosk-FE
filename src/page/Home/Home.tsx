@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import Header from './components/Header';
 import Category from './components/Category';
 import MenuList from './components/MenuList';
-import { OptionCategoryType, useMenuStore } from './stores/menuStore';
-import { menu } from './data/menu';
+import { OptionCategoryType, useMenuStore } from '../../../stores/menuStore';
+import { menu } from '../../../data/menu';
 import { useEffect } from 'react';
-import { brandtheme } from './data/theme';
-import { useBrandStore } from './stores/brandStore';
+import { brandtheme } from '../../../data/theme';
+import { useBrandStore } from '../../../stores/brandStore';
 import DetailModal from '../DetailModal/DetailModal';
 import ShoppingCart from './components/ShoppingCart';
 const Home = () => {
