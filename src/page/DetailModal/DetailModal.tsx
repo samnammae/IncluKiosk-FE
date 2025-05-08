@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { CartItem, useMenuStore } from '../Home/stores/menuStore';
 import CloseIcon from '@mui/icons-material/CloseRounded';
 import ButtonSection from './components/ButtonSection';
@@ -30,6 +30,10 @@ const DetailModal = () => {
   const [quantity, setQuantity] = useState(1);
   const [optionCost, setOptionCost] = useState(0);
 
+  //옵션 선택 체크
+  const [isAllCheck, setIsAllCheck] = useState(false);
+  const [isClickBut, setIsClickBut] = useState(false);
+  const [submitAttempts, setSubmitAttempts] = useState(0);
   //모달 닫기
   const onClose = (): void => {
     setIsDetailModalOpen(false);
@@ -50,25 +54,30 @@ const DetailModal = () => {
 
   //장바구니 담기
   const onSubmit = () => {
-    // 고유 ID 생성 (현재 시간과 랜덤 문자열 조합)
-    const uniqueId = `cart-${Date.now()}-${Math.random()
-      .toString(36)
-      .substring(2, 9)}`;
+    if (!isAllCheck) {
+      setSubmitAttempts((prev) => prev + 1);
+      setIsClickBut(true);
+    } else {
+      // 고유 ID 생성 (현재 시간과 랜덤 문자열 조합)
+      const uniqueId = `cart-${Date.now()}-${Math.random()
+        .toString(36)
+        .substring(2, 9)}`;
 
-    // 새로운 장바구니 아이템 생성
-    const newCartItem: CartItem = {
-      id: uniqueId,
-      MenuItemType: selectedMenu!,
-      selectedOptions: selectedOptions,
-      quantity: quantity,
-      totalPrice: totalPrice,
-    };
+      // 새로운 장바구니 아이템 생성
+      const newCartItem: CartItem = {
+        id: uniqueId,
+        MenuItemType: selectedMenu!,
+        selectedOptions: selectedOptions,
+        quantity: quantity,
+        totalPrice: totalPrice,
+      };
 
-    const updatedCart = [...cart, newCartItem];
+      const updatedCart = [...cart, newCartItem];
 
-    // 업데이트된 장바구니 설정
-    setCart(updatedCart);
-    setIsDetailModalOpen(false);
+      // 업데이트된 장바구니 설정
+      setCart(updatedCart);
+      setIsDetailModalOpen(false);
+    }
   };
   useEffect(() => {
     console.log(cart);
@@ -86,13 +95,21 @@ const DetailModal = () => {
             <ContentWrapper>
               <Infosection />
               <Divider />
-              <Optionsection setOptionCost={setOptionCost} />
+              <Optionsection
+                setOptionCost={setOptionCost}
+                setIsAllCheck={setIsAllCheck}
+              />
               <Divider />
               <TootalScetion
                 quantity={quantity}
                 totalPrice={totalPrice}
                 handleQuantity={handleQuantity}
               />
+              {isClickBut && !isAllCheck && (
+                <WarningText key={submitAttempts}>
+                  필수 옵션을 모두 선택해주세요!
+                </WarningText>
+              )}
               <ButtonSection onSubmit={onSubmit} />
             </ContentWrapper>
           </>
@@ -178,4 +195,32 @@ const Divider = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.grey[300]};
   margin: 24px 0;
+`;
+
+const WarningText = styled.div<{ $shake?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: ${({ theme }) => theme.fonts.sizes.sm};
+  font-weight: ${({ theme }) => theme.fonts.weights.bold};
+  color: ${({ theme }) => theme.colors.warning};
+  animation: ${({ $shake = true }) =>
+    $shake
+      ? css`
+          ${shakeAnimation} 0.6s ease-in-out
+        `
+      : 'none'};
+`;
+const shakeAnimation = keyframes`
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-10px); }
+  20% { transform: translateX(10px); }
+  30% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  50% { transform: translateX(-5px); }
+  60% { transform: translateX(5px); }
+  70% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  90% { transform: translateX(-1px); }
+  100% { transform: translateX(0); }
 `;

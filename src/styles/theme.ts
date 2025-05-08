@@ -17,6 +17,7 @@ export const theme = {
       600: '#666666',
       700: '#333333',
     },
+    warning: '#FF3B30',
   },
   fonts: {
     sizes: {

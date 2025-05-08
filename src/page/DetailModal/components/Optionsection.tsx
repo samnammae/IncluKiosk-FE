@@ -4,8 +4,12 @@ import { useState, useEffect } from 'react';
 
 interface OptionsectionProps {
   setOptionCost: (value: number) => void;
+  setIsAllCheck: (value: boolean) => void;
 }
-const Optionsection = ({ setOptionCost }: OptionsectionProps) => {
+const Optionsection = ({
+  setOptionCost,
+  setIsAllCheck,
+}: OptionsectionProps) => {
   const { selectedMenu, optionCategories, setSelectedOptions } = useMenuStore();
 
   const optionList = selectedMenu!
@@ -51,6 +55,21 @@ const Optionsection = ({ setOptionCost }: OptionsectionProps) => {
     setOptionCost(totalOptionCost);
   }, [chooseOption, optionCategories]);
 
+  // 필수 옵션 카테고리가 모두 선택되었는지 확인
+  useEffect(() => {
+    const allRequiredSelected = selectedMenu?.optionCategories
+      ?.map((categoryId) => optionCategories[categoryId])
+      .filter((category) => category && category.required)
+      .every((category) => {
+        // 해당 카테고리에서 선택된 옵션이 있는지 확인
+        return (
+          chooseOption[category.id] && chooseOption[category.id].length > 0
+        );
+      });
+
+    // 부모 컴포넌트에 상태 전달
+    setIsAllCheck(!!allRequiredSelected);
+  }, [chooseOption, selectedMenu, optionCategories, setIsAllCheck]);
   // 옵션 선택 핸들러 함수
   const handleOptionSelect = (categoryId: string, optionId: string) => {
     setChooseOption((prev) => {
