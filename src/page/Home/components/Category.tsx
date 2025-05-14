@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useMenuStore } from '../../../../stores/menuStore';
+import { useMenuStore } from '../../../stores/menuStore';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 
 const Category = () => {

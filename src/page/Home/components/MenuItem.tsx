@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MenuItemType, useMenuStore } from '../../../../stores/menuStore';
+import { MenuItemType, useMenuStore } from '../../../stores/menuStore';
 interface MenuItemProps {
   item: MenuItemType;
 }

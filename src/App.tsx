@@ -7,8 +7,8 @@ import GlobalStyle from './styles/globalStyle';
 import Router from './Router';
 
 import { useEffect } from 'react';
-import { useBrandStore } from '../stores/brandStore';
-import { OptionCategoryType, useMenuStore } from '../stores/menuStore';
+import { useBrandStore } from './stores/brandStore';
+import { OptionCategoryType, useMenuStore } from './stores/menuStore';
 import { menu } from '../data/menu';
 import { brandtheme } from '../data/theme';
 

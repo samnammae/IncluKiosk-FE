@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { useBrandStore } from '../../../stores/brandStore';
+import { useBrandStore } from '../../stores/brandStore';
 
 const StartPage = () => {
   const nav = useNavigate();
