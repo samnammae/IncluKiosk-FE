@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { screenImgs } from '../../../data/screen';
+import OneImg from './components/OneImg';
+import NoImg from './components/NoImg';
 
 const LockPage = () => {
   const nav = useNavigate();
@@ -29,6 +32,8 @@ const LockPage = () => {
     return () => clearInterval(timer);
   }, [imgIndex, maxIndex]);
 
+  if (maxIndex === 0) return <NoImg />;
+  if (maxIndex === 1) return <OneImg />;
   return (
     <BaseContainer onClick={() => nav('/start')}>
       <SliderWrapper>
@@ -70,7 +75,7 @@ const LockPage = () => {
 
 export default LockPage;
 
-const BaseContainer = styled.div`
+export const BaseContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -125,7 +130,7 @@ const OverlayContainer = styled.div<{ $showOverlay: boolean }>`
   transition: opacity 0.6s ease-out;
 `;
 
-const SlideImage = styled.img`
+export const SlideImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: fill;
