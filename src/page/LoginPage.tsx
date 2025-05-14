@@ -34,7 +34,7 @@ const LoginPage = () => {
               />
             </FormGroup>
 
-            <LoginButton type="submit" onClick={() => nav('/start')}>
+            <LoginButton type="submit" onClick={() => nav('/lock')}>
               로그인
             </LoginButton>
           </form>
