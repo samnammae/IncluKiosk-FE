@@ -6,7 +6,7 @@ export const brandtheme = {
     textColor: '#F8F9FA',
     logoImg: 'https://i.imgur.com/pJzGLUc.png',
     titleImg: 'https://i.imgur.com/ERWUmXR.png',
-    startBackground: '',
+    startBackground: 'https://i.imgur.com/RqXTIGI.png',
   },
   starbucks: {
     mainColor: '#00704A', // 스타벅스 그린

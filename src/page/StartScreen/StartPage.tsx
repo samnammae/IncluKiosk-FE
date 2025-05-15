@@ -3,10 +3,11 @@ import { useBrandStore } from '../../stores/brandStore';
 import { useNavigate } from 'react-router-dom';
 
 const StartPge = () => {
-  const { logoimg, name } = useBrandStore();
+  const { logoimg, name, startBackground } = useBrandStore();
   const nav = useNavigate();
   return (
     <BaseContainer>
+      {startBackground && <Background src={startBackground} />}
       <LogoWrapper>
         {logoimg ? <LogoContainer src={logoimg} /> : <Title>{name}</Title>}
       </LogoWrapper>
@@ -37,12 +38,6 @@ const StartPge = () => {
 
 export default StartPge;
 
-const pulse = keyframes`
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-`;
-
 const waveAnimation = keyframes`
   0% { transform: translateY(-3px); }
   50% { transform: translateY(3px); }
@@ -58,6 +53,17 @@ const BaseContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 2rem 0;
+  position: relative;
+  z-index: -1;
+`;
+const Background = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 `;
 const LogoWrapper = styled.div`
   display: flex;
@@ -97,9 +103,8 @@ const OrderButton = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.md};
 
   &:hover {
-    transform: translateY(-5px);
+    transform: scale(1.1);
     box-shadow: ${({ theme }) => theme.shadows.lg};
-    animation: ${pulse} 2s infinite;
   }
 `;
 
