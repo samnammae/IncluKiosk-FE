@@ -22,7 +22,8 @@ const App = () => {
     setOptionCategories,
     selectMenuCategory,
   } = useMenuStore();
-  const { setName, setTitleImg, setLogoImg } = useBrandStore();
+  const { setName, setTitleImg, setLogoImg, setStartBackground } =
+    useBrandStore();
 
   const brandName = 'ediya';
   // const brandName = 'starbucks';
@@ -51,6 +52,7 @@ const App = () => {
     setName(brandName);
     setTitleImg(brandTheme.titleImg);
     setLogoImg(brandTheme.logoImg);
+    setStartBackground(brandTheme.startBackground);
     if (brandTheme) {
       // CSS 변수 설정
       document.documentElement.style.setProperty(
