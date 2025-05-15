@@ -42,8 +42,8 @@ export const theme = {
   },
   shadows: {
     sm: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    md: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    lg: '0 8px 16px rgba(0, 0, 0, 0.1)',
+    md: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    lg: '0 8px 16px rgba(0, 0, 0, 0.2)',
   },
   device: {
     mobile: `screen and (min-width: 355px) and (max-width:767px)`,
