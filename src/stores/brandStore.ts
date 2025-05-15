@@ -2,18 +2,21 @@ import { create } from 'zustand';
 interface brandStore {
   name: string;
   introduction: string;
-  img: string;
+  titleImg: string;
+  logoimg: string;
   setName: (value: string) => void;
   setIntroduction: (value: string) => void;
-  setImg: (value: string) => void;
+  setTitleImg: (value: string) => void;
+  setLogoImg: (value: string) => void;
 }
 
 export const useBrandStore = create<brandStore>((set) => ({
   name: '',
   introduction: '',
-  img: '',
-
+  titleImg: '',
+  logoimg: '',
   setName: (value) => set({ name: value }),
   setIntroduction: (value) => set({ introduction: value }),
-  setImg: (value) => set({ img: value }),
+  setTitleImg: (value) => set({ titleImg: value }),
+  setLogoImg: (value) => set({ logoimg: value }),
 }));

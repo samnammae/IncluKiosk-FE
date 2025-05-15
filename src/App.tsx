@@ -22,10 +22,10 @@ const App = () => {
     setOptionCategories,
     selectMenuCategory,
   } = useMenuStore();
-  const { setName, setImg } = useBrandStore();
+  const { setName, setTitleImg, setLogoImg } = useBrandStore();
 
   const brandName = 'ediya';
-  //   const brandName = 'starbucks';
+  // const brandName = 'starbucks';
   // const brandName = 'twosomeplace';
   useEffect(() => {
     // 브랜드별 데이터 로드
@@ -49,7 +49,8 @@ const App = () => {
     //색상 로드
     const brandTheme = brandtheme[brandName];
     setName(brandName);
-    setImg(brandTheme.titleImg);
+    setTitleImg(brandTheme.titleImg);
+    setLogoImg(brandTheme.logoImg);
     if (brandTheme) {
       // CSS 변수 설정
       document.documentElement.style.setProperty(

@@ -4,7 +4,7 @@ export const brandtheme = {
     subColor: '#0051A3', // 이디야 서브 블루
     disabledColor: 'rgba(0, 0, 0, 0.7)', // 비활성화
     textColor: '#F8F9FA',
-    logoImg: 'https://i.imgur.com/ERWUmXR.png',
+    logoImg: 'https://i.imgur.com/pJzGLUc.png',
     titleImg: 'https://i.imgur.com/ERWUmXR.png',
   },
   starbucks: {

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { useBrandStore } from '../../../stores/brandStore';
 
 const Header = () => {
-  const { img } = useBrandStore();
+  const { titleImg } = useBrandStore();
   return (
     <BaseContainer>
-      <BrandLogo src={img} />
+      <BrandLogo src={titleImg} />
     </BaseContainer>
   );
 };
