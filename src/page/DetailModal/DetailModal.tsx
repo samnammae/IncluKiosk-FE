@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import { CartItem, useMenuStore } from '../../../stores/menuStore';
+import { CartItem, useMenuStore } from '../../stores/menuStore';
 import CloseIcon from '@mui/icons-material/CloseRounded';
 import ButtonSection from './components/ButtonSection';
 import TootalScetion from './components/TootalScetion';

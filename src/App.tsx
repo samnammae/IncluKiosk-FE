@@ -7,8 +7,8 @@ import GlobalStyle from './styles/globalStyle';
 import Router from './Router';
 
 import { useEffect } from 'react';
-import { useBrandStore } from '../stores/brandStore';
-import { OptionCategoryType, useMenuStore } from '../stores/menuStore';
+import { useBrandStore } from './stores/brandStore';
+import { OptionCategoryType, useMenuStore } from './stores/menuStore';
 import { menu } from '../data/menu';
 import { brandtheme } from '../data/theme';
 
@@ -22,10 +22,11 @@ const App = () => {
     setOptionCategories,
     selectMenuCategory,
   } = useMenuStore();
-  const { setName, setImg } = useBrandStore();
+  const { setName, setTitleImg, setLogoImg, setStartBackground } =
+    useBrandStore();
 
   const brandName = 'ediya';
-  //   const brandName = 'starbucks';
+  // const brandName = 'starbucks';
   // const brandName = 'twosomeplace';
   useEffect(() => {
     // 브랜드별 데이터 로드
@@ -49,7 +50,9 @@ const App = () => {
     //색상 로드
     const brandTheme = brandtheme[brandName];
     setName(brandName);
-    setImg(brandTheme.titleImg);
+    setTitleImg(brandTheme.titleImg);
+    setLogoImg(brandTheme.logoImg);
+    setStartBackground(brandTheme.startBackground);
     if (brandTheme) {
       // CSS 변수 설정
       document.documentElement.style.setProperty(

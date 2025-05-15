@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useMenuStore } from '../../../../stores/menuStore';
+import { useMenuStore } from '../../../stores/menuStore';
 import CloseIcon from '@mui/icons-material/CloseRounded';
 import { useState } from 'react';
 

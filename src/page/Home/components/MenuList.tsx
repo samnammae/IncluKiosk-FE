@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import MenuItem from './MenuItem';
-import { useMenuStore } from '../../../../stores/menuStore';
+import { useMenuStore } from '../../../stores/menuStore';
 import { Grow } from '@mui/material';
 
 const MenuList = () => {
