@@ -3,12 +3,12 @@ import { useBrandStore } from '../../stores/brandStore';
 import { useNavigate } from 'react-router-dom';
 
 const StartPge = () => {
-  const { logoimg } = useBrandStore();
+  const { logoimg, name } = useBrandStore();
   const nav = useNavigate();
   return (
     <BaseContainer>
       <LogoWrapper>
-        <LogoContainer src={logoimg} />
+        {logoimg ? <LogoContainer src={logoimg} /> : <Title>{name}</Title>}
       </LogoWrapper>
       <OrderOptionsContainer>
         <OrderButton>
@@ -71,7 +71,10 @@ const LogoContainer = styled.img`
   height: 500px;
   object-fit: scale-down;
 `;
-
+const Title = styled.div`
+  font-size: ${({ theme }) => theme.fonts.sizes.logo};
+  color: ${({ theme }) => theme.colors.text};
+`;
 const OrderOptionsContainer = styled.div`
   display: flex;
   justify-content: center;
