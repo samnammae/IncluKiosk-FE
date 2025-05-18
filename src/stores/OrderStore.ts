@@ -49,13 +49,11 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
 
     switch (currentStep) {
       case PaymentStep.ORDER_TYPE:
-        set({ currentStep: PaymentStep.PAYMENT_METHOD });
+        set({ currentStep: PaymentStep.CHECK_ORDER });
         break;
-
       case PaymentStep.CHECK_ORDER:
         set({ currentStep: PaymentStep.PAYMENT_METHOD });
         break;
-
       case PaymentStep.PAYMENT_METHOD:
         set({ currentStep: PaymentStep.PROCESSING });
         break;
