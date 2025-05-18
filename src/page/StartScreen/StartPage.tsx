@@ -54,7 +54,6 @@ const BaseContainer = styled.div`
   justify-content: space-between;
   padding: 2rem 0;
   position: relative;
-  z-index: -1;
 `;
 const Background = styled.img`
   position: absolute;
@@ -63,7 +62,7 @@ const Background = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1;
+  pointer-events: none;
 `;
 const LogoWrapper = styled.div`
   display: flex;
@@ -71,6 +70,7 @@ const LogoWrapper = styled.div`
   align-items: center;
   width: 500px;
   height: 500px;
+  z-index: 1;
 `;
 const LogoContainer = styled.img`
   width: 500px;
@@ -87,6 +87,7 @@ const OrderOptionsContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   max-width: 900px;
+  z-index: 1;
 `;
 
 const OrderButton = styled.div`
