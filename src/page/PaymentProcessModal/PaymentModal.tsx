@@ -19,27 +19,9 @@ const PaymentModal = () => {
           {currentStep === PaymentStep.CHECK_ORDER && <CheckOrder />}
           {currentStep === PaymentStep.PAYMENT_METHOD && (
             <PaymentMethodSelection />
-            // <PaymentMethodSelection
-            //   selectedMethod={paymentMethod}
-            //   onSelect={setPaymentMethod}
-            //   onNext={moveToNextStep}
-            //   onBack={moveToPreviousStep}
-            // />
           )}
-
-          {currentStep === PaymentStep.PROCESSING && (
-            <PaymentProcessing />
-
-            // <PaymentProcessing
-            //   paymentMethod={paymentMethod}
-            //   onNext={moveToNextStep}
-            // />
-          )}
-
-          {currentStep === PaymentStep.COMPLETE && (
-            <PaymentComplete />
-            // <PaymentComplete onClose={onClose} />
-          )}
+          {currentStep === PaymentStep.PROCESSING && <PaymentProcessing />}
+          {currentStep === PaymentStep.COMPLETE && <PaymentComplete />}
         </ModalContainer>
       )}
     </ModalOverlay>
