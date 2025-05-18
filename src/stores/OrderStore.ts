@@ -1,39 +1,9 @@
-// import { create } from 'zustand';
-// export enum PaymentStep {
-//   ORDER_TYPE = 'ORDER_TYPE',
-//   PAYMENT_METHOD = 'PAYMENT_METHOD',
-//   CHECK_ORDER = 'CHECK_ORDER',
-//   PROCESSING = 'PROCESSING',
-//   COMPLETE = 'COMPLETE',
-// }
-
-// interface OrderStore {
-//   isOpen: boolean; //모달 오픈 여부
-//   currentStep: PaymentStep; // 현재 결제 단계
-//   setIsOpen: (value: boolean) => void; // 모달 열기/닫기 함수
-//   setCurrentStep: (step: PaymentStep) => void; // 결제 단계 설정 함수
-//   onClose: () => void; // 모달 닫기 함수 (첫 단계로 초기화)
-// }
-
-// export const useOrderStore = create<OrderStore>((set) => ({
-//   isOpen: false,
-//   currentStep: PaymentStep.ORDER_TYPE,
-
-//   setIsOpen: (value) => set({ isOpen: value }),
-//   setCurrentStep: (step) => set({ currentStep: step }),
-//   onClose: () => {
-//     set({
-//       isOpen: false,
-//       currentStep: PaymentStep.ORDER_TYPE,
-//     });
-//   },
-// }));
 import { create } from 'zustand';
 
 export enum PaymentStep {
   ORDER_TYPE = 'ORDER_TYPE',
-  PAYMENT_METHOD = 'PAYMENT_METHOD',
   CHECK_ORDER = 'CHECK_ORDER',
+  PAYMENT_METHOD = 'PAYMENT_METHOD',
   PROCESSING = 'PROCESSING',
   COMPLETE = 'COMPLETE',
 }
@@ -82,11 +52,11 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
         set({ currentStep: PaymentStep.PAYMENT_METHOD });
         break;
 
-      case PaymentStep.PAYMENT_METHOD:
-        set({ currentStep: PaymentStep.CHECK_ORDER });
+      case PaymentStep.CHECK_ORDER:
+        set({ currentStep: PaymentStep.PAYMENT_METHOD });
         break;
 
-      case PaymentStep.CHECK_ORDER:
+      case PaymentStep.PAYMENT_METHOD:
         set({ currentStep: PaymentStep.PROCESSING });
         break;
 
@@ -105,12 +75,11 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
     const { currentStep } = get();
 
     switch (currentStep) {
-      case PaymentStep.PAYMENT_METHOD:
+      case PaymentStep.CHECK_ORDER:
         set({ currentStep: PaymentStep.ORDER_TYPE });
         break;
-
-      case PaymentStep.CHECK_ORDER:
-        set({ currentStep: PaymentStep.PAYMENT_METHOD });
+      case PaymentStep.PAYMENT_METHOD:
+        set({ currentStep: PaymentStep.CHECK_ORDER });
         break;
     }
   },
