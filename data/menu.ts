@@ -9,7 +9,7 @@ export const menu = {
           price: 4500,
           description: '스타벅스 에스프레소로 추출한 아메리카노',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          optionCategories: ['temperature', 'shot', 'size'],
           isSoldOut: false,
         },
         {
@@ -18,7 +18,7 @@ export const menu = {
           price: 5000,
           description: '부드러운 우유와 진한 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -27,7 +27,7 @@ export const menu = {
           price: 5000,
           description: '풍부한 폼 밀크와 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -36,7 +36,7 @@ export const menu = {
           price: 5900,
           description: '바닐라 시럽과 카라멜 드리즐의 달콤한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -45,7 +45,7 @@ export const menu = {
           price: 5500,
           description: '바닐라 시럽이 들어간 부드러운 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -54,7 +54,7 @@ export const menu = {
           price: 5500,
           description: '초콜릿과 에스프레소의 달콤한 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -63,7 +63,7 @@ export const menu = {
           price: 4900,
           description: '14시간 저온 추출한 부드러운 콜드브루',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'size', 'ice'],
+          optionCategories: ['size', 'ice'],
           isSoldOut: false,
         },
         {
@@ -72,7 +72,7 @@ export const menu = {
           price: 4000,
           description: '진한 풍미의 에스프레소 샷',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -81,7 +81,7 @@ export const menu = {
           price: 5300,
           description: '더 진한 에스프레소와 부드러운 우유 폼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: true,
         },
         {
@@ -90,7 +90,7 @@ export const menu = {
           price: 5700,
           description: '달콤한 꿀이 들어간 스페셜 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -99,7 +99,7 @@ export const menu = {
           price: 5900,
           description: '연유가 들어간 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: true,
         },
         {
@@ -108,7 +108,7 @@ export const menu = {
           price: 5800,
           description: '진한 에스프레소 위에 올린 생크림',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          optionCategories: ['temperature', 'shot', 'size'],
           isSoldOut: false,
         },
         {
@@ -117,7 +117,7 @@ export const menu = {
           price: 6500,
           description: '위스키 향이 나는 특별한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -126,7 +126,7 @@ export const menu = {
           price: 6000,
           description: '바닐라 아이스크림에 에스프레소를 부은 디저트 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -135,7 +135,7 @@ export const menu = {
           price: 5700,
           description: '고소한 헤이즐넛 시럽이 들어간 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -144,7 +144,7 @@ export const menu = {
           price: 5800,
           description: '연유와 우유가 어우러진 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -153,7 +153,7 @@ export const menu = {
           price: 5900,
           description: '달고나 폼이 올라간 트렌디한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'size', 'milk'],
+          optionCategories: ['temperature', 'size', 'milk'],
           isSoldOut: false,
         },
       ],
@@ -164,7 +164,7 @@ export const menu = {
           price: 4300,
           description: '달콤한 복숭아와 홍차의 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'ice'],
+          optionCategories: ['ice'],
           isSoldOut: false,
         },
       ],
@@ -175,7 +175,7 @@ export const menu = {
           price: 6000,
           description: '진한 초콜릿 풍미가 가득한 케이크',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving'],
+          optionCategories: [],
           isSoldOut: false,
         },
       ],
@@ -186,23 +186,12 @@ export const menu = {
           price: 3800,
           description: '버터 풍미 가득한 프랑스식 크로아상',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving'],
+          optionCategories: [],
           isSoldOut: false,
         },
       ],
     },
     optionCategories: {
-      serving: {
-        id: 'serving',
-        name: '매장/포장',
-        type: 'single',
-        required: true,
-        displayOrder: 1,
-        options: [
-          { id: 'dine-in', name: '매장', price: 0 },
-          { id: 'take-out', name: '포장', price: 0 },
-        ],
-      },
       temperature: {
         id: 'temperature',
         name: '온도',
@@ -272,7 +261,7 @@ export const menu = {
           price: 4500,
           description: '스타벅스 에스프레소로 추출한 아메리카노',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          optionCategories: ['temperature', 'shot', 'size'],
           isSoldOut: false,
         },
         {
@@ -281,7 +270,7 @@ export const menu = {
           price: 5000,
           description: '부드러운 우유와 진한 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -290,7 +279,7 @@ export const menu = {
           price: 5000,
           description: '풍부한 폼 밀크와 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -299,7 +288,7 @@ export const menu = {
           price: 5900,
           description: '바닐라 시럽과 카라멜 드리즐의 달콤한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -308,7 +297,7 @@ export const menu = {
           price: 5500,
           description: '바닐라 시럽이 들어간 부드러운 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -317,7 +306,7 @@ export const menu = {
           price: 5500,
           description: '초콜릿과 에스프레소의 달콤한 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -326,7 +315,7 @@ export const menu = {
           price: 4900,
           description: '14시간 저온 추출한 부드러운 콜드브루',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'size', 'ice'],
+          optionCategories: ['size', 'ice'],
           isSoldOut: false,
         },
         {
@@ -335,7 +324,7 @@ export const menu = {
           price: 4000,
           description: '진한 풍미의 에스프레소 샷',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -344,7 +333,7 @@ export const menu = {
           price: 5300,
           description: '더 진한 에스프레소와 부드러운 우유 폼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: true,
         },
         {
@@ -353,7 +342,7 @@ export const menu = {
           price: 5700,
           description: '달콤한 꿀이 들어간 스페셜 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -362,7 +351,7 @@ export const menu = {
           price: 5900,
           description: '연유가 들어간 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: true,
         },
         {
@@ -371,7 +360,7 @@ export const menu = {
           price: 5800,
           description: '진한 에스프레소 위에 올린 생크림',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          optionCategories: ['temperature', 'shot', 'size'],
           isSoldOut: false,
         },
         {
@@ -380,7 +369,7 @@ export const menu = {
           price: 6500,
           description: '위스키 향이 나는 특별한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -389,7 +378,7 @@ export const menu = {
           price: 6000,
           description: '바닐라 아이스크림에 에스프레소를 부은 디저트 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -398,7 +387,7 @@ export const menu = {
           price: 5700,
           description: '고소한 헤이즐넛 시럽이 들어간 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -407,7 +396,7 @@ export const menu = {
           price: 5800,
           description: '연유와 우유가 어우러진 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -416,7 +405,7 @@ export const menu = {
           price: 5900,
           description: '달고나 폼이 올라간 트렌디한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'size', 'milk'],
+          optionCategories: ['temperature', 'size', 'milk'],
           isSoldOut: false,
         },
       ],
@@ -427,7 +416,7 @@ export const menu = {
           price: 4300,
           description: '달콤한 복숭아와 홍차의 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'ice'],
+          optionCategories: ['ice'],
           isSoldOut: false,
         },
       ],
@@ -438,7 +427,7 @@ export const menu = {
           price: 6000,
           description: '진한 초콜릿 풍미가 가득한 케이크',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving'],
+          optionCategories: [],
           isSoldOut: false,
         },
       ],
@@ -449,7 +438,7 @@ export const menu = {
           price: 3800,
           description: '버터 풍미 가득한 프랑스식 크로아상',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving'],
+          optionCategories: [],
           isSoldOut: false,
         },
       ],
@@ -460,23 +449,12 @@ export const menu = {
           price: 5500,
           description: '12시간 더치 추출 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'size', 'ice'],
+          optionCategories: ['size', 'ice'],
           isSoldOut: false,
         },
       ],
     },
     optionCategories: {
-      serving: {
-        id: 'serving',
-        name: '매장/포장',
-        type: 'single',
-        required: true,
-        displayOrder: 1,
-        options: [
-          { id: 'dine-in', name: '매장', price: 0 },
-          { id: 'take-out', name: '포장', price: 0 },
-        ],
-      },
       temperature: {
         id: 'temperature',
         name: '온도',
@@ -554,7 +532,7 @@ export const menu = {
           price: 4500,
           description: '스타벅스 에스프레소로 추출한 아메리카노',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          optionCategories: ['temperature', 'shot', 'size'],
           isSoldOut: false,
         },
         {
@@ -563,7 +541,7 @@ export const menu = {
           price: 5000,
           description: '부드러운 우유와 진한 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -572,7 +550,7 @@ export const menu = {
           price: 5000,
           description: '풍부한 폼 밀크와 에스프레소의 조화',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -581,7 +559,7 @@ export const menu = {
           price: 5900,
           description: '바닐라 시럽과 카라멜 드리즐의 달콤한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -590,7 +568,7 @@ export const menu = {
           price: 5500,
           description: '바닐라 시럽이 들어간 부드러운 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -599,7 +577,7 @@ export const menu = {
           price: 5500,
           description: '초콜릿과 에스프레소의 달콤한 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -608,7 +586,7 @@ export const menu = {
           price: 4900,
           description: '14시간 저온 추출한 부드러운 콜드브루',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'size', 'ice'],
+          optionCategories: ['size', 'ice'],
           isSoldOut: false,
         },
         {
@@ -617,7 +595,7 @@ export const menu = {
           price: 4000,
           description: '진한 풍미의 에스프레소 샷',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -626,7 +604,7 @@ export const menu = {
           price: 5300,
           description: '더 진한 에스프레소와 부드러운 우유 폼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: true,
         },
         {
@@ -635,7 +613,7 @@ export const menu = {
           price: 5700,
           description: '달콤한 꿀이 들어간 스페셜 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -644,7 +622,7 @@ export const menu = {
           price: 5900,
           description: '연유가 들어간 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: true,
         },
         {
@@ -653,7 +631,7 @@ export const menu = {
           price: 5800,
           description: '진한 에스프레소 위에 올린 생크림',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size'],
+          optionCategories: ['temperature', 'shot', 'size'],
           isSoldOut: false,
         },
         {
@@ -662,7 +640,7 @@ export const menu = {
           price: 6500,
           description: '위스키 향이 나는 특별한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -671,7 +649,7 @@ export const menu = {
           price: 6000,
           description: '바닐라 아이스크림에 에스프레소를 부은 디저트 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'shot'],
+          optionCategories: ['shot'],
           isSoldOut: false,
         },
         {
@@ -680,7 +658,7 @@ export const menu = {
           price: 5700,
           description: '고소한 헤이즐넛 시럽이 들어간 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -689,7 +667,7 @@ export const menu = {
           price: 5800,
           description: '연유와 우유가 어우러진 달콤한 라떼',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'shot', 'size', 'milk'],
+          optionCategories: ['temperature', 'shot', 'size', 'milk'],
           isSoldOut: false,
         },
         {
@@ -698,7 +676,7 @@ export const menu = {
           price: 5900,
           description: '달고나 폼이 올라간 트렌디한 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'size', 'milk'],
+          optionCategories: ['temperature', 'size', 'milk'],
           isSoldOut: false,
         },
       ],
@@ -709,7 +687,7 @@ export const menu = {
           price: 4300,
           description: '달콤한 복숭아와 홍차의 만남',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'ice'],
+          optionCategories: ['ice'],
           isSoldOut: false,
         },
       ],
@@ -720,7 +698,7 @@ export const menu = {
           price: 6000,
           description: '진한 초콜릿 풍미가 가득한 케이크',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving'],
+          optionCategories: [],
           isSoldOut: false,
         },
       ],
@@ -731,7 +709,7 @@ export const menu = {
           price: 3800,
           description: '버터 풍미 가득한 프랑스식 크로아상',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving'],
+          optionCategories: [],
           isSoldOut: false,
         },
       ],
@@ -742,7 +720,7 @@ export const menu = {
           price: 5500,
           description: '12시간 더치 추출 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'size', 'ice'],
+          optionCategories: ['size', 'ice'],
           isSoldOut: false,
         },
       ],
@@ -754,7 +732,7 @@ export const menu = {
           price: 6000,
           description: '바리스타가 직접 내려드리는 핸드드립',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving'],
+          optionCategories: [],
           isSoldOut: false,
         },
       ],
@@ -765,23 +743,12 @@ export const menu = {
           price: 5800,
           description: '투썸플레이스 특별 블렌드 커피',
           image: 'https://i.imgur.com/3kOGXhG.png',
-          optionCategories: ['serving', 'temperature', 'size'],
+          optionCategories: ['temperature', 'size'],
           isSoldOut: false,
         },
       ],
     },
     optionCategories: {
-      serving: {
-        id: 'serving',
-        name: '매장/포장',
-        type: 'single',
-        required: true,
-        displayOrder: 1,
-        options: [
-          { id: 'dine-in', name: '매장', price: 0 },
-          { id: 'take-out', name: '포장', price: 0 },
-        ],
-      },
       temperature: {
         id: 'temperature',
         name: '온도',
