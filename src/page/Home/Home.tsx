@@ -5,17 +5,21 @@ import MenuList from './components/MenuList';
 
 import DetailModal from '../DetailModal/DetailModal';
 import ShoppingCart from './components/ShoppingCart';
+import PaymentModal from '../PaymentProcessModal/PaymentModal';
 const Home = () => {
   return (
-    <BaseContainer>
-      <DetailModal />
-      <Header />
-      <Category />
-      <ScrollWrapper>
-        <MenuList />
-      </ScrollWrapper>
-      <ShoppingCart />
-    </BaseContainer>
+    <>
+      <PaymentModal />
+      <BaseContainer>
+        <DetailModal />
+        <Header />
+        <Category />
+        <ScrollWrapper>
+          <MenuList />
+        </ScrollWrapper>
+        <ShoppingCart />
+      </BaseContainer>
+    </>
   );
 };
 

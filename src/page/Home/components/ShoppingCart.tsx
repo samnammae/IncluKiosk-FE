@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useMenuStore } from '../../../stores/menuStore';
 import CloseIcon from '@mui/icons-material/CloseRounded';
 import { useState } from 'react';
+import { useOrderStore } from '../../../stores/OrderStore';
 
 interface OptionSummaryParams {
   selectedOptions: { [categoryId: string]: string[] };
@@ -11,7 +12,7 @@ interface OptionSummaryParams {
 const ShoppingCart = () => {
   const { cart, cartSummary, optionCategories, removeCartItem } =
     useMenuStore();
-
+  const { setIsOpen } = useOrderStore();
   // 선택된 옵션들을 하나의 문자열로 합치는 함수
   const getOptionSummary = ({
     selectedOptions,
@@ -107,7 +108,13 @@ const ShoppingCart = () => {
         </CountContainer>
         <ButtonWrapper>
           <CancelButton>전체 취소</CancelButton>
-          <BuyButton>구매하기</BuyButton>
+          <BuyButton
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
+            구매하기
+          </BuyButton>
         </ButtonWrapper>
       </BottomContainer>
     </BaseContainer>
