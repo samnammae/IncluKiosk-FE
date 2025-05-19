@@ -9,6 +9,7 @@ export const BaseContainer = styled.div`
   padding: 2rem;
 `;
 export const Title = styled.h1`
+  margin-top: 48px;
   font-size: ${({ theme }) => theme.fonts.sizes.xl};
   color: ${({ theme }) => theme.colors.standardText};
   font-weight: ${({ theme }) => theme.fonts.weights.bold};
