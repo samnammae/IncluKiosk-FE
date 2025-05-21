@@ -30,6 +30,10 @@ jobs:
       - name: install npm dependencies
         run: npm install
 
+      - name: Create .env file
+        run: |
+          echo "VITE_SERVER_ADDRESS=${{ secrets.VITE_SERVER_ADDRESS }}" >> .env
+
       - name: react build
         run: npm run build
 
