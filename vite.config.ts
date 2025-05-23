@@ -5,7 +5,18 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     plugins: [react()],
+    //빌드 관련 설정
+    build: {
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
+    },
     server: {
+      // 프록시 설정
       proxy: {
         '/api': {
           target: env.VITE_SERVER_ADDRESS,
