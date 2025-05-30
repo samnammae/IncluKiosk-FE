@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Login from './components/Login';
 import Join from './components/Join';
-
+import IncluKiosk from '../../assets/imgs/IncluKiosk.png';
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const changeMode = () => {
@@ -11,7 +11,7 @@ const AuthPage = () => {
   return (
     <Background>
       <Title>
-        <span>IncluKiosk</span>
+        <img src={IncluKiosk} />
       </Title>
       {isLogin ? (
         <Login changeMode={changeMode} />
@@ -38,9 +38,10 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  span {
-    color: ${({ theme }) => theme.colors.white};
-    font-size: ${({ theme }) => theme.fonts.sizes.logo};
-    font-weight: ${({ theme }) => theme.fonts.weights.bold};
+  img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
   }
+  margin-bottom: -70px;
 `;
