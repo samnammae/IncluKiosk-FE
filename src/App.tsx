@@ -1,20 +1,20 @@
-import './styles/font.css';
-import { ThemeProvider } from 'styled-components';
-import styled from 'styled-components';
-import { theme } from './styles/theme';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import GlobalStyle from './styles/globalStyle';
-import Router from './Router';
+import "./styles/font.css";
+import { ThemeProvider } from "styled-components";
+import styled from "styled-components";
+import { theme } from "./styles/theme";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import GlobalStyle from "./styles/globalStyle";
+import Router from "./Router";
 
-import { useEffect } from 'react';
-import { useBrandStore } from './stores/brandStore';
-import { OptionCategoryType, useMenuStore } from './stores/menuStore';
-import { menu } from '../data/menu';
-import { brandtheme } from '../data/theme';
+import { useEffect } from "react";
+import { useBrandStore } from "./stores/brandStore";
+import { OptionCategoryType, useMenuStore } from "./stores/menuStore";
+import { menu } from "../data/menu";
+import { brandtheme } from "../data/theme";
 
 const App = () => {
   const queryClient = new QueryClient();
-  const isDevelopment = 'development';
+  const isDevelopment = "development";
   // const isDevelopment = '';
   const {
     setMenuCategories,
@@ -25,7 +25,7 @@ const App = () => {
   const { setName, setTitleImg, setLogoImg, setStartBackground } =
     useBrandStore();
 
-  const brandName = 'ediya';
+  const brandName = "ediya";
   // const brandName = 'starbucks';
   // const brandName = 'twosomeplace';
   useEffect(() => {
@@ -56,23 +56,24 @@ const App = () => {
     if (brandTheme) {
       // CSS 변수 설정
       document.documentElement.style.setProperty(
-        '--main-color',
+        "--main-color",
         brandTheme.mainColor
       );
       document.documentElement.style.setProperty(
-        '--sub-color',
+        "--sub-color",
         brandTheme.subColor
       );
       document.documentElement.style.setProperty(
-        '--text-color',
+        "--text-color",
         brandTheme.textColor
       );
       document.documentElement.style.setProperty(
-        '--disabled-color',
-        brandTheme.disabledColor || '#d1d5db'
+        "--disabled-color",
+        brandTheme.disabledColor || "#d1d5db"
       );
     }
   }, [setMenuCategories, setMenusByCategory, setOptionCategories]);
+
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
