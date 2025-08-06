@@ -14,7 +14,52 @@ const SocketTestPage = () => {
   // 소켓 관련 상태
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [connected, setConnected] = useState<boolean>(false);
+  const [logs, setLogs] = useState<string[]>([]);
+  const [receivedMessages, setReceivedMessages] = useState<any[]>([]);
   const socketRef = useRef<WebSocket | null>(null);
+  const logRef = useRef<HTMLDivElement>(null);
+
+  // 로그 추가 함수
+  const addLog = (
+    message: string,
+    type: "send" | "receive" | "system" = "system"
+  ) => {
+    const timestamp = new Date().toLocaleTimeString();
+    const logMessage = `[${timestamp}] ${
+      type === "send" ? "📤" : type === "receive" ? "📨" : "ℹ️"
+    } ${message}`;
+    setLogs((prev) => [...prev, logMessage]);
+
+    // 로그 자동 스크롤
+    setTimeout(() => {
+      if (logRef.current) {
+        logRef.current.scrollTop = logRef.current.scrollHeight;
+      }
+    }, 100);
+  };
+
+  // 수신 메시지 처리
+  const handleReceivedMessage = (data: any) => {
+    setReceivedMessages((prev) => [
+      ...prev,
+      { ...data, timestamp: new Date().toLocaleTimeString() },
+    ]);
+
+    // 메시지 타입별 처리
+    switch (data.type) {
+      case "PIR_OFF":
+        addLog("사용자 접근이 감지되어 다음 화면으로 넘어갑니다", "receive");
+        break;
+      case "CHAT_ORDER_ON":
+        addLog("주먹 포즈가 감지되어 대화주문화면으로 넘어갑니다", "receive");
+        break;
+      case "EYE_ORDER_ON":
+        addLog("하단 3초 응시가 감지되어 마우스커서를 시각화합니다", "receive");
+        break;
+      default:
+        addLog(`받은 메시지: ${data.type} - ${data.message || ""}`, "receive");
+    }
+  };
 
   // 소켓 연결
   const connectSocket = () => {
@@ -26,23 +71,33 @@ const SocketTestPage = () => {
         console.log("소켓 연결 성공");
         setConnected(true);
         setSocket(ws);
+        addLog("소켓 연결 성공", "system");
       };
 
       ws.onmessage = (event: MessageEvent) => {
         console.log("받은 메시지:", event.data);
+        try {
+          const data = JSON.parse(event.data);
+          handleReceivedMessage(data);
+        } catch (error) {
+          addLog(`받은 메시지: ${event.data}`, "receive");
+        }
       };
 
       ws.onclose = () => {
         console.log("소켓 연결 종료");
         setConnected(false);
+        addLog("소켓 연결 종료", "system");
       };
 
       ws.onerror = (error: Event) => {
         console.error("소켓 에러:", error);
         setConnected(false);
+        addLog("소켓 연결 에러", "system");
       };
     } catch (error) {
       console.error("연결 실패:", error);
+      addLog("소켓 연결 실패", "system");
     }
   };
 
@@ -62,9 +117,17 @@ const SocketTestPage = () => {
       };
       socket.send(JSON.stringify(message));
       console.log("전송:", messageType);
+      addLog(`전송: ${messageType}`, "send");
     } else {
       console.log("소켓이 연결되지 않았습니다.");
+      addLog("소켓이 연결되지 않았습니다", "system");
     }
+  };
+
+  // 로그 지우기
+  const clearLogs = () => {
+    setLogs([]);
+    setReceivedMessages([]);
   };
 
   return (
@@ -189,6 +252,46 @@ const SocketTestPage = () => {
           </Button>
         </MessageRow>
       </Section>
+
+      {/* 수신 메시지 섹션 */}
+      <Section>
+        <SectionTitle>📨 라즈베리파이에서 받은 메시지</SectionTitle>
+        <ReceivedMessageBox>
+          {receivedMessages.length > 0 ? (
+            receivedMessages.map((msg, index) => (
+              <ReceivedMessage key={index}>
+                <MessageTime>[{msg.timestamp}]</MessageTime>
+                <MessageType>{msg.type}</MessageType>
+                {msg.message && (
+                  <MessageContent>- {msg.message}</MessageContent>
+                )}
+              </ReceivedMessage>
+            ))
+          ) : (
+            <EmptyMessage>아직 받은 메시지가 없습니다</EmptyMessage>
+          )}
+        </ReceivedMessageBox>
+      </Section>
+
+      {/* 로그 섹션 */}
+      <Section>
+        <SectionTitle>📋 통신 로그</SectionTitle>
+        <LogContainer ref={logRef}>
+          {logs.length > 0 ? (
+            logs.map((log, index) => <LogMessage key={index}>{log}</LogMessage>)
+          ) : (
+            <EmptyMessage>로그가 없습니다</EmptyMessage>
+          )}
+        </LogContainer>
+        <Button
+          onClick={clearLogs}
+          bgColor="#ffc107"
+          textColor="#212529"
+          style={{ marginTop: "10px" }}
+        >
+          로그 지우기
+        </Button>
+      </Section>
     </Container>
   );
 };
@@ -277,4 +380,64 @@ const ControlSection = styled(Section)`
   display: flex;
   justify-content: center;
   gap: 20px;
+`;
+
+const ReceivedMessageBox = styled.div`
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+`;
+
+const ReceivedMessage = styled.div`
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 4px solid #17a2b8;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+`;
+
+const MessageTime = styled.span`
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-right: 10px;
+`;
+
+const MessageType = styled.span`
+  font-weight: 600;
+  color: #17a2b8;
+  margin-right: 10px;
+`;
+
+const MessageContent = styled.span`
+  color: #495057;
+`;
+
+const LogContainer = styled.div`
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  height: 400px;
+  overflow-y: auto;
+  font-family: "Courier New", monospace;
+`;
+
+const LogMessage = styled.div`
+  padding: 5px 0;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 0.9rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const EmptyMessage = styled.div`
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
 `;
