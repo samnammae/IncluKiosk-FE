@@ -50,7 +50,7 @@ jobs:
           BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
         run: |
           aws s3 sync \
-            ./dist s3://$BUCKET_NAME \
+            ./dist s3://$BUCKET_NAME/kiosk \
             --delete  # 기존 파일 삭제 옵션 추가
 
       # CloudFront 무효화용 AWS 설정
