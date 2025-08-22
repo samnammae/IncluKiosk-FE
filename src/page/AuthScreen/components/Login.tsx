@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import kakaoIcon from '../../../assets/icons/kakaoIcon.png';
-import GoogleIcon from '../../../assets/icons/GoogleIcon.png';
-import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { authAPI } from '../../../apis/auth';
-import { AuthProps } from '../interface';
+import styled from "styled-components";
+import kakaoIcon from "../../../assets/icons/kakaoIcon.png";
+import GoogleIcon from "../../../assets/icons/GoogleIcon.png";
+import { useNavigate } from "react-router-dom";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { authAPI } from "../../../apis/auth";
+import { AuthProps } from "../interface";
 import {
   AuthCard,
   AuthContainer,
@@ -14,22 +14,22 @@ import {
   Label,
   LabelWrapper,
   AuthButton,
-} from '../styles';
+} from "../styles";
 
 const Login = ({ changeMode }: AuthProps) => {
   const nav = useNavigate();
   const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const loginMutation = useMutation({
     mutationFn: authAPI.login,
     onSuccess: (data) => {
-      console.log('Login successful:', data);
-      nav('/lock');
+      console.log("Login successful:", data);
+      nav("/choose");
     },
     onError: (error) => {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
     },
   });
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +42,7 @@ const Login = ({ changeMode }: AuthProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Login form submitted:', loginForm);
+    console.log("Login form submitted:", loginForm);
     loginMutation.mutate(loginForm);
   };
   return (
@@ -123,7 +123,7 @@ const Divider = styled.div`
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     flex: 1;
     border-bottom: 2px solid ${({ theme }) => theme.colors.grey[200]};
   }

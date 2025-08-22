@@ -1,5 +1,25 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+export const Background = styled.div`
+  min-height: 100%;
+  background: ${({ theme }) =>
+    `linear-gradient(135deg, ${theme.colors.standard} 0%, ${theme.colors.background} 100%)`};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
 
+export const Title = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+  margin-bottom: -70px;
+`;
 export const AuthContainer = styled.div`
   min-height: 100%;
   display: flex;
@@ -17,6 +37,7 @@ export const AuthCard = styled.div`
   max-width: 720px;
   backdrop-filter: blur(10px);
   position: relative;
+  min-height: 50%;
 `;
 export const FormGroup = styled.div`
   margin-bottom: 40px;
