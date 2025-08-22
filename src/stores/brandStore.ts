@@ -1,4 +1,14 @@
-import { create } from 'zustand';
+import { create } from "zustand";
+export interface chooseShopType {
+  storeId: number;
+  name: string;
+  address: string;
+  phone: string;
+  mainImg: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface brandStore {
   name: string;
   introduction: string;
@@ -13,11 +23,11 @@ interface brandStore {
 }
 
 export const useBrandStore = create<brandStore>((set) => ({
-  name: '',
-  introduction: '',
-  titleImg: '',
-  logoimg: '',
-  startBackground: '',
+  name: "",
+  introduction: "",
+  titleImg: "",
+  logoimg: "",
+  startBackground: "",
   setName: (value) => set({ name: value }),
   setIntroduction: (value) => set({ introduction: value }),
   setTitleImg: (value) => set({ titleImg: value }),
