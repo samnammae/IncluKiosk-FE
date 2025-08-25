@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { MenuItemType, useMenuStore } from '../../../stores/menuStore';
+import styled from "styled-components";
+import { MenuItemType, useMenuStore } from "../../../stores/menuStore";
 interface MenuItemProps {
   item: MenuItemType;
 }
@@ -18,7 +18,7 @@ const MenuItem = ({ item }: MenuItemProps) => {
         </SoldOutOverlay>
       )}
       <ItemImgWrapper>
-        <ItemImg src={item.image} />
+        <ItemImg src={item.imageUrl} />
       </ItemImgWrapper>
       <ItemName>{item.name}</ItemName>
       <ItemPrice>

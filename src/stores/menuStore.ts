@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 // 메뉴 아이템 타입
 export interface MenuItemType {
@@ -6,7 +6,7 @@ export interface MenuItemType {
   name: string;
   price: number;
   description?: string;
-  image?: string;
+  imageUrl?: string;
   isSoldOut?: boolean;
   optionCategories?: string[];
 }
@@ -23,7 +23,7 @@ interface OptionType {
 export interface OptionCategoryType {
   id: string;
   name: string;
-  type: 'single' | 'multiple'; // 단일 선택 또는 다중 선택
+  type: "single" | "multiple"; // 단일 선택 또는 다중 선택
   required: boolean;
   min?: number; // 최소 선택 개수 (multiple일 때)
   max?: number; // 최대 선택 개수 (multiple일 때)
