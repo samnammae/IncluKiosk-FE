@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { chooseShopType } from "../../stores/brandStore";
+import { setShopData } from "../../apis/setShopData";
+import { useNavigate } from "react-router-dom";
 
 const ChooseShopPage = () => {
   const [shopList, setShopList] = useState<chooseShopType[]>([]);
@@ -43,13 +45,21 @@ interface IsShopSelectProps {
   shopList: chooseShopType[];
 }
 const IsShopSelect = ({ shopList }: IsShopSelectProps) => {
+  const nav = useNavigate();
+
   return (
     <AuthCard>
       <Container>
         <Message>매장을 선택해주세요</Message>
         <ListWrapper>
           {shopList.map((shop) => (
-            <ListItem key={shop.storeId}>
+            <ListItem
+              key={shop.storeId}
+              onClick={() => {
+                nav("/home");
+                setShopData(shop.storeId);
+              }}
+            >
               {shop.mainImg ? (
                 <ItemImg src={shop.mainImg} />
               ) : (
