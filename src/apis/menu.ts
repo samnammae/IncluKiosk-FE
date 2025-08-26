@@ -14,6 +14,6 @@ export const menuAPI = {
   getAllOptions: async (storeId: number) => {
     const response = await api.get(`/menu/${storeId}/option`);
     console.log("옵션 전체 조회", response.data);
-    return response.data;
+    return response.data.data;
   },
 };
