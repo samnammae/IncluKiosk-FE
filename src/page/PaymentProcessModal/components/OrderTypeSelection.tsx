@@ -1,30 +1,42 @@
-import styled from 'styled-components';
-import { useOrderStore } from '../../../stores/OrderStore';
+import styled from "styled-components";
+import { useOrderStore } from "../../../stores/orderStore";
+import { useEffect } from "react";
 
 const OrderTypeSelection = () => {
-  const { setOrderType, moveToNextStep } = useOrderStore();
+  const { setOrderType, moveToNextStep, setStoreInfo } = useOrderStore();
+
+  //주문 매장 정보 설정
+  useEffect(() => {
+    const storeId = localStorage.getItem("shopId");
+    const storeName = localStorage.getItem("shopName");
+
+    if (storeId && storeName) {
+      setStoreInfo({
+        storeId: storeId,
+        storeName: storeName,
+      });
+    }
+  }, [setStoreInfo]);
   return (
     <BaseContainer>
       <Container>
         <Button
           onClick={(e) => {
             e.stopPropagation();
-            setOrderType('STORE');
+            setOrderType("STORE");
             moveToNextStep();
           }}
         >
-          <Icon>🍽️</Icon>
           <Text>매장</Text>
         </Button>
 
         <Button
           onClick={(e) => {
             e.stopPropagation();
-            setOrderType('TAKEOUT');
+            setOrderType("TAKEOUT");
             moveToNextStep();
           }}
         >
-          <Icon>🧃</Icon>
           <Text>포장</Text>
         </Button>
       </Container>
@@ -66,11 +78,6 @@ const Button = styled.div`
     transform: scale(1.1);
     box-shadow: ${({ theme }) => theme.shadows.lg};
   }
-`;
-
-const Icon = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizes.xl};
-  margin-bottom: 1rem;
 `;
 
 const Text = styled.div`

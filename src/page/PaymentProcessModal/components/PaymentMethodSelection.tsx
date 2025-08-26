@@ -1,16 +1,16 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import {
   BaseContainer,
   Title,
   ButtonContainer,
   BackButton,
   Button,
-} from '../Styles';
+} from "../Styles";
 
-import { useState } from 'react';
-import { useOrderStore } from '../../../stores/OrderStore';
+import { useState } from "react";
+import { useOrderStore } from "../../../stores/orderStore";
 
-type PaymentMethodType = 'CARD' | 'CASH' | 'MOBILE' | null;
+type PaymentMethodType = "CARD" | "CASH" | "MOBILE" | null;
 
 const PaymentMethodSelection = () => {
   const { moveToNextStep, moveToPreviousStep, setPaymentMethod } =
@@ -34,8 +34,8 @@ const PaymentMethodSelection = () => {
 
       <PaymentOptionsContainer>
         <PaymentOption
-          $isSelected={selectedMethod === 'CARD'}
-          onClick={() => handleSelectMethod('CARD')}
+          $isSelected={selectedMethod === "CARD"}
+          onClick={() => handleSelectMethod("CARD")}
         >
           <PaymentIcon>💳</PaymentIcon>
           <PaymentLabel>카드 결제</PaymentLabel>
@@ -43,8 +43,8 @@ const PaymentMethodSelection = () => {
         </PaymentOption>
 
         <PaymentOption
-          $isSelected={selectedMethod === 'CASH'}
-          onClick={() => handleSelectMethod('CASH')}
+          $isSelected={selectedMethod === "CASH"}
+          onClick={() => handleSelectMethod("CASH")}
         >
           <PaymentIcon>💵</PaymentIcon>
           <PaymentLabel>현금 결제</PaymentLabel>
@@ -52,8 +52,8 @@ const PaymentMethodSelection = () => {
         </PaymentOption>
 
         <PaymentOption
-          $isSelected={selectedMethod === 'MOBILE'}
-          onClick={() => handleSelectMethod('MOBILE')}
+          $isSelected={selectedMethod === "MOBILE"}
+          onClick={() => handleSelectMethod("MOBILE")}
         >
           <PaymentIcon>📱</PaymentIcon>
           <PaymentLabel>모바일 결제</PaymentLabel>
