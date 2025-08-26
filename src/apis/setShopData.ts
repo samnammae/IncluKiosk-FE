@@ -1,4 +1,4 @@
-import { useBrandStore } from "../stores/brandStore";
+import { useShopStore } from "../stores/shopStore";
 import { MenuItemType, useMenuStore } from "../stores/menuStore";
 import { menuAPI } from "./menu";
 import { shopAPI } from "./shop";
@@ -21,7 +21,7 @@ export const setShopData = async (shopId: number) => {
     setTitleImg,
     setLogoImg,
     setStartBackground,
-  } = useBrandStore.getState();
+  } = useShopStore.getState();
   try {
     const shopDate = await shopAPI.getShop(shopId);
     const menuData = await menuAPI.getAllMenu(shopId);

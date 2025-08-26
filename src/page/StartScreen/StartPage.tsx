@@ -1,9 +1,9 @@
-import styled, { keyframes } from 'styled-components';
-import { useBrandStore } from '../../stores/brandStore';
-import { useNavigate } from 'react-router-dom';
+import styled, { keyframes } from "styled-components";
+import { useShopStore } from "../../stores/shopStore";
+import { useNavigate } from "react-router-dom";
 
 const StartPge = () => {
-  const { logoimg, name, startBackground } = useBrandStore();
+  const { logoimg, name, startBackground } = useShopStore();
   const nav = useNavigate();
   return (
     <BaseContainer>
@@ -17,7 +17,7 @@ const StartPge = () => {
           <OrderText>음성으로 주문하기</OrderText>
         </OrderButton>
 
-        <OrderButton onClick={() => nav('/home')}>
+        <OrderButton onClick={() => nav("/home")}>
           <OrderIcon>👆</OrderIcon>
           <OrderText>기본 주문하기</OrderText>
         </OrderButton>

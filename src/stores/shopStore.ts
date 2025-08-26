@@ -9,7 +9,7 @@ export interface chooseShopType {
   updatedAt: string;
 }
 
-interface brandStore {
+interface shopStore {
   name: string;
   introduction: string;
   titleImg: string;
@@ -22,7 +22,7 @@ interface brandStore {
   setStartBackground: (value: string) => void;
 }
 
-export const useBrandStore = create<brandStore>((set) => ({
+export const useShopStore = create<shopStore>((set) => ({
   name: "",
   introduction: "",
   titleImg: "",

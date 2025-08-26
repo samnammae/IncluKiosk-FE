@@ -5,7 +5,7 @@ import { shopAPI } from "../../apis/shop";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { chooseShopType } from "../../stores/brandStore";
+import { chooseShopType } from "../../stores/shopStore";
 import { setShopData } from "../../apis/setShopData";
 import { useNavigate } from "react-router-dom";
 
