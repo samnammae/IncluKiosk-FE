@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { useOrderStore } from '../../../stores/OrderStore';
+import styled from "styled-components";
+import { useOrderStore } from "../../../stores/OrderStore";
 
 const OrderTypeSelection = () => {
   const { setOrderType, moveToNextStep } = useOrderStore();
@@ -9,22 +9,20 @@ const OrderTypeSelection = () => {
         <Button
           onClick={(e) => {
             e.stopPropagation();
-            setOrderType('STORE');
+            setOrderType("STORE");
             moveToNextStep();
           }}
         >
-          <Icon>🍽️</Icon>
           <Text>매장</Text>
         </Button>
 
         <Button
           onClick={(e) => {
             e.stopPropagation();
-            setOrderType('TAKEOUT');
+            setOrderType("TAKEOUT");
             moveToNextStep();
           }}
         >
-          <Icon>🧃</Icon>
           <Text>포장</Text>
         </Button>
       </Container>
@@ -66,11 +64,6 @@ const Button = styled.div`
     transform: scale(1.1);
     box-shadow: ${({ theme }) => theme.shadows.lg};
   }
-`;
-
-const Icon = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizes.xl};
-  margin-bottom: 1rem;
 `;
 
 const Text = styled.div`
