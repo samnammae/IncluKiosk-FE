@@ -2,36 +2,135 @@ import styled, { keyframes } from "styled-components";
 import { useShopStore } from "../../stores/shopStore";
 import { useNavigate } from "react-router-dom";
 
+import { useEffect, useRef, useState } from "react";
+interface StyledProps {
+  $isHovering?: boolean;
+  $progress?: number;
+}
 const StartPge = () => {
   const { logoimg, name, startBackground } = useShopStore();
   const nav = useNavigate();
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const socketRef = useRef<WebSocket | null>(null);
+  const [connected, setConnected] = useState<boolean>(false);
+
+  useEffect(() => {
+    connectSocket();
+    sendMessage("MODE_SELECT_ON");
+  }, [connected]);
+  const connectSocket = () => {
+    try {
+      const ws = new WebSocket("ws://localhost:8765"); // 실제 라즈베리파이 IP로 변경
+      socketRef.current = ws;
+
+      ws.onopen = () => {
+        console.log("소켓 연결 성공");
+        setSocket(ws);
+        setConnected(true);
+      };
+
+      ws.onmessage = (event: MessageEvent) => {
+        console.log("받은 메시지:", event.data);
+      };
+
+      ws.onclose = () => {
+        console.log("소켓 연결 종료");
+      };
+
+      ws.onerror = (error: Event) => {
+        console.error("소켓 에러:", error);
+      };
+    } catch (error) {
+      console.error("연결 실패:", error);
+    }
+  };
+
+  // 메시지 전송 함수
+  const sendMessage = (messageType: string) => {
+    if (socket && connected) {
+      const message = {
+        type: messageType,
+        timestamp: new Date().toISOString(),
+      };
+      socket.send(JSON.stringify(message));
+      console.log("전송:", messageType);
+    } else {
+      console.log("소켓이 연결되지 않았습니다.");
+    }
+  };
+
+  const [isHovering, setIsHovering] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const timerRef = useRef<number | null>(null);
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    setProgress(0);
+
+    // 5초(5000ms)에 걸쳐 progress를 100까지 증가
+    const duration = 5000;
+    const interval = 50; // 50ms마다 업데이트
+    const increment = (100 * interval) / duration;
+
+    timerRef.current = setInterval(() => {
+      setProgress((prev) => {
+        const newProgress = prev + increment;
+        if (newProgress >= 100) {
+          if (timerRef.current !== null) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
+          nav("/home");
+          return 100;
+        }
+        return newProgress;
+      });
+    }, interval) as unknown as number;
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setProgress(0);
+    if (timerRef.current !== null) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
   return (
     <BaseContainer>
       {startBackground && <Background src={startBackground} />}
       <LogoWrapper>
         {logoimg ? <LogoContainer src={logoimg} /> : <Title>{name}</Title>}
       </LogoWrapper>
-      <OrderOptionsContainer>
-        <OrderButton>
-          <OrderIcon>🎤</OrderIcon>
-          <OrderText>음성으로 주문하기</OrderText>
-        </OrderButton>
+      <ModeContaier>
+        <OrderOptionsContainer>
+          <OrderButton>
+            <OrderText>음성으로 주문하기</OrderText>
+          </OrderButton>
 
-        <OrderButton onClick={() => nav("/home")}>
-          <OrderIcon>👆</OrderIcon>
-          <OrderText>기본 주문하기</OrderText>
-        </OrderButton>
-      </OrderOptionsContainer>
-
-      <EyeTrackingSection>
-        <EyeTrackingText>
-          <EyeIcon>👁️</EyeIcon>
-          아이트래킹으로 주문하기
-        </EyeTrackingText>
-        <EyeTrackingInstruction>
-          터치가 어려우시다면 이 곳을 응시해 주세요
-        </EyeTrackingInstruction>
-      </EyeTrackingSection>
+          <OrderButton onClick={() => nav("/home")}>
+            <OrderText>기본 주문하기</OrderText>
+          </OrderButton>
+        </OrderOptionsContainer>
+        <EyeTrackingSection
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          $isHovering={isHovering}
+        >
+          <ProgressBar $progress={progress} />
+          <EyeTrackingText>아이트래킹으로 주문하기</EyeTrackingText>
+          <EyeTrackingInstruction>
+            터치가 어려우시다면 이 곳을 응시해 주세요
+          </EyeTrackingInstruction>
+          {isHovering && (
+            <ProgressText>
+              {Math.round(progress)}% ({Math.ceil((100 - progress) / 20)}초
+              남음)
+            </ProgressText>
+          )}
+        </EyeTrackingSection>
+      </ModeContaier>
     </BaseContainer>
   );
 };
@@ -55,6 +154,7 @@ const BaseContainer = styled.div`
   padding: 2rem 0;
   position: relative;
 `;
+
 const Background = styled.img`
   position: absolute;
   top: 0;
@@ -64,6 +164,7 @@ const Background = styled.img`
   object-fit: cover;
   pointer-events: none;
 `;
+
 const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -72,15 +173,29 @@ const LogoWrapper = styled.div`
   height: 500px;
   z-index: 1;
 `;
+
 const LogoContainer = styled.img`
   width: 500px;
   height: 500px;
   object-fit: scale-down;
 `;
+
 const Title = styled.div`
   font-size: ${({ theme }) => theme.fonts.sizes.logo};
   color: ${({ theme }) => theme.colors.text};
 `;
+
+const ModeContaier = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 20% 10%;
+  padding-top: 10%;
+  justify-content: space-around;
+  align-items: center;
+`;
+
 const OrderOptionsContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -109,44 +224,68 @@ const OrderButton = styled.div`
   }
 `;
 
-const OrderIcon = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizes.xl};
-  margin-bottom: 1rem;
-`;
-
 const OrderText = styled.div`
   font-size: ${({ theme }) => theme.fonts.sizes.lg};
   font-weight: ${({ theme }) => theme.fonts.weights.bold};
   color: ${({ theme }) => theme.colors.main};
 `;
 
-const EyeTrackingSection = styled.div`
+const EyeTrackingSection = styled.div<StyledProps>`
   position: relative;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 2rem;
+  width: 90%;
+  background-color: white;
+  box-shadow: ${({ theme }) => theme.shadows.md};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  overflow: hidden;
+  cursor: ${({ $isHovering }) => ($isHovering ? "wait" : "crosshair")};
+  transition: cursor 0.2s ease;
+`;
+
+const ProgressBar = styled.div<StyledProps>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: ${({ $progress }) => $progress}%;
+  background-color: ${({ theme }) => theme.colors.main};
+  transition: width 0.05s linear;
+  opacity: 0.3;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
 `;
 
 const EyeTrackingText = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: white;
   font-size: ${({ theme }) => theme.fonts.sizes.lg};
   font-weight: ${({ theme }) => theme.fonts.weights.bold};
-`;
-
-const EyeIcon = styled.span`
-  font-size: ${({ theme }) => theme.fonts.sizes.lg};
+  position: relative;
+  z-index: 1;
+  color: ${({ theme }) => theme.colors.main};
 `;
 
 const EyeTrackingInstruction = styled.div`
-  color: white;
   font-size: ${({ theme }) => theme.fonts.sizes.md};
+
   margin-top: 0.5rem;
   animation: ${waveAnimation} 2s infinite ease-in-out;
+  position: relative;
+  z-index: 1;
+`;
+
+const ProgressText = styled.div`
+  font-size: ${({ theme }) => theme.fonts.sizes.sm};
+  color: ${({ theme }) => theme.colors.main};
+  font-weight: ${({ theme }) => theme.fonts.weights.bold};
+  position: relative;
+  z-index: 1;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
 `;
