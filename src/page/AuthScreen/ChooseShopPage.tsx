@@ -56,7 +56,7 @@ const IsShopSelect = ({ shopList }: IsShopSelectProps) => {
             <ListItem
               key={shop.storeId}
               onClick={() => {
-                nav("/home");
+                nav("/start");
                 setShopData(shop.storeId);
                 localStorage.setItem("shopId", String(shop.storeId));
                 localStorage.setItem("shopName", String(shop.name));
