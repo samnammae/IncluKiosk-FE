@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useOrderStore } from "../../../stores/OrderStore";
 
 const ShoppingCart = () => {
-  const { cart, cartSummary, optionCategories, removeCartItem } =
+  const { cart, cartSummary, optionCategories, removeCartItem, clearCart } =
     useMenuStore();
   const { setIsOpen } = useOrderStore();
 
@@ -116,7 +116,7 @@ const ShoppingCart = () => {
           </div>
         </CountContainer>
         <ButtonWrapper>
-          <CancelButton>전체 취소</CancelButton>
+          <CancelButton onClick={() => clearCart()}>전체 취소</CancelButton>
           <BuyButton
             onClick={() => {
               setIsOpen(true);
