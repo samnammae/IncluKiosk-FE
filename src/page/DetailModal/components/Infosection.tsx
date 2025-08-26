@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { useMenuStore } from '../../../stores/menuStore';
+import styled from "styled-components";
+import { useMenuStore } from "../../../stores/menuStore";
 
 const Infosection = () => {
   const { selectedMenu } = useMenuStore();
@@ -9,7 +9,7 @@ const Infosection = () => {
       {!selectedMenu ? null : (
         <>
           <ImageSection>
-            <ItemImage src={selectedMenu.image} alt={selectedMenu.name} />
+            <ItemImage src={selectedMenu.imageUrl} alt={selectedMenu.name} />
           </ImageSection>
           <InfoContent>
             <ItemHeader>
@@ -17,7 +17,7 @@ const Infosection = () => {
             </ItemHeader>
 
             <ItemDescription>
-              {selectedMenu.description || '맛있는 메뉴를 지금 바로 맛보세요.'}
+              {selectedMenu.description || "맛있는 메뉴를 지금 바로 맛보세요."}
             </ItemDescription>
 
             <ItemPrice>{selectedMenu.price.toLocaleString()}원</ItemPrice>

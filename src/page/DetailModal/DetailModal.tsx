@@ -1,11 +1,11 @@
-import styled, { keyframes, css } from 'styled-components';
-import { CartItem, useMenuStore } from '../../stores/menuStore';
-import CloseIcon from '@mui/icons-material/CloseRounded';
-import ButtonSection from './components/ButtonSection';
-import TootalScetion from './components/TootalScetion';
-import Infosection from './components/Infosection';
-import Optionsection from './components/Optionsection';
-import { useState } from 'react';
+import styled, { keyframes, css } from "styled-components";
+import { CartItem, useMenuStore } from "../../stores/menuStore";
+import CloseIcon from "@mui/icons-material/CloseRounded";
+import ButtonSection from "./components/ButtonSection";
+import TootalScetion from "./components/TootalScetion";
+import Infosection from "./components/Infosection";
+import Optionsection from "./components/Optionsection";
+import { useState } from "react";
 
 export interface MenuItemType {
   id: string;
@@ -207,7 +207,7 @@ const WarningText = styled.div<{ $shake?: boolean }>`
       ? css`
           ${shakeAnimation} 0.6s ease-in-out
         `
-      : 'none'};
+      : "none"};
 `;
 const shakeAnimation = keyframes`
   0% { transform: translateX(0); }

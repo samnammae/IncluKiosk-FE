@@ -1,5 +1,15 @@
-import { create } from 'zustand';
-interface brandStore {
+import { create } from "zustand";
+export interface chooseShopType {
+  storeId: number;
+  name: string;
+  address: string;
+  phone: string;
+  mainImg: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface shopStore {
   name: string;
   introduction: string;
   titleImg: string;
@@ -12,12 +22,12 @@ interface brandStore {
   setStartBackground: (value: string) => void;
 }
 
-export const useBrandStore = create<brandStore>((set) => ({
-  name: '',
-  introduction: '',
-  titleImg: '',
-  logoimg: '',
-  startBackground: '',
+export const useShopStore = create<shopStore>((set) => ({
+  name: "",
+  introduction: "",
+  titleImg: "",
+  logoimg: "",
+  startBackground: "",
   setName: (value) => set({ name: value }),
   setIntroduction: (value) => set({ introduction: value }),
   setTitleImg: (value) => set({ titleImg: value }),

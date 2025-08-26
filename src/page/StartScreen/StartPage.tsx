@@ -1,13 +1,14 @@
 import styled, { keyframes } from "styled-components";
-import { useBrandStore } from "../../stores/brandStore";
+import { useShopStore } from "../../stores/shopStore";
 import { useNavigate } from "react-router-dom";
+
 import { useEffect, useRef, useState } from "react";
 interface StyledProps {
   $isHovering?: boolean;
   $progress?: number;
 }
 const StartPge = () => {
-  const { logoimg, name, startBackground } = useBrandStore();
+  const { logoimg, name, startBackground } = useShopStore();
   const nav = useNavigate();
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const socketRef = useRef<WebSocket | null>(null);

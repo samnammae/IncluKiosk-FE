@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import { useBrandStore } from '../../../stores/brandStore';
+import styled from "styled-components";
+import { useShopStore } from "../../../stores/shopStore";
 
 const Header = () => {
-  const { titleImg } = useBrandStore();
+  const { titleImg } = useShopStore();
   return (
     <BaseContainer>
-      <BrandLogo src={titleImg} />
+      {titleImg ? <BrandLogo src={titleImg} /> : <></>}
     </BaseContainer>
   );
 };

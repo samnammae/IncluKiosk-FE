@@ -1,42 +1,45 @@
-import styled from 'styled-components';
-import { useMenuStore } from '../../../stores/menuStore';
-import CloseIcon from '@mui/icons-material/CloseRounded';
-import { useState } from 'react';
-import { useOrderStore } from '../../../stores/OrderStore';
-
-interface OptionSummaryParams {
-  selectedOptions: { [categoryId: string]: string[] };
-  isFull?: boolean;
-}
+import styled from "styled-components";
+import { useMenuStore } from "../../../stores/menuStore";
+import CloseIcon from "@mui/icons-material/CloseRounded";
+import { useState } from "react";
+import { useOrderStore } from "../../../stores/OrderStore";
 
 const ShoppingCart = () => {
-  const { cart, cartSummary, optionCategories, removeCartItem } =
+  const { cart, cartSummary, optionCategories, removeCartItem, clearCart } =
     useMenuStore();
   const { setIsOpen } = useOrderStore();
-  // 선택된 옵션들을 하나의 문자열로 합치는 함수
-  const getOptionSummary = ({
-    selectedOptions,
-    isFull = false,
-  }: OptionSummaryParams): string => {
-    const optionNames: string[] = [];
 
-    // 각 카테고리별로 순회
+  const getOptionTags = (selectedOptions: {
+    [categoryId: number]: number[];
+  }) => {
+    const optionTags: Array<{
+      categoryName: string;
+      optionName: string;
+      categoryId: number;
+      optionId: number;
+    }> = [];
+
     Object.entries(selectedOptions).forEach(([categoryId, optionIds]) => {
-      const category = optionCategories[categoryId];
+      const category = optionCategories.find(
+        (cat) => cat.id === Number(categoryId)
+      );
       if (!category) return;
 
       optionIds.forEach((optionId) => {
         const option = category.options.find((opt) => opt.id === optionId);
         if (option) {
-          if (isFull) optionNames.push(`${category.name}: ${option.name}`);
-          else optionNames.push(`${option.name}`);
+          optionTags.push({
+            categoryName: category.name,
+            optionName: option.name,
+            categoryId: Number(categoryId),
+            optionId: optionId,
+          });
         }
       });
     });
 
-    return optionNames.join(', ');
+    return optionTags;
   };
-
   const [expandedItems, setExpandedItems] = useState<{
     [key: string]: boolean;
   }>({});
@@ -66,11 +69,13 @@ const ShoppingCart = () => {
                 <Wrapper>
                   <ItemName>{item.MenuItemType.name}</ItemName>
                   {!expandedItems[item.id] && (
-                    <OptionTag>
-                      {getOptionSummary({
-                        selectedOptions: item.selectedOptions,
-                      })}
-                    </OptionTag>
+                    <OptionTagContainer>
+                      {getOptionTags(item.selectedOptions).map((tag) => (
+                        <OptionTag key={`${tag.categoryId}-${tag.optionId}`}>
+                          {tag.optionName}
+                        </OptionTag>
+                      ))}
+                    </OptionTagContainer>
                   )}
                 </Wrapper>
                 <Wrapper>
@@ -84,12 +89,16 @@ const ShoppingCart = () => {
                 </Wrapper>
               </ItemWrapper>
               {expandedItems[item.id] && (
-                <ItemOption>
-                  {getOptionSummary({
-                    selectedOptions: item.selectedOptions,
-                    isFull: true,
-                  })}
-                </ItemOption>
+                <ExpandedOptionContainer>
+                  {getOptionTags(item.selectedOptions).map((tag) => (
+                    <ExpandedOptionTag
+                      key={`${tag.categoryId}-${tag.optionId}`}
+                    >
+                      <CategoryLabel>{tag.categoryName}:</CategoryLabel>
+                      <OptionTag>{tag.optionName}</OptionTag>
+                    </ExpandedOptionTag>
+                  ))}
+                </ExpandedOptionContainer>
               )}
             </ItemContainer>
           </div>
@@ -107,7 +116,7 @@ const ShoppingCart = () => {
           </div>
         </CountContainer>
         <ButtonWrapper>
-          <CancelButton>전체 취소</CancelButton>
+          <CancelButton onClick={() => clearCart()}>전체 취소</CancelButton>
           <BuyButton
             onClick={() => {
               setIsOpen(true);
@@ -178,18 +187,39 @@ const Wrapper = styled.div`
     align-items: center;
   }
 `;
-const ItemOption = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizes.xs};
-  font-weight: ${({ theme }) => theme.fonts.weights.bold};
-`;
-const OptionTag = styled.div`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 50%;
-  font-size: ${({ theme }) => theme.fonts.sizes.xs};
+
+const OptionTagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
   margin-top: 8px;
 `;
+
+const OptionTag = styled.span`
+  background-color: ${({ theme }) => theme.colors.grey[100]};
+  color: ${({ theme }) => theme.colors.grey[700]};
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: ${({ theme }) => theme.fonts.sizes.xs};
+  font-weight: ${({ theme }) => theme.fonts.weights.medium};
+  border: 1px solid ${({ theme }) => theme.colors.grey[300]};
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+`;
+const ExpandedOptionContainer = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+const ExpandedOptionTag = styled.div`
+  display: flex;
+  gap: 4px;
+  font-size: ${({ theme }) => theme.fonts.sizes.xs};
+`;
+
+const CategoryLabel = styled.span`
+  font-weight: ${({ theme }) => theme.fonts.weights.bold};
+`;
+
 const BottomContainer = styled.div`
   display: flex;
   width: 100%;
