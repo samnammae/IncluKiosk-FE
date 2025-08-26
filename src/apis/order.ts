@@ -1,4 +1,4 @@
-import { OrderRequest } from "../stores/OrderStore";
+import { OrderRequest } from "../stores/orderStore";
 import { api } from "./api";
 
 export const orderAPI = {
