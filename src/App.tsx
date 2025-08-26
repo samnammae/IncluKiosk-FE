@@ -5,11 +5,35 @@ import { theme } from "./styles/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GlobalStyle from "./styles/globalStyle";
 import Router from "./Router";
-
+import { useState, useEffect } from "react";
+declare global {
+  interface Window {
+    setKioskMode: (mode: string) => void;
+    getKioskMode: () => string;
+  }
+}
 const App = () => {
   const queryClient = new QueryClient();
-  const isDevelopment = "development";
-  // const isDevelopment = '';
+  const [mode, setMode] = useState(() => {
+    return localStorage.getItem("kioskMode") || "";
+  });
+
+  // 개발 모드 여부 판단
+  const isDevelopment = mode === "dev";
+
+  useEffect(() => {
+    window.setKioskMode = (newMode: string) => {
+      console.log(`키오스크 모드 변경: "${newMode}"`);
+      setMode(newMode);
+      localStorage.setItem("kioskMode", newMode);
+    };
+
+    window.getKioskMode = () => {
+      const currentMode = localStorage.getItem("kioskMode") || "";
+      console.log(`현재 키오스크 모드: "${currentMode}"`);
+      return currentMode;
+    };
+  }, [mode]);
 
   return (
     <ThemeProvider theme={theme}>
