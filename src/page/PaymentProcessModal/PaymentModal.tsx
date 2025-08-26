@@ -1,10 +1,10 @@
-import OrderTypeSelection from './components/OrderTypeSelection';
-import PaymentMethodSelection from './components/PaymentMethodSelection';
-import PaymentProcessing from './components/PaymentProcessing';
-import PaymentComplete from './components/PaymentComplete';
-import styled, { keyframes } from 'styled-components';
-import CheckOrder from './components/CheckOrder';
-import { PaymentStep, useOrderStore } from '../../stores/OrderStore';
+import OrderTypeSelection from "./components/OrderTypeSelection";
+import PaymentMethodSelection from "./components/PaymentMethodSelection";
+import PaymentProcessing from "./components/PaymentProcessing";
+import PaymentComplete from "./components/PaymentComplete";
+import styled, { keyframes } from "styled-components";
+import CheckOrder from "./components/CheckOrder";
+import { PaymentStep, useOrderStore } from "../../stores/orderStore";
 
 const PaymentModal = () => {
   const { isOpen, onClose, currentStep } = useOrderStore();

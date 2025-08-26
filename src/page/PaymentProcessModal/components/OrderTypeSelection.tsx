@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useOrderStore } from "../../../stores/OrderStore";
+import { useOrderStore } from "../../../stores/orderStore";
 import { useEffect } from "react";
 
 const OrderTypeSelection = () => {

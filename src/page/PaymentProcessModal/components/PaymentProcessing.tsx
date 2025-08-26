@@ -1,15 +1,15 @@
-import styled from 'styled-components';
-import { BaseContainer, Title } from '../Styles';
-import CreditCardGif from '../../../assets/imgs/credit-card.gif';
-import { useEffect } from 'react';
-import { useOrderStore } from '../../../stores/OrderStore';
+import styled from "styled-components";
+import { BaseContainer, Title } from "../Styles";
+import CreditCardGif from "../../../assets/imgs/credit-card.gif";
+import { useEffect } from "react";
+import { useOrderStore } from "../../../stores/orderStore";
 
 const PaymentProcessing = () => {
   const { moveToNextStep } = useOrderStore();
   useEffect(() => {
     const timer = setTimeout(() => {
       moveToNextStep();
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, []);
