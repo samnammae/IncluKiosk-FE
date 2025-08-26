@@ -8,13 +8,7 @@ interface categoryType {
   name: string;
 }
 export const setShopData = async (shopId: number) => {
-  const {
-    setMenuCategories,
-    menuCategories,
-    menusByCategory,
-    setMenusByCategory,
-    selectMenuCategory,
-  } = useMenuStore.getState();
+  //매장 기본정보
   const {
     setName,
     setIntroduction,
@@ -22,14 +16,26 @@ export const setShopData = async (shopId: number) => {
     setLogoImg,
     setStartBackground,
   } = useShopStore.getState();
+
+  //매장 카테고리, 메뉴, 옵션 설정
+  const {
+    setMenuCategories,
+    setMenusByCategory,
+    selectMenuCategory,
+    setOptionCategories,
+  } = useMenuStore.getState();
+
   try {
+    //조회 api연결
     const shopDate = await shopAPI.getShop(shopId);
     const menuData = await menuAPI.getAllMenu(shopId);
     const categories = await menuAPI.getCategory(shopId);
+    const optios = await menuAPI.getAllOptions(shopId);
     const categoriesData = categories.map((item: categoryType) => {
       return item.name;
     });
 
+    //매장 기본정보 store 설정
     setName(shopDate.name);
     setIntroduction(shopDate.startPage.introduction);
     setTitleImg(shopDate.mainImg);
@@ -40,6 +46,7 @@ export const setShopData = async (shopId: number) => {
     console.log("메뉴 데이터:", menuData);
     console.log("카테고리 데이터:", categoriesData);
 
+    //해당 매장 메뉴, 카테고리, 옵션 설정
     //카테고리 설정
     setMenuCategories(categoriesData);
     selectMenuCategory(categoriesData[0]); // 선택된 카테고리 초기화
@@ -50,24 +57,8 @@ export const setShopData = async (shopId: number) => {
     ).forEach(([category, menus]) => {
       setMenusByCategory(category, menus);
     });
-
-    // // 메뉴 데이터 설정
-    // setMenuCategories(data.menuData.categories);
-    // selectMenuCategory(data.menuData.categories[0]);
-
-    // Object.entries(data.menuData.menusByCategory).forEach(
-    //   ([category, menus]) => {
-    //     setMenusByCategory(category, menus);
-    //   }
-    // );
-
-    // setOptionCategories(data.menuData.optionCategories);
-
-    // // 브랜드 테마 설정
-    // setName(data.brandTheme.name);
-    // setTitleImg(data.brandTheme.titleImg);
-    // setLogoImg(data.brandTheme.logoImg);
-    // setStartBackground(data.brandTheme.startBackground);
+    //옵션 설정
+    setOptionCategories(optios);
   } catch (error) {
     console.error("매장 데이터 로드 실패:", error);
     throw error;
