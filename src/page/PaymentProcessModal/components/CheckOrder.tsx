@@ -1,35 +1,51 @@
-import styled from 'styled-components';
-import { useMenuStore } from '../../../stores/menuStore';
-import { useOrderStore } from '../../../stores/OrderStore';
-import { ButtonContainer, BackButton, NextButton } from '../Styles';
-interface OptionSummaryParams {
-  selectedOptions: { [categoryId: string]: string[] };
+import styled from "styled-components";
+import { useMenuStore } from "../../../stores/menuStore";
+import { useOrderStore } from "../../../stores/orderStore";
+import { ButtonContainer, BackButton, NextButton } from "../Styles";
+
+interface OptionTag {
+  categoryName: string;
+  optionName: string;
+  categoryId: string;
+  optionId: string;
 }
 const CheckOrder = () => {
-  const { moveToNextStep, moveToPreviousStep, orderType } = useOrderStore();
+  const { moveToNextStep, moveToPreviousStep, orderType, buildOrderRequest } =
+    useOrderStore();
   const { cart, cartSummary, optionCategories } = useMenuStore();
 
   // 주문 타입 레이블
-  const orderTypeLabel = orderType === 'STORE' ? '매장' : '포장';
-  const getOptionSummary = ({
-    selectedOptions,
-  }: OptionSummaryParams): string => {
-    const optionNames: string[] = [];
+  const orderTypeLabel = orderType === "STORE" ? "매장" : "포장";
+  const getOptionTags = (selectedOptions: {
+    [categoryId: number]: number[];
+  }): OptionTag[] => {
+    const optionTags: OptionTag[] = [];
 
-    // 각 카테고리별로 순회
     Object.entries(selectedOptions).forEach(([categoryId, optionIds]) => {
-      const category = optionCategories[categoryId];
+      const category = optionCategories.find(
+        (cat) => cat.id === Number(categoryId)
+      );
       if (!category) return;
 
       optionIds.forEach((optionId) => {
         const option = category.options.find((opt) => opt.id === optionId);
-        if (option) optionNames.push(`${category.name}: ${option.name}`);
+        if (option) {
+          optionTags.push({
+            categoryName: category.name,
+            optionName: option.name,
+            categoryId,
+            optionId: String(optionId),
+          });
+        }
       });
     });
 
-    return optionNames.join(', ');
+    return optionTags;
   };
-
+  const handleNextStep = () => {
+    buildOrderRequest(cart, cartSummary);
+    moveToNextStep();
+  };
   return (
     <Container>
       <Header>
@@ -50,13 +66,15 @@ const CheckOrder = () => {
           <CartItem key={item.id}>
             <ItemCore>
               <ItemName>{item.MenuItemType.name}</ItemName>
-              {getOptionSummary({ selectedOptions: item.selectedOptions }) && (
+              {getOptionTags(item.selectedOptions).length > 0 && (
                 <ItemDetails>
-                  <ItemOption>
-                    {getOptionSummary({
-                      selectedOptions: item.selectedOptions,
-                    })}
-                  </ItemOption>
+                  <OptionTagContainer>
+                    {getOptionTags(item.selectedOptions).map((tag) => (
+                      <OptionTag key={`${tag.categoryId}-${tag.optionId}`}>
+                        {tag.categoryName}: {tag.optionName}
+                      </OptionTag>
+                    ))}
+                  </OptionTagContainer>
                 </ItemDetails>
               )}
             </ItemCore>
@@ -78,7 +96,7 @@ const CheckOrder = () => {
       </OrderSummary>
       <ButtonContainer>
         <BackButton onClick={moveToPreviousStep}>이전</BackButton>
-        <NextButton onClick={moveToNextStep}>결제하기</NextButton>
+        <NextButton onClick={handleNextStep}>결제하기</NextButton>
       </ButtonContainer>
     </Container>
   );
@@ -243,8 +261,19 @@ const TotalPrice = styled.div`
   }
 `;
 
-const ItemOption = styled.div`
+const OptionTagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+`;
+
+const OptionTag = styled.span`
+  background-color: ${({ theme }) => theme.colors.main};
+  color: ${({ theme }) => theme.colors.white};
+  padding: 4px 12px;
+  border-radius: 16px;
   font-size: ${({ theme }) => theme.fonts.sizes.xs};
   font-weight: ${({ theme }) => theme.fonts.weights.medium};
-  color: ${({ theme }) => theme.colors.grey[600]};
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
