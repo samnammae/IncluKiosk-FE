@@ -1,8 +1,20 @@
 import styled from "styled-components";
 import { useOrderStore } from "../../../stores/OrderStore";
+import { useEffect } from "react";
 
 const OrderTypeSelection = () => {
-  const { setOrderType, moveToNextStep } = useOrderStore();
+  const { setOrderType, moveToNextStep, setStoreInfo } = useOrderStore();
+  useEffect(() => {
+    const storeId = localStorage.getItem("shopId");
+    const storeName = localStorage.getItem("shopName");
+
+    if (storeId && storeName) {
+      setStoreInfo({
+        storeId: storeId,
+        storeName: storeName,
+      });
+    }
+  }, [setStoreInfo]);
   return (
     <BaseContainer>
       <Container>
