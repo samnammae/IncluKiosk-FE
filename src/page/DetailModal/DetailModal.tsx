@@ -93,10 +93,10 @@ const DetailModal = () => {
             <ContentWrapper>
               <Infosection />
               <Divider />
-              {/* <Optionsection
+              <Optionsection
                 setOptionCost={setOptionCost}
                 setIsAllCheck={setIsAllCheck}
-              /> */}
+              />
               <Divider />
               <TootalScetion
                 quantity={quantity}

@@ -8,12 +8,12 @@ export interface MenuItemType {
   description?: string;
   imageUrl?: string;
   isSoldOut?: boolean;
-  optionCategories?: string[];
+  optionCategoryIds?: number[]; // optionCategories -> optionCategoryIds로 수정
 }
 
 // 개별 옵션 타입
 interface OptionType {
-  id: string;
+  id: number;
   name: string;
   price: number;
   isSoldOut?: boolean;
@@ -21,19 +21,16 @@ interface OptionType {
 
 // 옵션 카테고리 타입
 export interface OptionCategoryType {
-  id: string;
+  id: number;
   name: string;
-  type: "single" | "multiple"; // 단일 선택 또는 다중 선택
+  type: "SINGLE" | "MULTIPLE";
   required: boolean;
-  min?: number; // 최소 선택 개수 (multiple일 때)
-  max?: number; // 최대 선택 개수 (multiple일 때)
-  displayOrder?: number; // 표시 순서
   options: OptionType[];
 }
 
 // 선택된 옵션 타입
 export interface SelectedOptions {
-  [categoryId: string]: string[]; // 카테고리별 선택된 옵션 ID들
+  [categoryId: number]: number[];
 }
 
 // 장바구니 아이템 타입
@@ -44,11 +41,13 @@ export interface CartItem {
   quantity: number;
   totalPrice: number;
 }
+
 // 장바구니 요약 정보
 export interface CartSummary {
   totalItems: number; // 총 아이템 개수 (수량 합계)
   totalAmount: number; // 총 금액
 }
+
 // 스토어 인터페이스
 export interface MenuStore {
   menuCategories: string[]; // 메뉴 카테고리들 (커피, 디저트 등)
@@ -59,9 +58,7 @@ export interface MenuStore {
   };
 
   // 모든 옵션 카테고리들
-  optionCategories: {
-    [categoryId: string]: OptionCategoryType;
-  };
+  optionCategories: OptionCategoryType[];
 
   selectedMenuCategory: string | null; // 현재 선택된 메뉴 카테고리
   selectedMenu: MenuItemType | null; // 현재 선택된 메뉴
@@ -73,9 +70,7 @@ export interface MenuStore {
   // 액션들
   setMenuCategories: (categories: string[]) => void;
   setMenusByCategory: (category: string, menus: MenuItemType[]) => void;
-  setOptionCategories: (optionCategories: {
-    [id: string]: OptionCategoryType;
-  }) => void;
+  setOptionCategories: (optionCategories: OptionCategoryType[]) => void;
   selectMenuCategory: (category: string) => void;
   selectMenu: (menu: MenuItemType) => void;
   setSelectedOptions: (options: SelectedOptions) => void;
@@ -90,7 +85,7 @@ export interface MenuStore {
 export const useMenuStore = create<MenuStore>((set, get) => ({
   menuCategories: [],
   menusByCategory: {},
-  optionCategories: {},
+  optionCategories: [], // 빈 배열로 수정
   selectedMenuCategory: null,
   selectedMenu: null,
   selectedOptions: {},
