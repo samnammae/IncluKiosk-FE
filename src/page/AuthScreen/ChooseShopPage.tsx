@@ -59,6 +59,7 @@ const IsShopSelect = ({ shopList }: IsShopSelectProps) => {
                 nav("/home");
                 setShopData(shop.storeId);
                 localStorage.setItem("shopId", String(shop.storeId));
+                localStorage.setItem("shopName", String(shop.name));
               }}
             >
               {shop.mainImg ? (
