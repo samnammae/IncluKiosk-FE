@@ -4,6 +4,8 @@ import { useEffect } from "react";
 
 const OrderTypeSelection = () => {
   const { setOrderType, moveToNextStep, setStoreInfo } = useOrderStore();
+
+  //주문 매장 정보 설정
   useEffect(() => {
     const storeId = localStorage.getItem("shopId");
     const storeName = localStorage.getItem("shopName");
