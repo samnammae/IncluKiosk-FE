@@ -1,30 +1,30 @@
-import styled from 'styled-components';
-import { BaseContainer, Title, ButtonContainer, NextButton } from '../Styles';
-import BillGif from '../../../assets/imgs/bill.gif';
-import { useEffect } from 'react';
-import { useOrderStore } from '../../../stores/OrderStore';
-import { useNavigate } from 'react-router-dom';
-import { useMenuStore } from '../../../stores/menuStore';
+import styled from "styled-components";
+import { BaseContainer, Title, ButtonContainer, NextButton } from "../Styles";
+import BillGif from "../../../assets/imgs/bill.gif";
+import { useEffect } from "react";
+import { useOrderStore } from "../../../stores/orderStore";
+import { useNavigate } from "react-router-dom";
+import { useMenuStore } from "../../../stores/menuStore";
 
 const PaymentComplete = () => {
-  const { moveToNextStep, orderType, onClose } = useOrderStore();
+  const { moveToNextStep, orderType, onClose, orderResponse } = useOrderStore();
   const nav = useNavigate();
   const { clearCart } = useMenuStore();
   useEffect(() => {
     const timer = setTimeout(() => {
       moveToNextStep();
       clearCart();
-      nav('/start');
+      nav("/start");
     }, 10000);
 
     return () => clearTimeout(timer);
   }, [moveToNextStep, clearCart, nav]);
 
-  const orderTypeText = orderType === 'STORE' ? '매장' : '포장';
+  const orderTypeText = orderType === "STORE" ? "매장" : "포장";
   const handleHomeClick = () => {
     clearCart();
     onClose();
-    nav('/start');
+    nav("/start");
   };
   return (
     <BaseContainer>
@@ -34,15 +34,15 @@ const PaymentComplete = () => {
       </ImgWrapper>
       <CompletionContainer>
         <OrderNumber>
-          주문번호: <Strong>A-143</Strong>
+          주문번호: <Strong>{orderResponse?.data.orderNumber}</Strong>
         </OrderNumber>
         <CompletionMessage>
           {orderTypeText} 주문이 완료되었습니다
         </CompletionMessage>
         <Instructions>
-          {orderType === 'STORE'
-            ? '주문내역이 준비되면 알림을 드립니다'
-            : '포장 준비가 완료되면 알림을 드립니다'}
+          {orderType === "STORE"
+            ? "주문내역이 준비되면 알림을 드립니다"
+            : "포장 준비가 완료되면 알림을 드립니다"}
         </Instructions>
       </CompletionContainer>
       <RedirectMessage>잠시 후 메인 화면으로 이동합니다...</RedirectMessage>
@@ -97,7 +97,7 @@ const OrderNumber = styled.div`
 const Strong = styled.span`
   font-weight: ${({ theme }) => theme.fonts.weights.bold};
   color: ${({ theme }) => theme.colors.standard};
-  font-size: ${({ theme }) => theme.fonts.sizes.lg};
+  font-size: ${({ theme }) => theme.fonts.sizes.md};
 `;
 
 const CompletionMessage = styled.div`
