@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BaseContainer, Title, ButtonContainer, NextButton } from "../Styles";
-import BillGif from "../../../assets/imgs/bill.gif";
+import BillGif from "../../../assets/imgs/bill.webp";
 import { useEffect } from "react";
 import { useOrderStore } from "../../../stores/orderStore";
 import { useNavigate } from "react-router-dom";

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BaseContainer, Title } from "../Styles";
-import CreditCardGif from "../../../assets/imgs/credit-card.gif";
+import CreditCardGif from "../../../assets/imgs/credit-card.webp";
 import { useEffect } from "react";
 import { useOrderStore } from "../../../stores/orderStore";
 
