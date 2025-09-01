@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BaseContainer, Title } from "../Styles";
 import CreditCardGif from "../../../assets/imgs/credit-card.webp";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useOrderStore } from "../../../stores/orderStore";
 
 const PaymentProcessing = () => {
@@ -13,12 +13,21 @@ const PaymentProcessing = () => {
 
     return () => clearInterval(timer);
   }, []);
-
+  const [imageLoaded, setImageLoaded] = useState(false);
   return (
     <BaseContainer>
       <Title>결제 진행 중</Title>
       <ImgWrapper>
-        <ImgContainer src={CreditCardGif} alt="결제 처리 중" />
+        {!imageLoaded && (
+          <SkeletonWrapper>
+            <SkeletonCard />
+          </SkeletonWrapper>
+        )}
+        <ImgContainer
+          src={CreditCardGif}
+          alt="결제 처리 중"
+          onLoad={() => setImageLoaded(true)}
+        />
       </ImgWrapper>
       <ProcessingContainer>
         <ProcessingText>카드를 삽입하거나 터치해 주세요</ProcessingText>
@@ -45,9 +54,7 @@ const ImgContainer = styled.img`
   width: 450px;
   height: 450px;
   object-fit: contain;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
   margin-bottom: 1rem;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 `;
 const ImgWrapper = styled.div`
   display: flex;
@@ -77,6 +84,46 @@ const StatusText = styled.div`
     }
     100% {
       opacity: 0.4;
+    }
+  }
+`;
+// 스켈레톤 스타일
+const SkeletonWrapper = styled.div`
+  width: 450px;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 16px;
+`;
+
+const SkeletonCard = styled.div`
+  width: 280px;
+  height: 180px;
+  background: linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 35px;
+    background: #d0d0d0;
+    border-radius: 4px;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
     }
   }
 `;

@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { BaseContainer, Title, ButtonContainer, NextButton } from "../Styles";
 import BillGif from "../../../assets/imgs/bill.webp";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useOrderStore } from "../../../stores/orderStore";
 import { useNavigate } from "react-router-dom";
 import { useMenuStore } from "../../../stores/menuStore";
@@ -26,11 +26,20 @@ const PaymentComplete = () => {
     onClose();
     nav("/start");
   };
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <BaseContainer>
       <Title>결제가 완료되었습니다</Title>
       <ImgWrapper>
-        <ImgContainer src={BillGif} alt="주문 완료" />
+        {!imageLoaded && <PaymentCompleteSkeleton />}
+        <ImgContainer
+          src={BillGif}
+          alt="주문 완료"
+          onLoad={() => {
+            setImageLoaded(true);
+          }}
+        />
       </ImgWrapper>
       <CompletionContainer>
         <OrderNumber>
@@ -59,9 +68,7 @@ const ImgContainer = styled.img`
   width: 450px;
   height: 450px;
   object-fit: contain;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
   margin-bottom: 1rem;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 `;
 const ImgWrapper = styled.div`
   display: flex;
@@ -131,4 +138,138 @@ const RedirectMessage = styled.div`
       opacity: 0.4;
     }
   }
+`;
+const PaymentCompleteSkeleton = () => {
+  return (
+    <Container>
+      <SkeletonTitle />
+
+      <ReceiptSkeleton>
+        <ReceiptHeader />
+        <ReceiptLines>
+          <SkeletonLine width="60%" />
+          <SkeletonLine width="40%" />
+          <SkeletonLine width="80%" />
+        </ReceiptLines>
+        <ReceiptFooter />
+      </ReceiptSkeleton>
+
+      <SkeletonText />
+      <SkeletonButton />
+    </Container>
+  );
+};
+
+// 스켈레톤 애니메이션
+const shimmer = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 40px;
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
+const SkeletonBase = styled.div`
+  background: linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite;
+  border-radius: 4px;
+`;
+
+const SkeletonTitle = styled(SkeletonBase)`
+  width: 200px;
+  height: 24px;
+`;
+
+const ReceiptSkeleton = styled.div`
+  width: 200px;
+  background: white;
+  border-radius: 8px;
+  padding: 20px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  /* 영수증 하단 지그재그 */
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 16px;
+    background: white;
+    clip-path: polygon(
+      0 0,
+      10% 100%,
+      20% 0,
+      30% 100%,
+      40% 0,
+      50% 100%,
+      60% 0,
+      70% 100%,
+      80% 0,
+      90% 100%,
+      100% 0,
+      100% 50%,
+      90% 50%,
+      80% 50%,
+      70% 50%,
+      60% 50%,
+      50% 50%,
+      40% 50%,
+      30% 50%,
+      20% 50%,
+      10% 50%,
+      0 50%
+    );
+  }
+`;
+
+const ReceiptHeader = styled(SkeletonBase)`
+  width: 80%;
+  height: 40px;
+  margin: 0 auto 16px;
+  border-radius: 8px;
+`;
+
+const ReceiptLines = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+`;
+
+const SkeletonLine = styled(SkeletonBase)<{ width: string }>`
+  width: ${(props) => props.width};
+  height: 12px;
+  border-radius: 2px;
+`;
+
+const ReceiptFooter = styled(SkeletonBase)`
+  width: 100%;
+  height: 20px;
+  border-radius: 4px;
+`;
+
+const SkeletonText = styled(SkeletonBase)`
+  width: 160px;
+  height: 16px;
+`;
+
+const SkeletonButton = styled(SkeletonBase)`
+  width: 100%;
+  max-width: 300px;
+  height: 48px;
+  border-radius: 8px;
 `;
