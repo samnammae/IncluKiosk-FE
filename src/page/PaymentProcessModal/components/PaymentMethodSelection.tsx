@@ -37,7 +37,6 @@ const PaymentMethodSelection = () => {
           $isSelected={selectedMethod === "CARD"}
           onClick={() => handleSelectMethod("CARD")}
         >
-          <PaymentIcon>💳</PaymentIcon>
           <PaymentLabel>카드 결제</PaymentLabel>
           <PaymentDescription>신용카드 / 체크카드</PaymentDescription>
         </PaymentOption>
@@ -46,7 +45,6 @@ const PaymentMethodSelection = () => {
           $isSelected={selectedMethod === "CASH"}
           onClick={() => handleSelectMethod("CASH")}
         >
-          <PaymentIcon>💵</PaymentIcon>
           <PaymentLabel>현금 결제</PaymentLabel>
           <PaymentDescription>현금 영수증 발행 가능</PaymentDescription>
         </PaymentOption>
@@ -55,7 +53,6 @@ const PaymentMethodSelection = () => {
           $isSelected={selectedMethod === "MOBILE"}
           onClick={() => handleSelectMethod("MOBILE")}
         >
-          <PaymentIcon>📱</PaymentIcon>
           <PaymentLabel>모바일 결제</PaymentLabel>
           <PaymentDescription>
             카카오페이 / 네이버페이 / 토스
