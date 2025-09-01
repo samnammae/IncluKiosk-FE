@@ -3,6 +3,7 @@ import { useShopStore } from "../../stores/shopStore";
 import { useNavigate } from "react-router-dom";
 
 import { useEffect, useRef, useState } from "react";
+import { setShopData } from "../../apis/setShopData";
 interface StyledProps {
   $isHovering?: boolean;
   $progress?: number;
@@ -18,6 +19,13 @@ const StartPge = () => {
     connectSocket();
     sendMessage("MODE_SELECT_ON");
   }, [connected]);
+
+  //새로고침 하더라도 shopData 유지
+  useEffect(() => {
+    const selectedShopId = Number(localStorage.getItem("shopId"));
+    setShopData(selectedShopId);
+  }, []);
+
   const connectSocket = () => {
     try {
       const ws = new WebSocket("ws://localhost:8765"); // 실제 라즈베리파이 IP로 변경
