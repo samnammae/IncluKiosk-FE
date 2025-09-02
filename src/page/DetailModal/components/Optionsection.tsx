@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useMenuStore } from "../../../stores/menuStore";
 import { useState, useEffect } from "react";
+import NoOptionsComponent from "./NoOptionComponent";
 
 interface OptionsectionProps {
   setOptionCost: (value: number) => void;
@@ -105,34 +106,40 @@ const Optionsection = ({
 
   return (
     <Container>
-      {availableOptions.map((category) => (
-        <OptionContainer key={category.id}>
-          <OptionCategoryName>
-            {category.name}
-            {category.required && <span> 필수 선택 *</span>}
-          </OptionCategoryName>
-          <OptionsWrapper>
-            {category.options.map((option) => (
-              <OptionItem
-                key={option.id}
-                $isSelected={selectedOptions[category.id]?.includes(option.id)}
-                onClick={() => handleOptionSelect(category.id, option.id)}
-              >
-                <OptionLabel>
-                  <OptionName>{option.name}</OptionName>
-                  <OptionPrice
-                    $isSelected={selectedOptions[category.id]?.includes(
-                      option.id
-                    )}
-                  >
-                    +{option.price.toLocaleString()}원
-                  </OptionPrice>
-                </OptionLabel>
-              </OptionItem>
-            ))}
-          </OptionsWrapper>
-        </OptionContainer>
-      ))}
+      {availableOptions.length !== 0 ? (
+        availableOptions.map((category) => (
+          <OptionContainer key={category.id}>
+            <OptionCategoryName>
+              {category.name}
+              {category.required && <span> 필수 선택 *</span>}
+            </OptionCategoryName>
+            <OptionsWrapper>
+              {category.options.map((option) => (
+                <OptionItem
+                  key={option.id}
+                  $isSelected={selectedOptions[category.id]?.includes(
+                    option.id
+                  )}
+                  onClick={() => handleOptionSelect(category.id, option.id)}
+                >
+                  <OptionLabel>
+                    <OptionName>{option.name}</OptionName>
+                    <OptionPrice
+                      $isSelected={selectedOptions[category.id]?.includes(
+                        option.id
+                      )}
+                    >
+                      +{option.price.toLocaleString()}원
+                    </OptionPrice>
+                  </OptionLabel>
+                </OptionItem>
+              ))}
+            </OptionsWrapper>
+          </OptionContainer>
+        ))
+      ) : (
+        <NoOptionsComponent />
+      )}
     </Container>
   );
 };
