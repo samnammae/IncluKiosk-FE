@@ -107,11 +107,6 @@ const PaymentOption = styled.div<{ $isSelected: boolean }>`
   }
 `;
 
-const PaymentIcon = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizes.xl};
-  margin-bottom: 8px;
-`;
-
 const PaymentLabel = styled.div`
   font-size: ${({ theme }) => theme.fonts.sizes.lg};
   font-weight: ${({ theme }) => theme.fonts.weights.bold};
