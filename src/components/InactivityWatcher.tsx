@@ -6,14 +6,18 @@ import { useSocketStore } from "../stores/socketStore";
 const InactivityWatcher = () => {
   const { resetTimer, setLocked } = useLockStore();
   const nav = useNavigate();
-  if (!localStorage.getItem("accessToken")) return null;
   const { connect, sendMessage, isConnected } = useSocketStore();
 
-  useEffect(() => {
-    connect();
-  }, [connect]);
+  // accessToken 확인
+  const hasToken = !!localStorage.getItem("accessToken");
 
   useEffect(() => {
+    if (!hasToken) return;
+    connect();
+  }, [connect, hasToken]);
+
+  useEffect(() => {
+    if (!hasToken) return;
     const events = ["mousemove", "keydown", "click", "scroll", "touchstart"];
 
     const handleActivity = () => {
@@ -23,22 +27,24 @@ const InactivityWatcher = () => {
     };
 
     events.forEach((e) => window.addEventListener(e, handleActivity));
-    resetTimer(); // 타이머 시작
+    resetTimer();
 
     return () => {
       events.forEach((e) => window.removeEventListener(e, handleActivity));
     };
-  }, [resetTimer, setLocked]);
+  }, [resetTimer, setLocked, sendMessage, isConnected, hasToken]);
 
   useEffect(() => {
+    if (!hasToken) return;
     const timeout = setTimeout(() => {
       setLocked(true);
-      nav("/start"); //잠긴 경우 이동
+      nav("/start");
     }, INACTIVITY_TIMEOUT);
 
     return () => clearTimeout(timeout);
-  }, [nav, setLocked]);
+  }, [nav, setLocked, hasToken]);
 
+  if (!hasToken) return null; //훅 호출 다 하고 마지막에 null 반환
   return null;
 };
 export default InactivityWatcher;
