@@ -33,24 +33,28 @@ const Chat = () => {
 
             // 대화창에 사용자 메시지 추가
             setChatLogs((prev) => [...prev, `👤: ${msg.message}`]);
+            setChatLogs((prev) => [
+              ...prev,
+              `👤: "답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장"`,
+            ]);
 
-            try {
-              // 백엔드로 전달
-              const response = await chatAPI.sendChat(shopId, {
-                sessionId: "some-session", // 필요 시 실제 세션 ID
-                message: msg.message,
-              });
+            // try {
+            //   // 백엔드로 전달
+            //   const response = await chatAPI.sendChat(shopId, {
+            //     sessionId: "some-session", // 필요 시 실제 세션 ID
+            //     message: msg.message,
+            //   });
 
-              // 백엔드 응답 로그 출력
-              if (response?.aiMessage) {
-                setChatLogs((prev) => [...prev, `🤖: ${response.aiMessage}`]);
+            //   // 백엔드 응답 로그 출력
+            //   if (response?.aiMessage) {
+            //     setChatLogs((prev) => [...prev, `🤖: ${response.aiMessage}`]);
 
-                // CASE 6-4: 라즈베리에 TTS 요청
-                sendMessage({ type: "TTS_ON", message: response.aiMessage });
-              }
-            } catch (err) {
-              console.error("chatAPI.sendChat 실패:", err);
-            }
+            //     // CASE 6-4: 라즈베리에 TTS 요청
+            //     sendMessage({ type: "TTS_ON", message: response.aiMessage });
+            //   }
+            // } catch (err) {
+            //   console.error("chatAPI.sendChat 실패:", err);
+            // }
           }
           break;
 
@@ -71,11 +75,16 @@ const Chat = () => {
   return (
     <BaseContainer>
       <Header />
-      <ChatBox>
+      <ChatContainer>
+        <WelcomeMessage>
+          안녕하세요 음성으로 주문을 도와드릴게요.
+          <br />
+          무엇을 드시고 싶으신가요?
+        </WelcomeMessage>
         {chatLogs.map((line, idx) => (
           <div key={idx}>{line}</div>
         ))}
-      </ChatBox>
+      </ChatContainer>
     </BaseContainer>
   );
 };
@@ -89,8 +98,17 @@ const BaseContainer = styled.div`
   flex-direction: column;
 `;
 
-const ChatBox = styled.div`
+const ChatContainer = styled.div`
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
+  border-top: 1px solid ${({ theme }) => theme.colors.main};
 `;
+const WelcomeMessage = styled.div`
+  font-size: ${({ theme }) => theme.fonts.sizes.sm};
+  text-align: center;
+  color: #7f8c8d;
+  font-style: italic;
+  margin: 50px 0;
+`;
+const ChatBox = styled.div``;
