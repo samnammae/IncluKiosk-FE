@@ -4,18 +4,28 @@ import { useNavigate } from "react-router-dom";
 import { useSocketStore } from "../stores/socketStore";
 
 const InactivityWatcher = () => {
-  const { resetTimer, setLocked } = useLockStore();
+  const { isLocked, resetTimer, setLocked } = useLockStore();
   const nav = useNavigate();
   const { connect, sendMessage, isConnected } = useSocketStore();
 
   // accessToken 확인
   const hasToken = !!localStorage.getItem("accessToken");
 
+  //소켓 재연결
   useEffect(() => {
     if (!hasToken) return;
     connect();
   }, [connect, hasToken]);
 
+  // false가 된 순간에만 1번 실행
+  useEffect(() => {
+    if (!isLocked) {
+      sendMessage({ type: "PIR_ON" }); //CASE 2-2
+      console.log("잠금해제");
+    }
+  }, [isLocked, sendMessage]);
+
+  //활동 시 잠금해제 기능
   useEffect(() => {
     if (!hasToken) return;
     const events = ["mousemove", "keydown", "click", "scroll", "touchstart"];
@@ -33,12 +43,13 @@ const InactivityWatcher = () => {
     };
   }, [resetTimer, setLocked, sendMessage, isConnected, hasToken]);
 
+  //잠금화면이 처음 동작할 때 기능
   useEffect(() => {
     if (!hasToken) return;
     const timeout = setTimeout(() => {
       setLocked(true);
-      nav("/start");
-    }, INACTIVITY_TIMEOUT);
+      nav("/adjust"); //백그라운드 페이지 변경
+    }, INACTIVITY_TIMEOUT); //INACTIVITY_TIMEOUT초 동안 반응이 없는 경우 잠금 실행
 
     return () => clearTimeout(timeout);
   }, [nav, setLocked, hasToken]);

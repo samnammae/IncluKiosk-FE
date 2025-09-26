@@ -3,10 +3,13 @@ import { BaseContainer, Title } from "../Styles";
 import CreditCardGif from "../../../assets/imgs/credit-card.webp";
 import { useEffect, useState } from "react";
 import { useOrderStore } from "../../../stores/orderStore";
+import { useSocketStore } from "../../../stores/socketStore";
 
 const PaymentProcessing = () => {
   const { moveToNextStep } = useOrderStore();
+  const { sendMessage } = useSocketStore();
   useEffect(() => {
+    sendMessage({ type: "ALL_RESET" }); //CASE 6
     const timer = setTimeout(() => {
       moveToNextStep();
     }, 5000);

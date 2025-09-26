@@ -34,29 +34,6 @@ const VoiceStatus: React.FC<VoiceStatusProps> = ({
   );
 };
 export default VoiceStatus;
-
-const StatusIndicator = styled.div<{ $isActive: boolean }>`
-  display: ${({ $isActive }) => ($isActive ? "flex" : "none")};
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-
-  border-radius: 15px;
-  padding: 15px 20px;
-  margin: 10px 0;
-
-  text-align: center;
-  font-size: ${({ theme }) => theme.fonts.sizes.xs};
-  font-weight: ${({ theme }) => theme.fonts.weights.bold};
-  width: 80%;
-
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-`;
-
 const pulse = keyframes`
   0%, 100% {
     transform: translateX(-50%) scale(1);
@@ -77,16 +54,38 @@ const dotBounce = keyframes`
   }
 `;
 
+const StatusIndicator = styled.div<{ $isActive: boolean }>`
+  display: ${({ $isActive }) => ($isActive ? "flex" : "none")};
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border-radius: 15px;
+  padding: 15px 20px;
+  margin: 10px 0;
+  width: 80%;
+
+  text-align: center;
+  font-size: ${({ theme }) => theme.fonts.sizes.xs};
+  font-weight: ${({ theme }) => theme.fonts.weights.bold};
+  color: white;
+
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+
+  animation: ${pulse} 1.5s ease-in-out infinite;
+`;
+
 const ListeningStatus = styled(StatusIndicator)`
   background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-  color: white;
-  animation: ${pulse} 1.5s ease-in-out infinite;
 `;
 
 // 답변 준비 중 상태
 const ProcessingStatus = styled(StatusIndicator)`
   background: linear-gradient(135deg, #4ecdc4, #44a08d);
-  color: white;
 `;
 
 // 로딩 도트 컨테이너

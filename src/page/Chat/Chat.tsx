@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../Home/components/Header";
-import { chatAPI } from "../../apis/chat";
+// import { chatAPI } from "../../apis/chat";
 import { useSocketStore, SocketMessage } from "../../stores/socketStore";
 import VoiceStatus from "./VoiceStatusProps";
 
@@ -16,8 +16,8 @@ const Chat = () => {
   const shopId = localStorage.getItem("shopId") || "";
 
   const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]); // 화면에 표시할 대화 기록
-  const [isListening, setIsListening] = useState(true);
-  const [isProcessing, setIsProcessing] = useState(true);
+  const [isListening, setIsListening] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   //소켓 연결
   useEffect(() => {
@@ -29,15 +29,15 @@ const Chat = () => {
 
     setOnMessage(async (msg: SocketMessage) => {
       switch (msg.type) {
-        // CASE 6-1: 안내 음성 끝 → STT 시작
+        // CASE 7-1: 안내 음성 끝 → STT 시작
         case "END_GUIDE":
           console.log("안내음성 종료 → 음성인식 시작");
-          sendMessage({ type: "STT_ON" });
+          sendMessage({ type: "STT_ON" }); //CASE 7-2
           setIsListening(true);
           setIsProcessing(false);
           break;
 
-        // CASE 6-3: 음성인식 끝 → 백엔드에 전달
+        // CASE 7-3: 음성인식 끝 → 백엔드에 전달
         case "STT_OFF":
           if (msg.message) {
             console.log("사용자 발화:", msg.message);
@@ -51,11 +51,11 @@ const Chat = () => {
             const answer =
               "답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장답장";
             setChatLogs((prev) => [...prev, { message: answer, isBot: true }]);
-            sendMessage({ type: "TTS_ON", message: answer });
+            sendMessage({ type: "TTS_ON", message: answer }); //CASE 7-4
           }
           break;
 
-        // CASE 6-5: 음성 출력 종료 → 다시 STT 시작
+        // CASE 7-5: 음성 출력 종료 → 다시 STT 시작
         case "TTS_OFF":
           console.log("음성 출력 종료 → 다음 발화 대기");
           sendMessage({ type: "STT_ON" });

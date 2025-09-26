@@ -22,13 +22,13 @@ const StartPge = () => {
 
   useEffect(() => {
     if (!isConnected) return;
-    sendMessage({ type: "MODE_SELECT_ON" }); //CASE 3
+    sendMessage({ type: "MODE_SELECT_ON" }); //CASE 4
 
-    //CASE 4-1
+    //CASE 5-1
     setOnMessage((msg) => {
       if (msg.type === "CHAT_ORDER_ON") {
         nav("/chat");
-        sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 4-2
+        sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 5-2
       }
     });
 
@@ -62,7 +62,7 @@ const StartPge = () => {
             clearInterval(timerRef.current);
             timerRef.current = null;
           }
-          sendMessage({ type: "EYE_ORDER_ON" }); //CASE 4-4
+          sendMessage({ type: "EYE_ORDER_ON" }); //CASE 5-4
           nav("/home");
           return 100;
         }
@@ -91,7 +91,7 @@ const StartPge = () => {
           <OrderButton
             onClick={() => {
               nav("/chat");
-              sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 4-2
+              sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 5-2
             }}
           >
             <OrderText>음성으로 주문하기</OrderText>
@@ -100,7 +100,7 @@ const StartPge = () => {
           <OrderButton
             onClick={() => {
               nav("/home");
-              sendMessage({ type: "NORMAL_ORDER_ON" }); //CASE 4-3
+              sendMessage({ type: "NORMAL_ORDER_ON" }); //CASE 5-3
             }}
           >
             <OrderText>기본 주문하기</OrderText>
