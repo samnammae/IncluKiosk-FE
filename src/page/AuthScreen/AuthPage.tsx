@@ -12,7 +12,7 @@ const AuthPage = () => {
     setIsLogin(!isLogin);
   };
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) nav("/start");
+    if (localStorage.getItem("accessToken")) nav("/choose");
   }, []);
 
   return (
