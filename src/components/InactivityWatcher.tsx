@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import { INACTIVITY_TIMEOUT, useLockStore } from "../stores/lockStore";
 import { useNavigate } from "react-router-dom";
+import { useSocketStore } from "../stores/socketStore";
 
 const InactivityWatcher = () => {
   const { resetTimer, setLocked } = useLockStore();
   const nav = useNavigate();
   if (!localStorage.getItem("accessToken")) return null;
-
+  const { sendMessage } = useSocketStore();
   useEffect(() => {
     const events = ["mousemove", "keydown", "click", "scroll", "touchstart"];
 
     const handleActivity = () => {
       setLocked(false); // 활동 → 잠금 해제
+      sendMessage("MODE_SELECT_ON"); //CASE 3
       resetTimer(); // 타이머 리셋
     };
 
