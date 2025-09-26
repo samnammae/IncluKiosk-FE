@@ -37,7 +37,7 @@ const InactivityWatcher = () => {
     if (!hasToken) return;
     const timeout = setTimeout(() => {
       setLocked(true);
-      nav("/start");
+      nav("/adjust");
     }, INACTIVITY_TIMEOUT);
 
     return () => clearTimeout(timeout);
