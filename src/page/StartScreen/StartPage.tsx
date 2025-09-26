@@ -11,11 +11,17 @@ interface StyledProps {
 }
 const StartPge = () => {
   const { logoimg, name, startBackground } = useShopStore();
-  const { connect, sendMessage, setOnMessage } = useSocketStore();
+  const { connect, sendMessage, setOnMessage, isConnected } = useSocketStore();
   const nav = useNavigate();
   //소켓 관련
+
+  //소켓 연결
   useEffect(() => {
     connect();
+  }, [connect]);
+
+  useEffect(() => {
+    if (!isConnected) return;
     sendMessage({ type: "MODE_SELECT_ON" }); //CASE 3
 
     //CASE 4-1
@@ -27,7 +33,7 @@ const StartPge = () => {
     });
 
     return () => setOnMessage(null);
-  }, [connect, nav, sendMessage, setOnMessage]);
+  }, [isConnected, nav, sendMessage, setOnMessage]);
 
   //새로고침 하더라도 shopData 유지
   useEffect(() => {

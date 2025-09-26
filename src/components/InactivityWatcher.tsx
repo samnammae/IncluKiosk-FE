@@ -7,13 +7,18 @@ const InactivityWatcher = () => {
   const { resetTimer, setLocked } = useLockStore();
   const nav = useNavigate();
   if (!localStorage.getItem("accessToken")) return null;
-  const { sendMessage } = useSocketStore();
+  const { connect, sendMessage, isConnected } = useSocketStore();
+
+  useEffect(() => {
+    connect();
+  }, [connect]);
+
   useEffect(() => {
     const events = ["mousemove", "keydown", "click", "scroll", "touchstart"];
 
     const handleActivity = () => {
       setLocked(false); // 활동 → 잠금 해제
-      sendMessage({ type: "MODE_SELECT_ON" }); //CASE 3
+      if (isConnected) sendMessage({ type: "MODE_SELECT_ON" }); //CASE 3
       resetTimer(); // 타이머 리셋
     };
 
