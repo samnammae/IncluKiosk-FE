@@ -11,16 +11,13 @@ interface StyledProps {
 }
 const StartPge = () => {
   const { logoimg, name, startBackground } = useShopStore();
-  const { connect, sendMessage } = useSocketStore();
+  const { socket, connect, sendMessage } = useSocketStore();
   const nav = useNavigate();
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const socketRef = useRef<WebSocket | null>(null);
-  const [connected, setConnected] = useState<boolean>(false);
 
   useEffect(() => {
     connect();
     sendMessage("MODE_SELECT_ON");
-  }, [connected]);
+  }, [socket]);
 
   //새로고침 하더라도 shopData 유지
   useEffect(() => {
@@ -49,6 +46,7 @@ const StartPge = () => {
             clearInterval(timerRef.current);
             timerRef.current = null;
           }
+          sendMessage("EYE_ORDER_ON"); //CASE 4-4
           nav("/home");
           return 100;
         }
@@ -74,11 +72,21 @@ const StartPge = () => {
       </LogoWrapper>
       <ModeContaier>
         <OrderOptionsContainer>
-          <OrderButton onClick={() => nav("/chat")}>
+          <OrderButton
+            onClick={() => {
+              nav("/chat");
+              sendMessage("CHAT_ORDER_ON"); //CASE 4-2
+            }}
+          >
             <OrderText>음성으로 주문하기</OrderText>
           </OrderButton>
 
-          <OrderButton onClick={() => nav("/home")}>
+          <OrderButton
+            onClick={() => {
+              nav("/home");
+              sendMessage("NORMAL_ORDER_ON"); //CASE 4-3
+            }}
+          >
             <OrderText>기본 주문하기</OrderText>
           </OrderButton>
         </OrderOptionsContainer>
