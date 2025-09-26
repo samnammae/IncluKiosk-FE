@@ -6,8 +6,8 @@ interface LockStore {
   resetTimer: () => void;
 }
 
-// export const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5분
-export const INACTIVITY_TIMEOUT = 5 * 1000; // 5초
+export const INACTIVITY_TIMEOUT = 3 * 60 * 1000; // 3분
+// export const INACTIVITY_TIMEOUT = 5 * 1000; // 5초
 let timer: NodeJS.Timeout | null = null;
 
 export const useLockStore = create<LockStore>((set) => ({
