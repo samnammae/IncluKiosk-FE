@@ -16,8 +16,8 @@ const Chat = () => {
   const shopId = localStorage.getItem("shopId") || "";
 
   const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]); // 화면에 표시할 대화 기록
-  const [isListening, setIsListening] = useState(true);
-  const [isProcessing, setIsProcessing] = useState(true);
+  const [isListening, setIsListening] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   //소켓 연결
   useEffect(() => {
