@@ -11,13 +11,23 @@ interface StyledProps {
 }
 const StartPge = () => {
   const { logoimg, name, startBackground } = useShopStore();
-  const { socket, connect, sendMessage } = useSocketStore();
+  const { connect, sendMessage, setOnMessage } = useSocketStore();
   const nav = useNavigate();
-
+  //소켓 관련
   useEffect(() => {
     connect();
-    sendMessage("MODE_SELECT_ON");
-  }, [socket]);
+    sendMessage({ type: "MODE_SELECT_ON" }); //CASE 3
+
+    //CASE 4-1
+    setOnMessage((msg) => {
+      if (msg.type === "CHAT_ORDER_ON") {
+        nav("/chat");
+        sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 4-2
+      }
+    });
+
+    return () => setOnMessage(null);
+  }, [connect, nav, sendMessage, setOnMessage]);
 
   //새로고침 하더라도 shopData 유지
   useEffect(() => {
@@ -46,7 +56,7 @@ const StartPge = () => {
             clearInterval(timerRef.current);
             timerRef.current = null;
           }
-          sendMessage("EYE_ORDER_ON"); //CASE 4-4
+          sendMessage({ type: "EYE_ORDER_ON" }); //CASE 4-4
           nav("/home");
           return 100;
         }
@@ -75,7 +85,7 @@ const StartPge = () => {
           <OrderButton
             onClick={() => {
               nav("/chat");
-              sendMessage("CHAT_ORDER_ON"); //CASE 4-2
+              sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 4-2
             }}
           >
             <OrderText>음성으로 주문하기</OrderText>
@@ -84,7 +94,7 @@ const StartPge = () => {
           <OrderButton
             onClick={() => {
               nav("/home");
-              sendMessage("NORMAL_ORDER_ON"); //CASE 4-3
+              sendMessage({ type: "NORMAL_ORDER_ON" }); //CASE 4-3
             }}
           >
             <OrderText>기본 주문하기</OrderText>

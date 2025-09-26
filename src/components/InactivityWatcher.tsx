@@ -13,7 +13,7 @@ const InactivityWatcher = () => {
 
     const handleActivity = () => {
       setLocked(false); // 활동 → 잠금 해제
-      sendMessage("MODE_SELECT_ON"); //CASE 3
+      sendMessage({ type: "MODE_SELECT_ON" }); //CASE 3
       resetTimer(); // 타이머 리셋
     };
 
