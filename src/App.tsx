@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GlobalStyle from "./styles/globalStyle";
 import Router from "./Router";
 import { useState, useEffect } from "react";
+import LockScreen from "./components/LockScreen";
 declare global {
   interface Window {
     setKioskMode: (mode: string) => void;
@@ -36,20 +37,25 @@ const App = () => {
   }, [mode]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <GlobalStyle />
-        {isDevelopment ? (
-          <KioskWrapper>
-            <Router />
-          </KioskWrapper>
-        ) : (
-          <Wrapper>
-            <Router />
-          </Wrapper>
-        )}
-      </QueryClientProvider>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <GlobalStyle />
+
+          {isDevelopment ? (
+            <KioskWrapper>
+              <Router />
+              <LockScreen />
+            </KioskWrapper>
+          ) : (
+            <Wrapper>
+              <Router />
+              <LockScreen />
+            </Wrapper>
+          )}
+        </QueryClientProvider>
+      </ThemeProvider>
+    </>
   );
 };
 
