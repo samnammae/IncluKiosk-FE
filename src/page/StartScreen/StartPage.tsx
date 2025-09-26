@@ -4,68 +4,42 @@ import { useNavigate } from "react-router-dom";
 
 import { useEffect, useRef, useState } from "react";
 import { setShopData } from "../../apis/setShopData";
+import { useSocketStore } from "../../stores/socketStore";
 interface StyledProps {
   $isHovering?: boolean;
   $progress?: number;
 }
 const StartPge = () => {
   const { logoimg, name, startBackground } = useShopStore();
+  const { connect, sendMessage, setOnMessage, isConnected } = useSocketStore();
   const nav = useNavigate();
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const socketRef = useRef<WebSocket | null>(null);
-  const [connected, setConnected] = useState<boolean>(false);
+  //소켓 관련
+
+  //소켓 연결
+  useEffect(() => {
+    connect();
+  }, [connect]);
 
   useEffect(() => {
-    connectSocket();
-    sendMessage("MODE_SELECT_ON");
-  }, [connected]);
+    if (!isConnected) return;
+    sendMessage({ type: "MODE_SELECT_ON" }); //CASE 3
+
+    //CASE 4-1
+    setOnMessage((msg) => {
+      if (msg.type === "CHAT_ORDER_ON") {
+        nav("/chat");
+        sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 4-2
+      }
+    });
+
+    return () => setOnMessage(null);
+  }, [isConnected, nav, sendMessage, setOnMessage]);
 
   //새로고침 하더라도 shopData 유지
   useEffect(() => {
     const selectedShopId = Number(localStorage.getItem("shopId"));
     setShopData(selectedShopId);
   }, []);
-
-  const connectSocket = () => {
-    try {
-      const ws = new WebSocket("ws://localhost:8765"); // 실제 라즈베리파이 IP로 변경
-      socketRef.current = ws;
-
-      ws.onopen = () => {
-        console.log("소켓 연결 성공");
-        setSocket(ws);
-        setConnected(true);
-      };
-
-      ws.onmessage = (event: MessageEvent) => {
-        console.log("받은 메시지:", event.data);
-      };
-
-      ws.onclose = () => {
-        console.log("소켓 연결 종료");
-      };
-
-      ws.onerror = (error: Event) => {
-        console.error("소켓 에러:", error);
-      };
-    } catch (error) {
-      console.error("연결 실패:", error);
-    }
-  };
-
-  // 메시지 전송 함수
-  const sendMessage = (messageType: string) => {
-    if (socket && connected) {
-      const message = {
-        type: messageType,
-        timestamp: new Date().toISOString(),
-      };
-      socket.send(JSON.stringify(message));
-      console.log("전송:", messageType);
-    } else {
-      console.log("소켓이 연결되지 않았습니다.");
-    }
-  };
 
   const [isHovering, setIsHovering] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -88,6 +62,7 @@ const StartPge = () => {
             clearInterval(timerRef.current);
             timerRef.current = null;
           }
+          sendMessage({ type: "EYE_ORDER_ON" }); //CASE 4-4
           nav("/home");
           return 100;
         }
@@ -113,11 +88,21 @@ const StartPge = () => {
       </LogoWrapper>
       <ModeContaier>
         <OrderOptionsContainer>
-          <OrderButton>
+          <OrderButton
+            onClick={() => {
+              nav("/chat");
+              sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 4-2
+            }}
+          >
             <OrderText>음성으로 주문하기</OrderText>
           </OrderButton>
 
-          <OrderButton onClick={() => nav("/home")}>
+          <OrderButton
+            onClick={() => {
+              nav("/home");
+              sendMessage({ type: "NORMAL_ORDER_ON" }); //CASE 4-3
+            }}
+          >
             <OrderText>기본 주문하기</OrderText>
           </OrderButton>
         </OrderOptionsContainer>

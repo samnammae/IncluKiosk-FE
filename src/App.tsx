@@ -6,10 +6,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GlobalStyle from "./styles/globalStyle";
 import Router from "./Router";
 import { useState, useEffect } from "react";
+import LockScreen from "./components/LockScreen";
+import { useLockStore } from "./stores/lockStore";
 declare global {
   interface Window {
     setKioskMode: (mode: string) => void;
     getKioskMode: () => string;
+    setLock: () => void;
   }
 }
 const App = () => {
@@ -17,6 +20,7 @@ const App = () => {
   const [mode, setMode] = useState(() => {
     return localStorage.getItem("kioskMode") || "";
   });
+  const { setLocked } = useLockStore();
 
   // 개발 모드 여부 판단
   const isDevelopment = mode === "dev";
@@ -33,23 +37,33 @@ const App = () => {
       console.log(`현재 키오스크 모드: "${currentMode}"`);
       return currentMode;
     };
+
+    window.setLock = () => {
+      setLocked(true);
+      console.log("잠금 모드 활성화");
+    };
   }, [mode]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <GlobalStyle />
-        {isDevelopment ? (
-          <KioskWrapper>
-            <Router />
-          </KioskWrapper>
-        ) : (
-          <Wrapper>
-            <Router />
-          </Wrapper>
-        )}
-      </QueryClientProvider>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <GlobalStyle />
+
+          {isDevelopment ? (
+            <KioskWrapper>
+              <Router />
+              <LockScreen />
+            </KioskWrapper>
+          ) : (
+            <Wrapper>
+              <Router />
+              <LockScreen />
+            </Wrapper>
+          )}
+        </QueryClientProvider>
+      </ThemeProvider>
+    </>
   );
 };
 
