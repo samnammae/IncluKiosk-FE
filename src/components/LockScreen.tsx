@@ -5,12 +5,21 @@ import { useEffect } from "react";
 import { useSocketStore } from "../stores/socketStore";
 
 const LockScreen = () => {
-  const { isLocked } = useLockStore();
-  const { sendMessage } = useSocketStore();
+  const { isLocked, setLocked, resetTimer } = useLockStore();
+  const { sendMessage, setOnMessage } = useSocketStore();
 
-  //CASE 1
   useEffect(() => {
-    if (isLocked) sendMessage({ type: "PIR_ON" });
+    if (isLocked) sendMessage({ type: "PIR_ON" }); //CASE 1
+
+    //CASE 2-1
+    setOnMessage((msg) => {
+      if (msg.type === "PIR_DETECTED") {
+        setLocked(false); // 플래그 → 잠금 해제
+        resetTimer();
+      }
+    });
+
+    return () => setOnMessage(null);
   }, [isLocked]);
 
   return (
