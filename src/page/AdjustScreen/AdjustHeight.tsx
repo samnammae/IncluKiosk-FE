@@ -20,6 +20,7 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   }, [connect]);
 
   useEffect(() => {
+    //CASE 3
     setOnMessage((msg) => {
       if ((msg.type = "EYE_CALIB_ON")) {
         setIsAdjusting(false); //높이 조정 완료 표시
