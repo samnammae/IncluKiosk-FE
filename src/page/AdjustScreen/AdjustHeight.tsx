@@ -22,12 +22,13 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   useEffect(() => {
     //CASE 3
     setOnMessage((msg) => {
-      if ((msg.type = "EYE_CALIB_ON")) {
+      if (msg.type === "EYE_CALIB_ON") {
         setIsAdjusting(false); //높이 조정 완료 표시
         setCurrentStep(3); //높이 조정 완료 문구 표시
         setTimeout(() => nextPage(), 2000); // 2초 정도 기다린 후 눈 인식 화면으로 변경
       }
     });
+    return () => setOnMessage(null); // 언마운트 시 제거
   }, []);
 
   // 문구 수정
