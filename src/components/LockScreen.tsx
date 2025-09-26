@@ -1,9 +1,17 @@
 import styled from "styled-components";
 import { useLockStore } from "../stores/lockStore";
 import IncluKioskSub from "../assets/imgs/IncluKioskSub.png";
+import { useEffect } from "react";
+import { useSocketStore } from "../stores/socketStore";
 
 const LockScreen = () => {
   const { isLocked } = useLockStore();
+  const { sendMessage } = useSocketStore();
+
+  //CASE 1
+  useEffect(() => {
+    if (isLocked) sendMessage({ type: "PIR_ON" });
+  }, [isLocked]);
 
   return (
     <Overlay visible={isLocked}>
