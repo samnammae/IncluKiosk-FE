@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../Home/components/Header";
-import { chatAPI } from "../../apis/chat";
+// import { chatAPI } from "../../apis/chat";
 import { useSocketStore, SocketMessage } from "../../stores/socketStore";
 import VoiceStatus from "./VoiceStatusProps";
 
