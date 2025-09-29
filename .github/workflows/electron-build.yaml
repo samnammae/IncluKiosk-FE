@@ -3,18 +3,15 @@ name: Electron Kiosk Build & Deploy
 on:
   push:
     tags:
-      - "v*.*.*" # v1.0.0 같은 태그 푸시 시 실행
+      - "v*.*.*"
 
 jobs:
-  build-electron:
-    name: Build & Deploy Electron App
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest] # macOS, Linux 동시 빌드
+  build-macos:
+    name: Build & Deploy macOS App
+    runs-on: macos-latest
 
     steps:
+      # 코드 체크아웃
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -23,7 +20,7 @@ jobs:
         with:
           node-version: "20"
 
-      # 캐시
+      # npm 캐시
       - uses: actions/cache@v3
         with:
           path: ~/.npm
@@ -31,13 +28,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # 의존성 설치
       - name: Install dependencies
         run: npm install
 
+      # 환경변수 파일 생성
       - name: Create .env file
         run: |
           echo "VITE_SERVER_ADDRESS=${{ secrets.VITE_SERVER_ADDRESS }}" >> .env
 
+      # AWS 자격증명
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -45,6 +45,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY_ID }}
           aws-region: ap-northeast-2
 
+      # Electron 앱 빌드 및 S3 업로드
       - name: Build and Publish to S3
         run: npm run electron:publish
         env:
