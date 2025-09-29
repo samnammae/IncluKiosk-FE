@@ -2,6 +2,10 @@
   "name": "inclukiosk-fe",
   "private": true,
   "version": "0.0.1",
+  "author": {
+    "name": "SAMNAMMAE",
+    "email": "kdhqwe1030@gmail.com"
+  },
   "main": "dist-electron/main.js",
   "type": "module",
   "scripts": {
