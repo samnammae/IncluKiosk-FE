@@ -3,10 +3,15 @@ import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+
+  // Electron 빌드 여부 확인
+  const isElectron = process.env.ELECTRON === "true";
+
   return {
     plugins: [react()],
-    base: "/kiosk/",
-    //빌드 관련 설정
+    base: isElectron ? "./" : "/kiosk/", // Electron은 상대경로, 웹은 /kiosk/
+
+    //빌드 설정
     build: {
       minify: "terser",
       terserOptions: {
