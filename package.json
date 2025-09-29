@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "electron:tsc": "tsc -p electron/tsconfig.json",
     "electron:dev": "npm run electron:tsc && concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron . --no-sandbox\"",
-    "electron:build": "npm run build && npm run electron:tsc && electron-builder"
+    "electron:build": "ELECTRON=true npm run build && npm run electron:tsc && electron-builder",
+    "electron:publish": "ELECTRON=true npm run build && npm run electron:tsc && electron-builder --publish always"
   },
   "build": {
     "appId": "com.company.inclukiosk",
@@ -34,6 +35,12 @@
         "deb"
       ],
       "category": "Utility"
+    },
+    "publish": {
+      "provider": "s3",
+      "bucket": "inclukiosk-fe",
+      "region": "ap-northeast-2",
+      "path": "/releases"
     }
   },
   "dependencies": {
@@ -45,7 +52,6 @@
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
     "electron-is-dev": "^3.0.1",
-    "electron-updater": "^6.6.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.3",
@@ -62,6 +68,7 @@
     "concurrently": "^9.2.1",
     "electron": "^38.2.0",
     "electron-builder": "^26.0.12",
+    "electron-updater": "^7.1.3",
     "eslint": "^9.22.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
