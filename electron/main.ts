@@ -1,5 +1,4 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
-import { autoUpdater } from "electron-updater";
 import path from "path";
 import { fileURLToPath } from "url";
 import isDev from "electron-is-dev";
@@ -39,17 +38,17 @@ function createWindow(): void {
 }
 
 // 자동 업데이트 설정
-function setupAutoUpdater(): void {
-  // 개발 모드에서는 업데이트 체크 안함
+async function setupAutoUpdater(): Promise<void> {
   if (isDev) {
     console.log("개발 모드: 자동 업데이트 비활성화");
     return;
   }
 
-  // 업데이트 체크 (앱 시작 후 즉시)
+  // 여기서 동적으로 import
+  const { autoUpdater } = await import("electron-updater");
+
   autoUpdater.checkForUpdatesAndNotify();
 
-  // 업데이트 이벤트 로깅
   autoUpdater.on("checking-for-update", () => {
     console.log("업데이트 확인 중...");
   });
@@ -74,7 +73,6 @@ function setupAutoUpdater(): void {
     console.log("업데이트 다운로드 완료:", info.version);
     console.log("앱을 재시작하여 업데이트를 적용합니다...");
 
-    // 5초 후 자동으로 재시작하여 업데이트 적용
     setTimeout(() => {
       autoUpdater.quitAndInstall();
     }, 5000);
