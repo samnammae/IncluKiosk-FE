@@ -7,6 +7,6 @@ export const chatAPI = {
   ) => {
     const response = await api.post(`/chatbot/${storeId}`, data);
     console.log(response.data);
-    return response.data;
+    return response.data.data;
   },
 };
