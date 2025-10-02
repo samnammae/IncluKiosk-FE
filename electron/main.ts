@@ -13,8 +13,8 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 1080,
     height: 1920,
-    fullscreen: !isDev, // 프로덕션에서만 전체화면
-    kiosk: !isDev, // 프로덕션에서만 키오스크 모드
+    fullscreen: true, // 프로덕션에서만 전체화면
+    kiosk: true, // 프로덕션에서만 키오스크 모드
     webPreferences: {
       nodeIntegration: false, // 보안: Renderer에서 Node.js 사용 금지
       contextIsolation: true, // 보안: Context 격리
@@ -37,51 +37,8 @@ function createWindow(): void {
   });
 }
 
-// 자동 업데이트 설정
-async function setupAutoUpdater(): Promise<void> {
-  if (isDev) {
-    console.log("개발 모드: 자동 업데이트 비활성화");
-    return;
-  }
-
-  // 여기서 동적으로 import
-  const { autoUpdater } = await import("electron-updater");
-
-  autoUpdater.checkForUpdatesAndNotify();
-
-  autoUpdater.on("checking-for-update", () => {
-    console.log("업데이트 확인 중...");
-  });
-
-  autoUpdater.on("update-available", (info) => {
-    console.log("업데이트 발견:", info.version);
-  });
-
-  autoUpdater.on("update-not-available", (info) => {
-    console.log("최신 버전입니다:", info.version);
-  });
-
-  autoUpdater.on("error", (err) => {
-    console.error("업데이트 에러:", err);
-  });
-
-  autoUpdater.on("download-progress", (progressObj) => {
-    console.log(`다운로드 진행: ${Math.round(progressObj.percent)}%`);
-  });
-
-  autoUpdater.on("update-downloaded", (info) => {
-    console.log("업데이트 다운로드 완료:", info.version);
-    console.log("앱을 재시작하여 업데이트를 적용합니다...");
-
-    setTimeout(() => {
-      autoUpdater.quitAndInstall();
-    }, 5000);
-  });
-}
-
 app.whenReady().then(() => {
   createWindow();
-  setupAutoUpdater();
 
   // Ctrl+Shift+Q로 종료 (관리자용)
   globalShortcut.register("CommandOrControl+Shift+Q", () => {
