@@ -63,7 +63,7 @@ const Chat = () => {
 
               // API 응답(챗봇 답변)
               const answer =
-                res?.answer || "죄송합니다, 답변을 불러오지 못했습니다.";
+                res?.aiMessage || "죄송합니다, 답변을 불러오지 못했습니다.";
 
               // 대화창에 챗봇 답변 추가
               setChatLogs((prev) => [
