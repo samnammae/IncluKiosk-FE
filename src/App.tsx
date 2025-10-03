@@ -8,6 +8,7 @@ import Router from "./Router";
 import { useState, useEffect } from "react";
 import LockScreen from "./components/LockScreen";
 import { useLockStore } from "./stores/lockStore";
+import { useNavigate } from "react-router-dom";
 declare global {
   interface Window {
     setKioskMode: (mode: string) => void;
@@ -21,7 +22,6 @@ const App = () => {
     return localStorage.getItem("kioskMode") || "";
   });
   const { setLocked } = useLockStore();
-
   // 개발 모드 여부 판단
   const isDevelopment = mode === "dev";
 
@@ -40,7 +40,7 @@ const App = () => {
 
     window.setLock = () => {
       setLocked(true);
-      console.log("잠금 모드 활성화");
+      console.log("잠금 모드 활성화 + /adjust 이동");
     };
   }, [mode]);
 
