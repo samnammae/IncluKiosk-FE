@@ -29,7 +29,7 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
       }
     });
     return () => setOnMessage(null); // 언마운트 시 제거
-  }, []);
+  }, [setOnMessage, nextPage]);
 
   // 문구 수정
   useEffect(() => {
