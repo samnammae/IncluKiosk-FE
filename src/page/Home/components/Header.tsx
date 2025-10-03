@@ -1,11 +1,19 @@
 import styled from "styled-components";
 import { useShopStore } from "../../../stores/shopStore";
+import { useEffect } from "react";
+import { setShopData } from "../../../apis/setShopData";
 
 const Header = () => {
   const { titleImg } = useShopStore();
+
+  useEffect(() => {
+    const shopId = localStorage.getItem("shopId");
+    setShopData(Number(shopId));
+  }, []);
+
   return (
     <BaseContainer>
-      {titleImg ? <BrandLogo src={titleImg} /> : <></>}
+      {titleImg ? <BrandLogo src={titleImg} alt="브랜드 로고 이미지" /> : <></>}
     </BaseContainer>
   );
 };

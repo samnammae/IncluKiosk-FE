@@ -23,11 +23,36 @@ const Chat = () => {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // 채팅 animation 기능
+  const [visibleText, setVisibleText] = useState<string>("");
+
+  useEffect(() => {
+    if (chatLogs.length === 0) return;
+
+    const lastChat = chatLogs[chatLogs.length - 1];
+    const words = lastChat.message.split(" ");
+    let i = 0;
+
+    const interval = setInterval(() => {
+      if (i < words.length) {
+        const currentWord = words[i];
+        setVisibleText((prev) =>
+          i === 0 ? currentWord : prev + " " + currentWord
+        );
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 80);
+    return () => clearInterval(interval);
+  }, [chatLogs]);
+
   // 소켓 연결
   useEffect(() => {
     connect();
   }, [connect]);
 
+  //소켓 핸들러 구현
   useEffect(() => {
     if (!isConnected) return;
 
@@ -87,6 +112,27 @@ const Chat = () => {
           setIsProcessing(false);
           break;
 
+        // CASE 7-6: STT오류의 경우 -> 다시 말해주세요!출력 후 대기
+        case "STT_ERR":
+          console.log("STT 라즈베리파이에서 에러 발생");
+          setChatLogs((prev) => [
+            ...prev,
+            {
+              message:
+                "죄송합니다, 말씀을 정확히 인식하지 못했습니다. 다시 한번 말씀해 주시겠어요?",
+              isBot: true,
+            },
+          ]);
+          setIsListening(false);
+          setIsProcessing(true);
+          break;
+        // CASE 7-7: STT오류안내음성 끝난 후-> 프론트에게 끝낫다 말함. -> 프론트 다시 음성인식한다고 말함
+        case "ERR_END":
+          console.log("라즈베리파이 ERR 안내음성 출력 끝");
+          sendMessage({ type: "STT_ON" });
+          setIsListening(true);
+          setIsProcessing(false);
+          break;
         default:
           console.log("처리되지 않은 메시지:", msg);
       }
@@ -109,10 +155,18 @@ const Chat = () => {
           {/* 음성 입력/처리 상태 */}
           <VoiceStatus isListening={isListening} isProcessing={isProcessing} />
 
-          {/* 실제 챗봇 로그 */}
+          {/* 챗봇 로그 */}
           {chatLogs.map((chat, idx) => (
             <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
-              {chat.isBot ? (
+              {idx === chatLogs.length - 1 ? (
+                // 마지막 말풍선만 순차적으로 출력
+                chat.isBot ? (
+                  <BotChat>{visibleText}</BotChat>
+                ) : (
+                  <MyChat>{visibleText}</MyChat>
+                )
+              ) : // 이전 말풍선은 그대로 표시
+              chat.isBot ? (
                 <BotChat>{chat.message}</BotChat>
               ) : (
                 <MyChat>{chat.message}</MyChat>
@@ -130,7 +184,7 @@ export default Chat;
 // styled-components (기존 코드 동일)
 const BaseContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 `;

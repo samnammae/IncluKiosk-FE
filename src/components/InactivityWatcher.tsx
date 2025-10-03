@@ -17,6 +17,11 @@ const InactivityWatcher = () => {
     connect();
   }, [connect, hasToken]);
 
+  //window함수작동으로 인한 추가
+  useEffect(() => {
+    if (isLocked) nav("/adjust"); // 👇 강제 잠금 시에도 /adjust 이동
+  }, [isLocked, nav]);
+
   // false가 된 순간에만 1번 실행
   useEffect(() => {
     if (!isLocked) {

@@ -83,3 +83,20 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 
   onMessageHandler: null,
 }));
+
+if (typeof window !== "undefined") {
+  (window as any).sendMessage = (msg: string | SocketMessage) => {
+    const handler = useSocketStore.getState().onMessageHandler;
+    if (!handler) {
+      console.warn("onMessageHandler가 아직 설정되지 않았습니다.");
+      return;
+    }
+    console.log("sendMessage 호출됨:", msg);
+
+    // 문자열로 넣으면 {type: "TEST", message: "..."}로 변환
+    const socketMsg: SocketMessage =
+      typeof msg === "string" ? { type: "TEST", message: msg } : msg;
+
+    handler(socketMsg);
+  };
+}

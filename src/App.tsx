@@ -21,7 +21,6 @@ const App = () => {
     return localStorage.getItem("kioskMode") || "";
   });
   const { setLocked } = useLockStore();
-
   // 개발 모드 여부 판단
   const isDevelopment = mode === "dev";
 
@@ -40,7 +39,7 @@ const App = () => {
 
     window.setLock = () => {
       setLocked(true);
-      console.log("잠금 모드 활성화");
+      console.log("잠금 모드 활성화 + /adjust 이동");
     };
   }, [mode]);
 
