@@ -23,6 +23,30 @@ const Chat = () => {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // 채팅 animation 기능
+  const [visibleText, setVisibleText] = useState<string>("");
+
+  useEffect(() => {
+    if (chatLogs.length === 0) return;
+
+    const lastChat = chatLogs[chatLogs.length - 1];
+    const words = lastChat.message.split(" ");
+    let i = 0;
+
+    const interval = setInterval(() => {
+      if (i < words.length) {
+        const currentWord = words[i];
+        setVisibleText((prev) =>
+          i === 0 ? currentWord : prev + " " + currentWord
+        );
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 80);
+    return () => clearInterval(interval);
+  }, [chatLogs]);
+
   // 소켓 연결
   useEffect(() => {
     connect();
@@ -109,10 +133,18 @@ const Chat = () => {
           {/* 음성 입력/처리 상태 */}
           <VoiceStatus isListening={isListening} isProcessing={isProcessing} />
 
-          {/* 실제 챗봇 로그 */}
+          {/* 챗봇 로그 */}
           {chatLogs.map((chat, idx) => (
             <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
-              {chat.isBot ? (
+              {idx === chatLogs.length - 1 ? (
+                // 마지막 말풍선만 순차적으로 출력
+                chat.isBot ? (
+                  <BotChat>{visibleText}</BotChat>
+                ) : (
+                  <MyChat>{visibleText}</MyChat>
+                )
+              ) : // 이전 말풍선은 그대로 표시
+              chat.isBot ? (
                 <BotChat>{chat.message}</BotChat>
               ) : (
                 <MyChat>{chat.message}</MyChat>
