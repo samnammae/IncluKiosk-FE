@@ -130,7 +130,7 @@ export default Chat;
 // styled-components (기존 코드 동일)
 const BaseContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 `;
