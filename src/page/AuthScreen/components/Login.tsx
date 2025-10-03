@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import kakaoIcon from "../../../assets/icons/kakaoIcon.png";
-import GoogleIcon from "../../../assets/icons/GoogleIcon.png";
+// import kakaoIcon from "../../../assets/icons/kakaoIcon.png";
+// import GoogleIcon from "../../../assets/icons/GoogleIcon.png";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -76,7 +76,7 @@ const Login = ({ changeMode }: AuthProps) => {
           <AuthButton type="submit">로그인</AuthButton>
         </form>
 
-        <Divider>
+        {/* <Divider>
           <span>Or continue with</span>
         </Divider>
 
@@ -89,7 +89,7 @@ const Login = ({ changeMode }: AuthProps) => {
             <IconImg src={GoogleIcon} />
             구글로 시작하기
           </GoogleButton>
-        </ButtonWrapper>
+        </ButtonWrapper> */}
 
         <SignUpLink>
           계정이 필요하신가요?
@@ -115,69 +115,69 @@ const ForgotPassword = styled.a`
   }
 `;
 
-const Divider = styled.div`
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 48px 0;
+// const Divider = styled.div`
+//   display: flex;
+//   align-items: center;
+//   text-align: center;
+//   margin: 48px 0;
 
-  &::before,
-  &::after {
-    content: "";
-    flex: 1;
-    border-bottom: 2px solid ${({ theme }) => theme.colors.grey[200]};
-  }
+//   &::before,
+//   &::after {
+//     content: "";
+//     flex: 1;
+//     border-bottom: 2px solid ${({ theme }) => theme.colors.grey[200]};
+//   }
 
-  span {
-    padding: 0 24px;
-    color: ${({ theme }) => theme.colors.grey[500]};
-    font-size: ${({ theme }) => theme.fonts.sizes.xs};
-  }
-`;
+//   span {
+//     padding: 0 24px;
+//     color: ${({ theme }) => theme.colors.grey[500]};
+//     font-size: ${({ theme }) => theme.fonts.sizes.xs};
+//   }
+// `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
+// const ButtonWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 20px;
+// `;
 
-const SocialButton = styled.button`
-  position: relative;
-  width: 100%;
-  padding: 24px;
-  border: 3px solid ${({ theme }) => theme.colors.grey[200]};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.fonts.sizes.sm};
-  font-weight: ${({ theme }) => theme.fonts.weights.medium};
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
+// const SocialButton = styled.button`
+//   position: relative;
+//   width: 100%;
+//   padding: 24px;
+//   border: 3px solid ${({ theme }) => theme.colors.grey[200]};
+//   border-radius: ${({ theme }) => theme.borderRadius.md};
+//   font-size: ${({ theme }) => theme.fonts.sizes.sm};
+//   font-weight: ${({ theme }) => theme.fonts.weights.medium};
+//   cursor: pointer;
+//   transition: all 0.2s;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 16px;
 
-  &:active {
-    transform: scale(1.02);
-  }
-`;
+//   &:active {
+//     transform: scale(1.02);
+//   }
+// `;
 
-const KakaoButton = styled(SocialButton)`
-  background-color: #fee500;
-  color: #191600;
-  border: none;
-`;
+// const KakaoButton = styled(SocialButton)`
+//   background-color: #fee500;
+//   color: #191600;
+//   border: none;
+// `;
 
-const GoogleButton = styled(SocialButton)`
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.grey[700]};
-`;
+// const GoogleButton = styled(SocialButton)`
+//   background-color: ${({ theme }) => theme.colors.white};
+//   color: ${({ theme }) => theme.colors.grey[700]};
+// `;
 
-const IconImg = styled.img`
-  width: 36px;
-  height: 36px;
-  position: absolute;
-  left: 32px;
-`;
+// const IconImg = styled.img`
+//   width: 36px;
+//   height: 36px;
+//   position: absolute;
+//   left: 32px;
+// `;
 
 const SignUpLink = styled.div`
   text-align: center;
