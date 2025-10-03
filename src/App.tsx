@@ -8,7 +8,6 @@ import Router from "./Router";
 import { useState, useEffect } from "react";
 import LockScreen from "./components/LockScreen";
 import { useLockStore } from "./stores/lockStore";
-import { useNavigate } from "react-router-dom";
 declare global {
   interface Window {
     setKioskMode: (mode: string) => void;
