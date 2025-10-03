@@ -52,6 +52,7 @@ const Chat = () => {
     connect();
   }, [connect]);
 
+  //소켓 핸들러 구현
   useEffect(() => {
     if (!isConnected) return;
 
@@ -111,6 +112,27 @@ const Chat = () => {
           setIsProcessing(false);
           break;
 
+        // CASE 7-6: STT오류의 경우 -> 다시 말해주세요!출력 후 대기
+        case "STT_ERR":
+          console.log("STT 라즈베리파이에서 에러 발생");
+          setChatLogs((prev) => [
+            ...prev,
+            {
+              message:
+                "죄송합니다, 말씀을 정확히 인식하지 못했습니다. 다시 한번 말씀해 주시겠어요?",
+              isBot: true,
+            },
+          ]);
+          setIsListening(false);
+          setIsProcessing(true);
+          break;
+        // CASE 7-7: STT오류안내음성 끝난 후-> 프론트에게 끝낫다 말함. -> 프론트 다시 음성인식한다고 말함
+        case "ERR_END":
+          console.log("라즈베리파이 ERR 안내음성 출력 끝");
+          sendMessage({ type: "STT_ON" });
+          setIsListening(true);
+          setIsProcessing(false);
+          break;
         default:
           console.log("처리되지 않은 메시지:", msg);
       }
