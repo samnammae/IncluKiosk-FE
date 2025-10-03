@@ -43,7 +43,7 @@ const Overlay = styled.div<{ visible: boolean }>`
   justify-content: center;
   z-index: 9999;
   opacity: ${({ visible }) => (visible ? 1 : 0)};
-  transition: opacity 2s ease;
+  transition: opacity 1s ease;
   pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
 `;
 
