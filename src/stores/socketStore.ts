@@ -92,18 +92,13 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 }));
 
 if (typeof window !== "undefined") {
-  (window as any).sendMessage = (msg: string | SocketMessage) => {
+  (window as any).sendMessage = (msg: SocketMessage) => {
     const handlers = useSocketStore.getState().handlers;
     if (!handlers.length) {
       console.warn("onMessageHandler가 아직 설정되지 않았습니다.");
       return;
     }
     console.log("sendMessage 호출됨:", msg);
-
-    // 문자열로 넣으면 {type: "TEST", message: "..."}로 변환
-    const socketMsg: SocketMessage =
-      typeof msg === "string" ? { type: "TEST", message: msg } : msg;
-
-    handlers.forEach((h) => h(socketMsg));
+    handlers.forEach((h) => h(msg));
   };
 }
