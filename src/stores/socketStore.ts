@@ -13,15 +13,17 @@ interface SocketState {
 
   connect: () => void;
   sendMessage: (msg: SocketMessage) => void;
-  setOnMessage: (handler: ((msg: SocketMessage) => void) | null) => void;
-  onMessageHandler: ((msg: SocketMessage) => void) | null;
+  addOnMessage: (handler: (msg: SocketMessage) => void) => void;
+  removeOnMessage: (handler: (msg: SocketMessage) => void) => void;
+  handlers: ((msg: SocketMessage) => void)[];
 }
 
 export const useSocketStore = create<SocketState>((set, get) => ({
   socket: null,
   isConnected: false,
   retryCount: 0,
-  maxRetries: 3, // 최대 재시도 횟수
+  maxRetries: 3, //최대 재시도 횟수
+  handlers: [],
 
   connect: () => {
     const { socket, retryCount, maxRetries } = get();
@@ -40,8 +42,11 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     };
 
     ws.onmessage = (event) => {
-      const handler = get().onMessageHandler;
-      if (handler) handler(JSON.parse(event.data));
+      const { handlers } = get();
+      try {
+        const msg = JSON.parse(event.data);
+        handlers.forEach((h) => h(msg));
+      } catch (_) {}
     };
 
     ws.onerror = (err) => {
@@ -77,17 +82,19 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     }
   },
 
-  setOnMessage: (handler) => {
-    set({ onMessageHandler: handler });
-  },
+  addOnMessage: (handler) =>
+    set((state) => ({ handlers: [...state.handlers, handler] })),
 
-  onMessageHandler: null,
+  removeOnMessage: (handler) =>
+    set((state) => ({
+      handlers: state.handlers.filter((h) => h !== handler),
+    })),
 }));
 
 if (typeof window !== "undefined") {
   (window as any).sendMessage = (msg: string | SocketMessage) => {
-    const handler = useSocketStore.getState().onMessageHandler;
-    if (!handler) {
+    const handlers = useSocketStore.getState().handlers;
+    if (!handlers.length) {
       console.warn("onMessageHandler가 아직 설정되지 않았습니다.");
       return;
     }
@@ -97,6 +104,6 @@ if (typeof window !== "undefined") {
     const socketMsg: SocketMessage =
       typeof msg === "string" ? { type: "TEST", message: msg } : msg;
 
-    handler(socketMsg);
+    handlers.forEach((h) => h(socketMsg));
   };
 }
