@@ -25,8 +25,8 @@ const InactivityWatcher = () => {
   // false가 된 순간에만 1번 실행
   useEffect(() => {
     if (!isLocked) {
-      sendMessage({ type: "PIR_ON" }); //CASE 2-2
-      console.log("잠금해제");
+      sendMessage({ type: "PIR_OFF" }); //CASE 2-2
+      console.log("잠금해제/라즈베리파이에게 PIR_OFF 전송");
     }
   }, [isLocked, sendMessage]);
 
