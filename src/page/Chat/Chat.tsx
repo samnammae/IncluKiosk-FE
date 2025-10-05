@@ -13,7 +13,8 @@ interface ChatMessage {
 }
 
 const Chat = () => {
-  const { connect, sendMessage, setOnMessage, isConnected } = useSocketStore();
+  const { connect, sendMessage, addOnMessage, removeOnMessage, isConnected } =
+    useSocketStore();
   const shopId = localStorage.getItem("shopId") || "";
 
   // 대화 세션 ID (대화 시작할 때 1회 생성)
@@ -56,7 +57,7 @@ const Chat = () => {
   useEffect(() => {
     if (!isConnected) return;
 
-    setOnMessage(async (msg: SocketMessage) => {
+    const handle = async (msg: SocketMessage) => {
       switch (msg.type) {
         // CASE 7-1: 안내 음성 끝 → STT 시작
         case "END_GUIDE":
@@ -136,10 +137,17 @@ const Chat = () => {
         default:
           console.log("처리되지 않은 메시지:", msg);
       }
-    });
-
-    return () => setOnMessage(null); // 페이지 벗어나면 핸들러 해제
-  }, [isConnected, sendMessage, setOnMessage, shopId, sessionId]);
+    };
+    addOnMessage(handle);
+    return () => removeOnMessage(handle);
+  }, [
+    isConnected,
+    sendMessage,
+    shopId,
+    sessionId,
+    addOnMessage,
+    removeOnMessage,
+  ]);
 
   return (
     <BaseContainer>

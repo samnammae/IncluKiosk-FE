@@ -4,14 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 import { useEffect, useRef, useState } from "react";
 import { setShopData } from "../../apis/setShopData";
-import { useSocketStore } from "../../stores/socketStore";
+import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 interface StyledProps {
   $isHovering?: boolean;
   $progress?: number;
 }
 const StartPge = () => {
   const { logoimg, name, startBackground } = useShopStore();
-  const { connect, sendMessage, setOnMessage, isConnected } = useSocketStore();
+  const { connect, sendMessage, addOnMessage, removeOnMessage, isConnected } =
+    useSocketStore();
   const nav = useNavigate();
   //소켓 관련
 
@@ -25,15 +26,15 @@ const StartPge = () => {
     sendMessage({ type: "MODE_SELECT_ON" }); //CASE 4
 
     //CASE 5-1
-    setOnMessage((msg) => {
+    const handle = (msg: SocketMessage) => {
       if (msg.type === "CHAT_ORDER_ON") {
         nav("/chat");
         sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 5-2
       }
-    });
-
-    return () => setOnMessage(null);
-  }, [isConnected, nav, sendMessage, setOnMessage]);
+    };
+    addOnMessage(handle);
+    return () => removeOnMessage(handle);
+  }, [isConnected, nav, sendMessage, addOnMessage, removeOnMessage]);
 
   //새로고침 하더라도 shopData 유지
   useEffect(() => {

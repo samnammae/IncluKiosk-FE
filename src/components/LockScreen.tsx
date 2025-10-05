@@ -2,25 +2,25 @@ import styled from "styled-components";
 import { useLockStore } from "../stores/lockStore";
 import IncluKioskSub from "../assets/imgs/IncluKioskSub.png";
 import { useEffect } from "react";
-import { useSocketStore } from "../stores/socketStore";
+import { SocketMessage, useSocketStore } from "../stores/socketStore";
 
 const LockScreen = () => {
   const { isLocked, setLocked, resetTimer } = useLockStore();
-  const { sendMessage, setOnMessage } = useSocketStore();
+  const { sendMessage, addOnMessage, removeOnMessage } = useSocketStore();
 
   useEffect(() => {
     if (isLocked) sendMessage({ type: "PIR_ON" }); //CASE 1
 
     //CASE 2-1
-    setOnMessage((msg) => {
+    const handle = (msg: SocketMessage) => {
       if (msg.type === "PIR_DETECTED") {
         setLocked(false); // 플래그 → 잠금 해제
         resetTimer();
       }
-    });
-
-    return () => setOnMessage(null);
-  }, [isLocked]);
+    };
+    addOnMessage(handle);
+    return () => removeOnMessage(handle);
+  }, [isLocked, addOnMessage, removeOnMessage]);
 
   return (
     <Overlay visible={isLocked}>
