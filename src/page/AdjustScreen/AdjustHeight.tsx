@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { useSocketStore } from "../../stores/socketStore";
+import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import kioskTop from "../../assets/imgs/kioskTop.webp";
 import kioskBottom from "../../assets/imgs/kioskBottom.webp";
 
 const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
-  const { connect, setOnMessage } = useSocketStore();
+  const { connect, addOnMessage, removeOnMessage } = useSocketStore();
   const [currentStep, setCurrentStep] = useState(0);
   const [isAdjusting, setIsAdjusting] = useState(true);
 
@@ -22,16 +22,17 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   }, [connect]);
 
   useEffect(() => {
-    //CASE 3
-    setOnMessage((msg) => {
+    const handle = (msg: SocketMessage) => {
       if (msg.type === "EYE_CALIB_ON") {
         setIsAdjusting(false);
         setCurrentStep(3);
         setTimeout(() => nextPage(), 2000);
       }
-    });
-    return () => setOnMessage(null);
-  }, [setOnMessage, nextPage]);
+    };
+
+    addOnMessage(handle);
+    return () => removeOnMessage(handle);
+  }, [addOnMessage, removeOnMessage, nextPage]);
 
   // 문구 수정
   useEffect(() => {

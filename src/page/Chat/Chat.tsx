@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../Home/components/Header";
 import { chatAPI } from "../../apis/chat";
 import { useSocketStore, SocketMessage } from "../../stores/socketStore";
 import VoiceStatus from "./VoiceStatusProps";
 import { generateSessionId } from "./getId";
+import ChatTestButton from "./ChatTestButton";
 
 // 메시지 타입 정의
-interface ChatMessage {
+export interface ChatMessage {
   message: string;
   isBot: boolean;
 }
 
 const Chat = () => {
-  const { connect, sendMessage, setOnMessage, isConnected } = useSocketStore();
+  const { connect, sendMessage, addOnMessage, removeOnMessage, isConnected } =
+    useSocketStore();
   const shopId = localStorage.getItem("shopId") || "";
 
   // 대화 세션 ID (대화 시작할 때 1회 생성)
@@ -22,28 +24,38 @@ const Chat = () => {
   const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-
+  //채팅 쌓였을 시 맨 하단부로 스크롤 기능 구현
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); // 새로운 메시지가 추가될 때마다 맨 아래로 이동
+  }, [chatLogs]);
   // 채팅 animation 기능
-  const [visibleText, setVisibleText] = useState<string>("");
-
+  const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
   useEffect(() => {
     if (chatLogs.length === 0) return;
 
-    const lastChat = chatLogs[chatLogs.length - 1];
+    const lastIndex = chatLogs.length - 1;
+    const lastChat = chatLogs[lastIndex];
     const words = lastChat.message.split(" ");
     let i = 0;
 
+    // 말풍선 초기화
+    setVisibleTexts((prev) => ({ ...prev, [lastIndex]: words[0] }));
+
     const interval = setInterval(() => {
-      if (i < words.length) {
-        const currentWord = words[i];
-        setVisibleText((prev) =>
-          i === 0 ? currentWord : prev + " " + currentWord
-        );
+      if (i < words.length - 1) {
+        setVisibleTexts((prev) => ({
+          ...prev,
+          [lastIndex]: prev[lastIndex]
+            ? prev[lastIndex] + " " + words[i]
+            : words[i],
+        }));
         i++;
       } else {
         clearInterval(interval);
       }
-    }, 80);
+    }, 60);
+
     return () => clearInterval(interval);
   }, [chatLogs]);
 
@@ -56,7 +68,7 @@ const Chat = () => {
   useEffect(() => {
     if (!isConnected) return;
 
-    setOnMessage(async (msg: SocketMessage) => {
+    const handle = async (msg: SocketMessage) => {
       switch (msg.type) {
         // CASE 7-1: 안내 음성 끝 → STT 시작
         case "END_GUIDE":
@@ -136,15 +148,23 @@ const Chat = () => {
         default:
           console.log("처리되지 않은 메시지:", msg);
       }
-    });
-
-    return () => setOnMessage(null); // 페이지 벗어나면 핸들러 해제
-  }, [isConnected, sendMessage, setOnMessage, shopId, sessionId]);
+    };
+    addOnMessage(handle);
+    return () => removeOnMessage(handle);
+  }, [
+    isConnected,
+    sendMessage,
+    shopId,
+    sessionId,
+    addOnMessage,
+    removeOnMessage,
+  ]);
 
   return (
     <BaseContainer>
       <Header />
       <Background>
+        <ChatTestButton setChatLogs={setChatLogs} />
         <ChatContainer>
           <WelcomeMessage>
             안녕하세요 음성으로 주문을 도와드릴게요.
@@ -156,23 +176,23 @@ const Chat = () => {
           <VoiceStatus isListening={isListening} isProcessing={isProcessing} />
 
           {/* 챗봇 로그 */}
-          {chatLogs.map((chat, idx) => (
-            <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
-              {idx === chatLogs.length - 1 ? (
-                // 마지막 말풍선만 순차적으로 출력
-                chat.isBot ? (
-                  <BotChat>{visibleText}</BotChat>
+          {chatLogs.map((chat, idx) => {
+            const animatedText = visibleTexts[idx];
+            const isLast = idx === chatLogs.length - 1;
+
+            return (
+              <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
+                {chat.isBot ? (
+                  <BotChat>
+                    {isLast ? animatedText ?? "" : chat.message}
+                  </BotChat>
                 ) : (
-                  <MyChat>{visibleText}</MyChat>
-                )
-              ) : // 이전 말풍선은 그대로 표시
-              chat.isBot ? (
-                <BotChat>{chat.message}</BotChat>
-              ) : (
-                <MyChat>{chat.message}</MyChat>
-              )}
-            </ChatWrapper>
-          ))}
+                  <MyChat>{isLast ? animatedText ?? "" : chat.message}</MyChat>
+                )}
+              </ChatWrapper>
+            );
+          })}
+          <div ref={bottomRef} />
         </ChatContainer>
       </Background>
     </BaseContainer>
@@ -192,6 +212,7 @@ const Background = styled.div`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   flex: 1;
   display: flex;
+  flex-direction: column;
   overflow: hidden;
 `;
 const ChatContainer = styled.div`
@@ -204,6 +225,10 @@ const ChatContainer = styled.div`
   margin: 1rem;
   border-radius: 20px;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+
+  //채팅 쌓일 시 하단 채팅으로 이동했을 때 자연스럽게 이동하기 위한 css
+  padding-bottom: 80px;
+  scroll-padding-bottom: 80px;
   &::-webkit-scrollbar {
     width: 6px;
   }
