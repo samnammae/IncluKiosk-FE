@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../Home/components/Header";
 import { chatAPI } from "../../apis/chat";
 import { useSocketStore, SocketMessage } from "../../stores/socketStore";
 import VoiceStatus from "./VoiceStatusProps";
 import { generateSessionId } from "./getId";
+import ChatTestButton from "./ChatTestButton";
 
 // 메시지 타입 정의
-interface ChatMessage {
+export interface ChatMessage {
   message: string;
   isBot: boolean;
 }
@@ -25,26 +26,32 @@ const Chat = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   // 채팅 animation 기능
-  const [visibleText, setVisibleText] = useState<string>("");
-
+  const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
   useEffect(() => {
     if (chatLogs.length === 0) return;
 
-    const lastChat = chatLogs[chatLogs.length - 1];
+    const lastIndex = chatLogs.length - 1;
+    const lastChat = chatLogs[lastIndex];
     const words = lastChat.message.split(" ");
     let i = 0;
 
+    // 말풍선 초기화
+    setVisibleTexts((prev) => ({ ...prev, [lastIndex]: words[0] }));
+
     const interval = setInterval(() => {
-      if (i < words.length) {
-        const currentWord = words[i];
-        setVisibleText((prev) =>
-          i === 0 ? currentWord : prev + " " + currentWord
-        );
+      if (i < words.length - 1) {
+        setVisibleTexts((prev) => ({
+          ...prev,
+          [lastIndex]: prev[lastIndex]
+            ? prev[lastIndex] + " " + words[i]
+            : words[i],
+        }));
         i++;
       } else {
         clearInterval(interval);
       }
-    }, 80);
+    }, 60);
+
     return () => clearInterval(interval);
   }, [chatLogs]);
 
@@ -153,6 +160,7 @@ const Chat = () => {
     <BaseContainer>
       <Header />
       <Background>
+        <ChatTestButton setChatLogs={setChatLogs} />
         <ChatContainer>
           <WelcomeMessage>
             안녕하세요 음성으로 주문을 도와드릴게요.
@@ -164,23 +172,22 @@ const Chat = () => {
           <VoiceStatus isListening={isListening} isProcessing={isProcessing} />
 
           {/* 챗봇 로그 */}
-          {chatLogs.map((chat, idx) => (
-            <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
-              {idx === chatLogs.length - 1 ? (
-                // 마지막 말풍선만 순차적으로 출력
-                chat.isBot ? (
-                  <BotChat>{visibleText}</BotChat>
+          {chatLogs.map((chat, idx) => {
+            const animatedText = visibleTexts[idx];
+            const isLast = idx === chatLogs.length - 1;
+
+            return (
+              <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
+                {chat.isBot ? (
+                  <BotChat>
+                    {isLast ? animatedText ?? "" : chat.message}
+                  </BotChat>
                 ) : (
-                  <MyChat>{visibleText}</MyChat>
-                )
-              ) : // 이전 말풍선은 그대로 표시
-              chat.isBot ? (
-                <BotChat>{chat.message}</BotChat>
-              ) : (
-                <MyChat>{chat.message}</MyChat>
-              )}
-            </ChatWrapper>
-          ))}
+                  <MyChat>{isLast ? animatedText ?? "" : chat.message}</MyChat>
+                )}
+              </ChatWrapper>
+            );
+          })}
         </ChatContainer>
       </Background>
     </BaseContainer>
@@ -200,6 +207,7 @@ const Background = styled.div`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   flex: 1;
   display: flex;
+  flex-direction: column;
   overflow: hidden;
 `;
 const ChatContainer = styled.div`
