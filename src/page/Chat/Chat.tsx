@@ -24,7 +24,11 @@ const Chat = () => {
   const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-
+  //채팅 쌓였을 시 맨 하단부로 스크롤 기능 구현
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); // 새로운 메시지가 추가될 때마다 맨 아래로 이동
+  }, [chatLogs]);
   // 채팅 animation 기능
   const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
   useEffect(() => {
@@ -188,6 +192,7 @@ const Chat = () => {
               </ChatWrapper>
             );
           })}
+          <div ref={bottomRef} />
         </ChatContainer>
       </Background>
     </BaseContainer>
@@ -220,6 +225,10 @@ const ChatContainer = styled.div`
   margin: 1rem;
   border-radius: 20px;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+
+  //채팅 쌓일 시 하단 채팅으로 이동했을 때 자연스럽게 이동하기 위한 css
+  padding-bottom: 80px;
+  scroll-padding-bottom: 80px;
   &::-webkit-scrollbar {
     width: 6px;
   }
