@@ -13,6 +13,7 @@ declare global {
     setKioskMode: (mode: string) => void;
     getKioskMode: () => string;
     setLock: () => void;
+    showButton: (mode: boolean) => void;
   }
 }
 const App = () => {
