@@ -37,10 +37,11 @@ const DetailModal = () => {
   //모달 닫기
   const onClose = (): void => {
     setIsDetailModalOpen(false);
+    setQuantity(1);
   };
 
   const totalPrice = selectedMenu
-    ? selectedMenu.price * quantity + optionCost
+    ? selectedMenu.price * quantity + optionCost * quantity
     : 0; //전체 금액
 
   //수량 핸들러
