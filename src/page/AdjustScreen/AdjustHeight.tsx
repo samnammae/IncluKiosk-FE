@@ -5,7 +5,8 @@ import kioskTop from "../../assets/imgs/kioskTop.webp";
 import kioskBottom from "../../assets/imgs/kioskBottom.webp";
 
 const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
-  const { connect, addOnMessage, removeOnMessage } = useSocketStore();
+  const { connect, addOnMessage, removeOnMessage, sendMessage } =
+    useSocketStore();
   const [currentStep, setCurrentStep] = useState(0);
   const [isAdjusting, setIsAdjusting] = useState(true);
 
@@ -23,7 +24,20 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
 
   useEffect(() => {
     const handle = (msg: SocketMessage) => {
-      if (msg.type === "EYE_CALIB_ON") {
+      //CASE 2-2 동작 과정
+      if (msg.type === "PIR_END") {
+        sendMessage({ type: "HEIGHT_SET_ON" }); //CASE 3-1
+      }
+    };
+
+    addOnMessage(handle);
+    return () => removeOnMessage(handle);
+  }, [addOnMessage, removeOnMessage, nextPage]);
+
+  useEffect(() => {
+    //CASE 3-2
+    const handle = (msg: SocketMessage) => {
+      if (msg.type === "HEIGHT_SET_END") {
         setIsAdjusting(false);
         setCurrentStep(3);
         setTimeout(() => nextPage(), 2000);
