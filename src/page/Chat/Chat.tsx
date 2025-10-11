@@ -14,9 +14,13 @@ export interface ChatMessage {
 }
 
 const Chat = () => {
+  //소켓 관련 스토어
   const { connect, sendMessage, addOnMessage, removeOnMessage, isConnected } =
     useSocketStore();
+
+  //매장 정보
   const shopId = localStorage.getItem("shopId") || "";
+  const shopName = localStorage.getItem("shopName") || "";
 
   // 대화 세션 ID (대화 시작할 때 1회 생성)
   const [sessionId] = useState(generateSessionId(shopId));
@@ -24,11 +28,13 @@ const Chat = () => {
   const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+
   //채팅 쌓였을 시 맨 하단부로 스크롤 기능 구현
   const bottomRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); // 새로운 메시지가 추가될 때마다 맨 아래로 이동
   }, [chatLogs]);
+
   // 채팅 animation 기능
   const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
   useEffect(() => {
@@ -96,6 +102,8 @@ const Chat = () => {
               const res = await chatAPI.sendChat(shopId, {
                 sessionId,
                 message: msg.message,
+                storeId: Number(shopId),
+                storeName: shopName,
               });
 
               // API 응답(챗봇 답변)
