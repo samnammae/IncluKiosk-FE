@@ -14,6 +14,7 @@ const LockScreen = () => {
     //CASE 2-1
     const handle = (msg: SocketMessage) => {
       if (msg.type === "PIR_DETECTED") {
+        sendMessage({ type: "PIR_OFF" });
         setLocked(false); // 플래그 → 잠금 해제
         resetTimer();
       }
