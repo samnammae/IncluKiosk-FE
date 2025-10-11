@@ -6,6 +6,8 @@ import { useSocketStore, SocketMessage } from "../../stores/socketStore";
 import VoiceStatus from "./VoiceStatusProps";
 import { generateSessionId } from "./getId";
 import ChatTestButton from "./ChatTestButton";
+import ErrorModal from "./ErrorModal";
+import { useNavigate } from "react-router-dom";
 
 // 메시지 타입 정의
 export interface ChatMessage {
@@ -65,6 +67,16 @@ const Chat = () => {
     return () => clearInterval(interval);
   }, [chatLogs]);
 
+  //에러 모달
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onClose = () => {};
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+
+  //네비게이션
+  const nav = useNavigate();
   // 소켓 연결
   useEffect(() => {
     connect();
@@ -146,6 +158,7 @@ const Chat = () => {
           setIsListening(false);
           setIsProcessing(true);
           break;
+
         // CASE 7-7: STT오류안내음성 끝난 후-> 프론트에게 끝낫다 말함. -> 프론트 다시 음성인식한다고 말함
         case "ERR_END":
           console.log("라즈베리파이 ERR 안내음성 출력 끝");
@@ -153,6 +166,18 @@ const Chat = () => {
           setIsListening(true);
           setIsProcessing(false);
           break;
+
+        // CASE 7-8: 2번 째 오류 발생 과정 -> 라즈베리에서 음성이 나오고 프론트는 모달 띄우기
+        case "ORDER_CANCEL":
+          setIsOpen(false); //에러 모달 열기
+          break;
+
+        // CASE 7-9: 에러 음성이 끝난 뒤 채팅화면 탈출
+        case "CANCEL_END":
+          setIsOpen(false); //에러 모달 닫기
+          nav("/start");
+          break;
+
         default:
           console.log("처리되지 않은 메시지:", msg);
       }
@@ -169,41 +194,49 @@ const Chat = () => {
   ]);
 
   return (
-    <BaseContainer>
-      <Header />
-      <Background>
-        <ChatTestButton setChatLogs={setChatLogs} />
-        <ChatContainer>
-          <WelcomeMessage>
-            안녕하세요 음성으로 주문을 도와드릴게요.
-            <br />
-            무엇을 드시고 싶으신가요?
-          </WelcomeMessage>
+    <>
+      <ErrorModal isOpen={isOpen} />
+      <BaseContainer>
+        <Header />
+        <Background>
+          <ChatTestButton setChatLogs={setChatLogs} />
+          <ChatContainer>
+            <WelcomeMessage>
+              안녕하세요 음성으로 주문을 도와드릴게요.
+              <br />
+              무엇을 드시고 싶으신가요?
+            </WelcomeMessage>
 
-          {/* 음성 입력/처리 상태 */}
-          <VoiceStatus isListening={isListening} isProcessing={isProcessing} />
+            {/* 음성 입력/처리 상태 */}
+            <VoiceStatus
+              isListening={isListening}
+              isProcessing={isProcessing}
+            />
 
-          {/* 챗봇 로그 */}
-          {chatLogs.map((chat, idx) => {
-            const animatedText = visibleTexts[idx];
-            const isLast = idx === chatLogs.length - 1;
+            {/* 챗봇 로그 */}
+            {chatLogs.map((chat, idx) => {
+              const animatedText = visibleTexts[idx];
+              const isLast = idx === chatLogs.length - 1;
 
-            return (
-              <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
-                {chat.isBot ? (
-                  <BotChat>
-                    {isLast ? animatedText ?? "" : chat.message}
-                  </BotChat>
-                ) : (
-                  <MyChat>{isLast ? animatedText ?? "" : chat.message}</MyChat>
-                )}
-              </ChatWrapper>
-            );
-          })}
-          <div ref={bottomRef} />
-        </ChatContainer>
-      </Background>
-    </BaseContainer>
+              return (
+                <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
+                  {chat.isBot ? (
+                    <BotChat>
+                      {isLast ? animatedText ?? "" : chat.message}
+                    </BotChat>
+                  ) : (
+                    <MyChat>
+                      {isLast ? animatedText ?? "" : chat.message}
+                    </MyChat>
+                  )}
+                </ChatWrapper>
+              );
+            })}
+            <div ref={bottomRef} />
+          </ChatContainer>
+        </Background>
+      </BaseContainer>
+    </>
   );
 };
 
