@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ChatMessage } from "./Chat";
+import { ChatMessage } from "../Chat";
 import styled from "styled-components";
 interface ChatTestButtonProps {
   setChatLogs: React.Dispatch<React.SetStateAction<ChatMessage[]>>;

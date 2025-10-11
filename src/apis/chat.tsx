@@ -3,7 +3,12 @@ import { api } from "./api";
 export const chatAPI = {
   sendChat: async (
     storeId: string,
-    data: { sessionId: string; message: string }
+    data: {
+      sessionId: string;
+      message: string;
+      storeId: number;
+      storeName: string;
+    }
   ) => {
     const response = await api.post(`/chatbot/${storeId}`, data);
     console.log(response.data);

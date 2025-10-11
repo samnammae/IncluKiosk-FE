@@ -13,7 +13,7 @@ const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
 
   useEffect(() => {
     const start = performance.now();
-
+    sendMessage({ type: "EYE_CALIB_ON" }); //CASE 4-1
     const check = () => {
       const elapsed = performance.now() - start;
 

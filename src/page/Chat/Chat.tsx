@@ -3,9 +3,11 @@ import styled from "styled-components";
 import Header from "../Home/components/Header";
 import { chatAPI } from "../../apis/chat";
 import { useSocketStore, SocketMessage } from "../../stores/socketStore";
-import VoiceStatus from "./VoiceStatusProps";
-import { generateSessionId } from "./getId";
-import ChatTestButton from "./ChatTestButton";
+import VoiceStatus from "./components/VoiceStatusProps";
+import { generateSessionId } from "./components/getId";
+import ChatTestButton from "./components/ChatTestButton";
+import ErrorModal from "./components/ErrorModal";
+import { useNavigate } from "react-router-dom";
 
 // 메시지 타입 정의
 export interface ChatMessage {
@@ -14,9 +16,13 @@ export interface ChatMessage {
 }
 
 const Chat = () => {
+  //소켓 관련 스토어
   const { connect, sendMessage, addOnMessage, removeOnMessage, isConnected } =
     useSocketStore();
+
+  //매장 정보
   const shopId = localStorage.getItem("shopId") || "";
+  const shopName = localStorage.getItem("shopName") || "";
 
   // 대화 세션 ID (대화 시작할 때 1회 생성)
   const [sessionId] = useState(generateSessionId(shopId));
@@ -24,11 +30,13 @@ const Chat = () => {
   const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+
   //채팅 쌓였을 시 맨 하단부로 스크롤 기능 구현
   const bottomRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); // 새로운 메시지가 추가될 때마다 맨 아래로 이동
   }, [chatLogs]);
+
   // 채팅 animation 기능
   const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
   useEffect(() => {
@@ -59,6 +67,11 @@ const Chat = () => {
     return () => clearInterval(interval);
   }, [chatLogs]);
 
+  //에러 모달
+  const [isOpen, setIsOpen] = useState(false);
+
+  //네비게이션
+  const nav = useNavigate();
   // 소켓 연결
   useEffect(() => {
     connect();
@@ -96,6 +109,8 @@ const Chat = () => {
               const res = await chatAPI.sendChat(shopId, {
                 sessionId,
                 message: msg.message,
+                storeId: Number(shopId),
+                storeName: shopName,
               });
 
               // API 응답(챗봇 답변)
@@ -138,6 +153,7 @@ const Chat = () => {
           setIsListening(false);
           setIsProcessing(true);
           break;
+
         // CASE 7-7: STT오류안내음성 끝난 후-> 프론트에게 끝낫다 말함. -> 프론트 다시 음성인식한다고 말함
         case "ERR_END":
           console.log("라즈베리파이 ERR 안내음성 출력 끝");
@@ -145,6 +161,18 @@ const Chat = () => {
           setIsListening(true);
           setIsProcessing(false);
           break;
+
+        // CASE 7-8: 2번 째 오류 발생 과정 -> 라즈베리에서 음성이 나오고 프론트는 모달 띄우기
+        case "ORDER_CANCEL":
+          setIsOpen(false); //에러 모달 열기
+          break;
+
+        // CASE 7-9: 에러 음성이 끝난 뒤 채팅화면 탈출
+        case "CANCEL_END":
+          setIsOpen(false); //에러 모달 닫기
+          nav("/start");
+          break;
+
         default:
           console.log("처리되지 않은 메시지:", msg);
       }
@@ -161,41 +189,49 @@ const Chat = () => {
   ]);
 
   return (
-    <BaseContainer>
-      <Header />
-      <Background>
-        <ChatTestButton setChatLogs={setChatLogs} />
-        <ChatContainer>
-          <WelcomeMessage>
-            안녕하세요 음성으로 주문을 도와드릴게요.
-            <br />
-            무엇을 드시고 싶으신가요?
-          </WelcomeMessage>
+    <>
+      <ErrorModal isOpen={isOpen} />
+      <BaseContainer>
+        <Header />
+        <Background>
+          <ChatTestButton setChatLogs={setChatLogs} />
+          <ChatContainer>
+            <WelcomeMessage>
+              안녕하세요 음성으로 주문을 도와드릴게요.
+              <br />
+              무엇을 드시고 싶으신가요?
+            </WelcomeMessage>
 
-          {/* 음성 입력/처리 상태 */}
-          <VoiceStatus isListening={isListening} isProcessing={isProcessing} />
+            {/* 음성 입력/처리 상태 */}
+            <VoiceStatus
+              isListening={isListening}
+              isProcessing={isProcessing}
+            />
 
-          {/* 챗봇 로그 */}
-          {chatLogs.map((chat, idx) => {
-            const animatedText = visibleTexts[idx];
-            const isLast = idx === chatLogs.length - 1;
+            {/* 챗봇 로그 */}
+            {chatLogs.map((chat, idx) => {
+              const animatedText = visibleTexts[idx];
+              const isLast = idx === chatLogs.length - 1;
 
-            return (
-              <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
-                {chat.isBot ? (
-                  <BotChat>
-                    {isLast ? animatedText ?? "" : chat.message}
-                  </BotChat>
-                ) : (
-                  <MyChat>{isLast ? animatedText ?? "" : chat.message}</MyChat>
-                )}
-              </ChatWrapper>
-            );
-          })}
-          <div ref={bottomRef} />
-        </ChatContainer>
-      </Background>
-    </BaseContainer>
+              return (
+                <ChatWrapper key={idx} $isBotMessage={chat.isBot}>
+                  {chat.isBot ? (
+                    <BotChat>
+                      {isLast ? animatedText ?? "" : chat.message}
+                    </BotChat>
+                  ) : (
+                    <MyChat>
+                      {isLast ? animatedText ?? "" : chat.message}
+                    </MyChat>
+                  )}
+                </ChatWrapper>
+              );
+            })}
+            <div ref={bottomRef} />
+          </ChatContainer>
+        </Background>
+      </BaseContainer>
+    </>
   );
 };
 
