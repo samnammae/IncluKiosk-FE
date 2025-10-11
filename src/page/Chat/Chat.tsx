@@ -3,10 +3,10 @@ import styled from "styled-components";
 import Header from "../Home/components/Header";
 import { chatAPI } from "../../apis/chat";
 import { useSocketStore, SocketMessage } from "../../stores/socketStore";
-import VoiceStatus from "./VoiceStatusProps";
-import { generateSessionId } from "./getId";
-import ChatTestButton from "./ChatTestButton";
-import ErrorModal from "./ErrorModal";
+import VoiceStatus from "./components/VoiceStatusProps";
+import { generateSessionId } from "./components/getId";
+import ChatTestButton from "./components/ChatTestButton";
+import ErrorModal from "./components/ErrorModal";
 import { useNavigate } from "react-router-dom";
 
 // 메시지 타입 정의
