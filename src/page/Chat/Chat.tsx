@@ -70,11 +70,6 @@ const Chat = () => {
   //에러 모달
   const [isOpen, setIsOpen] = useState(false);
 
-  const onClose = () => {};
-  const onOpen = () => {
-    setIsOpen(true);
-  };
-
   //네비게이션
   const nav = useNavigate();
   // 소켓 연결
