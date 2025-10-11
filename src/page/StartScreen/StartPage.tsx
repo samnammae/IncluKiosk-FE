@@ -27,7 +27,7 @@ const StartPge = () => {
 
     //CASE 5-1
     const handle = (msg: SocketMessage) => {
-      if (msg.type === "CHAT_ORDER_ON") {
+      if (msg.type === "FIST_DETECTED") {
         nav("/chat");
         sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 5-2
       }
