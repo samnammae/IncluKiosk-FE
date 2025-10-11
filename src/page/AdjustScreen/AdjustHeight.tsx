@@ -27,6 +27,7 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
       //CASE 2-2 동작 과정
       if (msg.type === "PIR_END") {
         sendMessage({ type: "HEIGHT_SET_ON" }); //CASE 3-1
+        console.log("HEIGHT_SET_ON 을 보냄");
       }
     };
 
