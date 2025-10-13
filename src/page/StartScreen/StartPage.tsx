@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { setShopData } from "../../apis/setShopData";
 import { SocketMessage, useSocketStore } from "../../stores/socketStore";
+import TranslateContainer from "../../components/TranslateContainer";
 interface StyledProps {
   $isHovering?: boolean;
   $progress?: number;
@@ -27,7 +28,7 @@ const StartPge = () => {
 
     //CASE 5-1
     const handle = (msg: SocketMessage) => {
-      if (msg.type === "CHAT_ORDER_ON") {
+      if (msg.type === "FIST_DETECTED") {
         nav("/chat");
         sendMessage({ type: "CHAT_ORDER_ON" }); //CASE 5-2
       }
@@ -83,6 +84,7 @@ const StartPge = () => {
 
   return (
     <BaseContainer>
+      <TranslateContainer />
       {startBackground && <Background src={startBackground} />}
       <LogoWrapper>
         {logoimg ? <LogoContainer src={logoimg} /> : <Title>{name}</Title>}
@@ -219,6 +221,7 @@ const OrderButton = styled.div`
 `;
 
 const OrderText = styled.div`
+  text-align: center;
   font-size: ${({ theme }) => theme.fonts.sizes.lg};
   font-weight: ${({ theme }) => theme.fonts.weights.bold};
   color: ${({ theme }) => theme.colors.main};

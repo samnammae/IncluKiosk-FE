@@ -8,6 +8,7 @@ import Router from "./Router";
 import { useState, useEffect } from "react";
 import LockScreen from "./components/LockScreen";
 import { useLockStore } from "./stores/lockStore";
+import GoogleTranslateLoader from "./components/GoogleTranslateLoader";
 declare global {
   interface Window {
     setKioskMode: (mode: string) => void;
@@ -49,6 +50,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <GlobalStyle />
+          <GoogleTranslateLoader />
 
           {isDevelopment ? (
             <KioskWrapper>
