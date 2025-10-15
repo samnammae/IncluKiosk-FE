@@ -3,12 +3,16 @@ import styled, { keyframes } from "styled-components";
 import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import kioskTop from "../../assets/imgs/kioskTop.webp";
 import kioskBottom from "../../assets/imgs/kioskBottom.webp";
+import { useLockStore } from "../../stores/lockStore";
+import UserNotFoundModal from "./UserNotFoundModal";
 
 const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   const { connect, addOnMessage, removeOnMessage, sendMessage } =
     useSocketStore();
+  const { setLocked } = useLockStore();
   const [currentStep, setCurrentStep] = useState(0);
-  const [isAdjusting, setIsAdjusting] = useState(true);
+  const [isAdjusting, setIsAdjusting] = useState(true); //높이 조절 중 상태
+  const [isErrOpen, setIsErrOpen] = useState(false); //에러 모달
 
   const steps = [
     "키오스크 높이를 조절하는 중입니다 ...",
@@ -29,25 +33,27 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
         sendMessage({ type: "HEIGHT_SET_ON" }); //CASE 3-1
         console.log("HEIGHT_SET_ON 을 보냄");
       }
-    };
-
-    addOnMessage(handle);
-    return () => removeOnMessage(handle);
-  }, [addOnMessage, removeOnMessage, nextPage]);
-
-  useEffect(() => {
-    //CASE 3-2
-    const handle = (msg: SocketMessage) => {
+      //CASE 3-2
       if (msg.type === "HEIGHT_SET_END") {
         setIsAdjusting(false);
         setCurrentStep(3);
         setTimeout(() => nextPage(), 2000);
       }
+
+      //CASE 3-3
+      if (msg.type === "HEIGHT_SET_CANCEL") {
+        setIsErrOpen(true); //에러 모달 열기
+        setTimeout(() => {
+          setIsErrOpen(false); //에러 모달 닫기
+          sendMessage({ type: "ALL_RESET" });
+          setLocked(true); //잠금화면으로 돌아가기
+        }, 5000);
+      }
     };
 
     addOnMessage(handle);
     return () => removeOnMessage(handle);
-  }, [addOnMessage, removeOnMessage, nextPage]);
+  }, [addOnMessage, removeOnMessage, sendMessage, nextPage]);
 
   // 문구 수정
   useEffect(() => {
@@ -62,21 +68,30 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   }, []);
 
   return (
-    <Container>
-      <ContentWrapper>
-        <KioskWrapper>
-          {/* 하단 고정된 받침대 */}
-          <BottomImage src={kioskBottom} alt="kiosk-bottom" />
+    <>
+      <UserNotFoundModal isOpen={isErrOpen} />
+      <Container>
+        <ContentWrapper>
+          <KioskWrapper>
+            {/* 하단 고정된 받침대 */}
+            <BottomImage src={kioskBottom} alt="kiosk-bottom" />
 
-          {/* 상단 자동으로 움직이는 스크린 */}
-          <TopImage src={kioskTop} alt="kiosk-top" $isAdjusting={isAdjusting} />
-        </KioskWrapper>
-      </ContentWrapper>
-      <TextWrapper>
-        {!isAdjusting && <CompletedIcon>✓</CompletedIcon>}
-        <StatusText $isComplete={!isAdjusting}>{steps[currentStep]}</StatusText>
-      </TextWrapper>
-    </Container>
+            {/* 상단 자동으로 움직이는 스크린 */}
+            <TopImage
+              src={kioskTop}
+              alt="kiosk-top"
+              $isAdjusting={isAdjusting}
+            />
+          </KioskWrapper>
+        </ContentWrapper>
+        <TextWrapper>
+          {!isAdjusting && <CompletedIcon>✓</CompletedIcon>}
+          <StatusText $isComplete={!isAdjusting}>
+            {steps[currentStep]}
+          </StatusText>
+        </TextWrapper>
+      </Container>
+    </>
   );
 };
 
