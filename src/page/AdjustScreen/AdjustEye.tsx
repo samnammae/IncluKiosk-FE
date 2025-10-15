@@ -30,7 +30,7 @@ const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
       if (msg.type === "EYE_CALIB_ERR") {
         setIsOpen(true);
         setTimeout(() => {
-          sendMessage({ type: "EYE_CALIB_ON" });
+          sendMessage({ type: "EYE_CALIB_ON" }); //다시 CASE 4-1 진입
           setIsOpen(false);
         }, 3000);
       }
