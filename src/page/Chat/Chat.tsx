@@ -105,7 +105,7 @@ const Chat = () => {
             ]);
 
             try {
-              // 👉 챗봇 API 호출
+              //  챗봇 API 호출
               const res = await chatAPI.sendChat(shopId, {
                 sessionId,
                 message: msg.message,
