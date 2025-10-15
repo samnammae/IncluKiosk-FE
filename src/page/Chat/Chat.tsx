@@ -8,6 +8,8 @@ import { generateSessionId } from "./components/getId";
 import ChatTestButton from "./components/ChatTestButton";
 import ErrorModal from "./components/ErrorModal";
 import { useNavigate } from "react-router-dom";
+import SuccessModal from "./components/SuccessModal";
+import { useLockStore } from "../../stores/lockStore";
 
 // 메시지 타입 정의
 export interface ChatMessage {
@@ -19,7 +21,7 @@ const Chat = () => {
   //소켓 관련 스토어
   const { connect, sendMessage, addOnMessage, removeOnMessage, isConnected } =
     useSocketStore();
-
+  const { setLocked } = useLockStore();
   //매장 정보
   const shopId = localStorage.getItem("shopId") || "";
   const shopName = localStorage.getItem("shopName") || "";
@@ -66,9 +68,11 @@ const Chat = () => {
 
     return () => clearInterval(interval);
   }, [chatLogs]);
-
+  //주문 성공 모달
+  const [isSucOpen, setIsSucOpen] = useState(false);
+  const [sucText, setSucText] = useState("");
   //에러 모달
-  const [isOpen, setIsOpen] = useState(false);
+  const [isErrOpen, setIsErrOpen] = useState(false);
 
   //네비게이션
   const nav = useNavigate();
@@ -117,6 +121,26 @@ const Chat = () => {
               const answer =
                 res?.aiMessage || "죄송합니다, 답변을 불러오지 못했습니다.";
 
+              //주문 완료/실패 처리
+              if (answer.includes("주문이")) {
+                if (answer.includes("완료")) {
+                  //CASE 6
+                  setSucText(answer); //성공모달에 메세지 넘겨주기
+                  setIsSucOpen(true); //성공 열기 닫기
+                  setTimeout(() => {
+                    setIsSucOpen(false); //성공 모달 닫기
+                    sendMessage({ type: "ALL_RESET" });
+                    setLocked(true); //잠금 화면으로 이동
+                  }, 5000);
+                } else if (answer.includes("실패")) {
+                  setIsErrOpen(true); //에러 모달 열기
+                  setTimeout(() => {
+                    setIsErrOpen(false); //에러 모달 닫기
+                    nav("/start");
+                  }, 5000);
+                }
+              }
+
               // 대화창에 챗봇 답변 추가
               setChatLogs((prev) => [
                 ...prev,
@@ -164,12 +188,12 @@ const Chat = () => {
 
         // CASE 7-8: 2번 째 오류 발생 과정 -> 라즈베리에서 음성이 나오고 프론트는 모달 띄우기
         case "ORDER_CANCEL":
-          setIsOpen(false); //에러 모달 열기
+          setIsErrOpen(true); //에러 모달 열기
           break;
 
         // CASE 7-9: 에러 음성이 끝난 뒤 채팅화면 탈출
         case "CANCEL_END":
-          setIsOpen(false); //에러 모달 닫기
+          setIsErrOpen(false); //에러 모달 닫기
           nav("/start");
           break;
 
@@ -190,7 +214,8 @@ const Chat = () => {
 
   return (
     <>
-      <ErrorModal isOpen={isOpen} />
+      <ErrorModal isOpen={isErrOpen} />
+      <SuccessModal isOpen={isSucOpen} text={sucText} />
       <BaseContainer>
         <Header />
         <Background>
