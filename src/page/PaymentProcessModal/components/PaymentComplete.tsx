@@ -3,28 +3,36 @@ import { BaseContainer, Title, ButtonContainer, NextButton } from "../Styles";
 import BillGif from "../../../assets/imgs/bill.webp";
 import { useEffect, useState } from "react";
 import { useOrderStore } from "../../../stores/orderStore";
-import { useNavigate } from "react-router-dom";
 import { useMenuStore } from "../../../stores/menuStore";
+import { useSocketStore } from "../../../stores/socketStore";
+import { useLockStore } from "../../../stores/lockStore";
 
 const PaymentComplete = () => {
   const { moveToNextStep, orderType, onClose, orderResponse } = useOrderStore();
-  const nav = useNavigate();
   const { clearCart } = useMenuStore();
+  const { sendMessage } = useSocketStore();
+  const { setLocked } = useLockStore();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       moveToNextStep();
       clearCart();
-      nav("/start");
+      sendMessage({ type: "ALL_RESET" }); //CASE 6
+      setLocked(true);
+      console.log("잠금 모드 활성화 + /adjust 이동");
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [moveToNextStep, clearCart, nav]);
+  }, [moveToNextStep, clearCart]);
 
   const orderTypeText = orderType === "STORE" ? "매장" : "포장";
   const handleHomeClick = () => {
+    moveToNextStep();
     clearCart();
     onClose();
-    nav("/start");
+    sendMessage({ type: "ALL_RESET" }); //CASE 6
+    setLocked(true);
+    console.log("잠금 모드 활성화 + /adjust 이동");
   };
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -54,7 +62,7 @@ const PaymentComplete = () => {
             : "포장 준비가 완료되면 알림을 드립니다"}
         </Instructions>
       </CompletionContainer>
-      <RedirectMessage>잠시 후 메인 화면으로 이동합니다...</RedirectMessage>
+      <RedirectMessage>잠시 후 초기 화면으로 이동합니다...</RedirectMessage>
       <ButtonContainer>
         <NextButton onClick={handleHomeClick}>홈으로</NextButton>
       </ButtonContainer>
