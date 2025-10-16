@@ -15,7 +15,7 @@ const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
 
   useEffect(() => {
     sendMessage({ type: "EYE_CALIB_ON" }); //CASE 4-1
-  }, [sendMessage, nextPage]);
+  }, []);
 
   useEffect(() => {
     const handle = (msg: SocketMessage) => {

@@ -22,10 +22,13 @@ const StartPge = () => {
     connect();
   }, [connect]);
 
+  //마운트 시 mode_select_on
+  useEffect(() => {
+    sendMessage({ type: "MODE_SELECT_ON" }); //CASE 4
+  }, []);
+
   useEffect(() => {
     if (!isConnected) return;
-    sendMessage({ type: "MODE_SELECT_ON" }); //CASE 4
-
     //CASE 5-1
     const handle = (msg: SocketMessage) => {
       if (msg.type === "FIST_DETECTED") {
