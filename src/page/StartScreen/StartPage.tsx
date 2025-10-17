@@ -46,6 +46,11 @@ const StartPge = () => {
     setShopData(selectedShopId);
   }, []);
 
+  //전 페이지 마우스 위치 초기화 로직
+  useEffect(() => {
+    window.dispatchEvent(new MouseEvent("mousemove"));
+  }, []);
+
   const [isHovering, setIsHovering] = useState(false);
   const [progress, setProgress] = useState(0);
   const timerRef = useRef<number | null>(null);
