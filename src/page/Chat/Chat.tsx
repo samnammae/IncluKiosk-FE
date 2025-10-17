@@ -34,12 +34,7 @@ const Chat = () => {
   const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isEnd, setIsEnd] = useState<"성공" | "실패" | false>(false);
-  //채팅 쌓였을 시 맨 하단부로 스크롤 기능 구현
-  const bottomRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); // 새로운 메시지가 추가될 때마다 맨 아래로 이동
-  }, [chatLogs]);
+  const [isEnd, setIsEnd] = useState<"성공" | "실패" | false>(false); //성공 상태
 
   // 채팅 animation 기능
   const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
@@ -70,6 +65,16 @@ const Chat = () => {
 
     return () => clearInterval(interval);
   }, [chatLogs]);
+
+  //채팅 쌓였을 시 맨 하단부로 스크롤 기능 구현
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [chatLogs, visibleTexts]);
+
   //주문 성공 모달
   const [isSucOpen, setIsSucOpen] = useState(false);
   const [sucText, setSucText] = useState("");
@@ -243,7 +248,7 @@ const Chat = () => {
         <Header />
         <Background>
           <ChatTestButton setChatLogs={setChatLogs} />
-          <ChatContainer>
+          <ChatContainer ref={containerRef}>
             <WelcomeMessage>
               안녕하세요 음성으로 주문을 도와드릴게요.
               <br />
@@ -275,7 +280,7 @@ const Chat = () => {
                 </ChatWrapper>
               );
             })}
-            <div ref={bottomRef} />
+            {/* <div ref={bottomRef} /> */}
           </ChatContainer>
         </Background>
       </BaseContainer>
