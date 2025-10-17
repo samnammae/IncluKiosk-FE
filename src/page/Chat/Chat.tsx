@@ -34,7 +34,7 @@ const Chat = () => {
   const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-
+  const [isEnd, setIsEnd] = useState<"성공" | "실패" | false>(false);
   //채팅 쌓였을 시 맨 하단부로 스크롤 기능 구현
   const bottomRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -134,20 +134,13 @@ const Chat = () => {
               //주문 완료/실패 처리
               if (answer.includes("주문이")) {
                 if (answer.includes("완료")) {
+                  setIsEnd("성공");
                   //CASE 6
                   setSucText(answer); //성공모달에 메세지 넘겨주기
-                  setIsSucOpen(true); //성공 열기 닫기
-                  setTimeout(() => {
-                    setIsSucOpen(false); //성공 모달 닫기
-                    sendMessage({ type: "ALL_RESET" });
-                    setLocked(true); //잠금 화면으로 이동
-                  }, 5000);
+                  setIsSucOpen(true); //성공 열기
                 } else if (answer.includes("실패")) {
+                  setIsEnd("실패");
                   setIsErrOpen(true); //에러 모달 열기
-                  setTimeout(() => {
-                    setIsErrOpen(false); //에러 모달 닫기
-                    nav("/start");
-                  }, 5000);
                 }
               }
 
@@ -168,6 +161,26 @@ const Chat = () => {
         // CASE 7-5: 음성 출력 종료 → 다시 STT 시작
         case "TTS_OFF":
           console.log("음성 출력 종료 → 다음 발화 대기");
+
+          //주문이 완료되거나 실패한 경우
+          //CASE 6
+          if (isEnd) {
+            if (isEnd === "성공") {
+              setTimeout(() => {
+                setIsSucOpen(false); //성공 모달 닫기
+                sendMessage({ type: "ALL_RESET" });
+                setLocked(true); //잠금 화면으로 이동
+              }, 5000);
+              break;
+            } else {
+              setTimeout(() => {
+                setIsErrOpen(false); //에러 모달 닫기
+                nav("/start");
+              }, 5000);
+              break;
+            }
+          }
+
           sendMessage({ type: "STT_ON" });
           setIsListening(true);
           setIsProcessing(false);
