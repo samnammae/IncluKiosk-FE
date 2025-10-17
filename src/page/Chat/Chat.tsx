@@ -318,7 +318,7 @@ const ChatWrapper = styled.div<{ $isBotMessage: boolean }>`
 `;
 const ChatBox = styled.div`
   padding: 15px 20px;
-  font-size: ${({ theme }) => theme.fonts.sizes.xs};
+  font-size: ${({ theme }) => theme.fonts.sizes.sm};
   line-height: 1.4;
   max-width: 65%;
   animation: fadeInUp 0.3s ease;
