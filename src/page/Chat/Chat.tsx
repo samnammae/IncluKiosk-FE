@@ -22,6 +22,8 @@ const Chat = () => {
   const { connect, sendMessage, addOnMessage, removeOnMessage, isConnected } =
     useSocketStore();
   const { setLocked } = useLockStore();
+  const { resetTimer } = useLockStore();
+
   //매장 정보
   const shopId = localStorage.getItem("shopId") || "";
   const shopName = localStorage.getItem("shopName") || "";
@@ -80,6 +82,14 @@ const Chat = () => {
   useEffect(() => {
     connect();
   }, [connect]);
+
+  //챗봇 화면에서 잠금 방지 로직
+  useEffect(() => {
+    if (chatLogs.length > 0) {
+      resetTimer(); // 채팅이 추가될 때마다 타이머 리셋
+      console.log("채팅 발생으로 인해 잠금 타이머 리셋");
+    }
+  }, [chatLogs]);
 
   //소켓 핸들러 구현
   useEffect(() => {
