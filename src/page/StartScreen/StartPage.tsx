@@ -290,7 +290,7 @@ const ProgressText = styled.div`
   position: relative;
   z-index: 1;
   background-color: white;
-  padding: 0.5rem 1rem;
+  padding: 3rem 1rem;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   box-shadow: ${({ theme }) => theme.shadows.sm};
 `;
