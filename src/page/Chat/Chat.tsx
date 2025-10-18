@@ -35,6 +35,10 @@ const Chat = () => {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isEnd, setIsEnd] = useState<"성공" | "실패" | false>(false); //성공 상태
+  const isEndRef = useRef(isEnd);
+  useEffect(() => {
+    isEndRef.current = isEnd;
+  }, [isEnd]);
 
   // 채팅 animation 기능
   const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
@@ -168,9 +172,9 @@ const Chat = () => {
         // CASE 7-5: 음성 출력 종료 → 다시 STT 시작
         case "TTS_OFF":
           console.log("음성 출력 종료 → 다음 발화 대기");
-
+          const endState = isEndRef.current; //  항상 최신값
           // 최신 상태 유지용 ref
-          if (isEnd === "성공") {
+          if (endState === "성공") {
             console.log("🎉 주문 성공 - 리셋 프로세스 시작");
             (async () => {
               try {
@@ -190,7 +194,7 @@ const Chat = () => {
                 console.error("TTS_OFF 처리 중 에러:", err);
               }
             })();
-          } else if (isEnd === "실패") {
+          } else if (endState === "실패") {
             console.log("❌ 주문 실패 - 홈으로 복귀");
             setTimeout(() => {
               setIsErrOpen(false);
