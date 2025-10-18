@@ -171,17 +171,13 @@ const Chat = () => {
           //CASE 6
           if (isEnd) {
             if (isEnd === "성공") {
-              setTimeout(() => {
-                setIsSucOpen(false); //성공 모달 닫기
-                sendMessage({ type: "ALL_RESET" });
-                setLocked(true); //잠금 화면으로 이동
-              }, 5000);
+              setIsSucOpen(false); //성공 모달 닫기
+              sendMessage({ type: "ALL_RESET" });
+              setLocked(true); //잠금 화면으로 이동
               break;
             } else {
-              setTimeout(() => {
-                setIsErrOpen(false); //에러 모달 닫기
-                nav("/start");
-              }, 5000);
+              setIsErrOpen(false); //에러 모달 닫기
+              nav("/start");
               break;
             }
           }
