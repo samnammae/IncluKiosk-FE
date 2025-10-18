@@ -168,9 +168,40 @@ const Chat = () => {
         // CASE 7-5: 음성 출력 종료 → 다시 STT 시작
         case "TTS_OFF":
           console.log("음성 출력 종료 → 다음 발화 대기");
-          sendMessage({ type: "STT_ON" });
-          setIsListening(true);
-          setIsProcessing(false);
+
+          // 최신 상태 유지용 ref
+          if (isEnd === "성공") {
+            console.log("🎉 주문 성공 - 리셋 프로세스 시작");
+            (async () => {
+              try {
+                // 잠깐 대기 후 (TTS가 완전히 끝난 다음)
+                await new Promise((r) => setTimeout(r, 1500));
+
+                // 모달 닫기 → 락 전환 → 리셋 순으로
+                setIsSucOpen(false);
+                setLocked(true);
+
+                await new Promise((r) => setTimeout(r, 300)); // UI 반영 대기
+                sendMessage({ type: "ALL_RESET" });
+                console.log("✅ 리셋 신호 보냄");
+
+                setIsEnd(false);
+              } catch (err) {
+                console.error("TTS_OFF 처리 중 에러:", err);
+              }
+            })();
+          } else if (isEnd === "실패") {
+            console.log("❌ 주문 실패 - 홈으로 복귀");
+            setTimeout(() => {
+              setIsErrOpen(false);
+              nav("/start");
+              setIsEnd(false);
+            }, 1500);
+          } else {
+            sendMessage({ type: "STT_ON" });
+            setIsListening(true);
+            setIsProcessing(false);
+          }
           break;
 
         // CASE 7-6: STT오류의 경우 -> 다시 말해주세요!출력 후 대기
@@ -221,29 +252,30 @@ const Chat = () => {
     addOnMessage,
     removeOnMessage,
   ]);
-  // 주문 완료 / 실패 후 후처리 CASE6
-  useEffect(() => {
-    if (!isEnd) return;
 
-    if (isEnd === "성공") {
-      console.log("🎉 주문 성공! 5초 뒤 잠금 화면으로 이동");
-      const timeout = setTimeout(() => {
-        setIsSucOpen(false); // 성공 모달 닫기
-        sendMessage({ type: "ALL_RESET" }); // 라즈베리파이에 리셋 신호
-        setLocked(true); // 잠금 화면 이동
-      }, 5000);
-      return () => clearTimeout(timeout);
-    }
+  // // 주문 완료 / 실패 후 후처리 CASE6
+  // useEffect(() => {
+  //   if (!isEnd) return;
 
-    if (isEnd === "실패") {
-      console.log("❌ 주문 실패! 5초 뒤 다시 시작 화면으로 이동");
-      const timeout = setTimeout(() => {
-        setIsErrOpen(false);
-        nav("/start");
-      }, 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [isEnd, sendMessage, setLocked, nav]);
+  //   if (isEnd === "성공") {
+  //     console.log("🎉 주문 성공! 5초 뒤 잠금 화면으로 이동");
+  //     const timeout = setTimeout(() => {
+  //       setIsSucOpen(false); // 성공 모달 닫기
+  //       sendMessage({ type: "ALL_RESET" }); // 라즈베리파이에 리셋 신호
+  //       setLocked(true); // 잠금 화면 이동
+  //     }, 5000);
+  //     return () => clearTimeout(timeout);
+  //   }
+
+  //   if (isEnd === "실패") {
+  //     console.log("❌ 주문 실패! 5초 뒤 다시 시작 화면으로 이동");
+  //     const timeout = setTimeout(() => {
+  //       setIsErrOpen(false);
+  //       nav("/start");
+  //     }, 5000);
+  //     return () => clearTimeout(timeout);
+  //   }
+  // }, [isEnd, sendMessage, setLocked, nav]);
 
   return (
     <>
