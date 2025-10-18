@@ -1,91 +1,98 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSocketStore } from "../../stores/socketStore";
+import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import * as motion from "motion/react-client";
+import EyeCalibrationFailModal from "./EyeCalibrationFailModal";
 
 const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
-  const { connect, sendMessage } = useSocketStore();
+  const { connect, addOnMessage, removeOnMessage, sendMessage } =
+    useSocketStore();
   const [complete, setComplete] = useState(false);
-
+  const [isErrOpen, setIsOpen] = useState(false);
   useEffect(() => {
     connect();
   }, [connect]);
 
   useEffect(() => {
-    const start = performance.now();
     sendMessage({ type: "EYE_CALIB_ON" }); //CASE 4-1
-    const check = () => {
-      const elapsed = performance.now() - start;
+  }, []);
 
-      // 4초 경과 → 완료 표시
-      if (elapsed >= 5000 && !complete) {
+  useEffect(() => {
+    const handle = (msg: SocketMessage) => {
+      //CASE 4-2-1
+      if (msg.type === "EYE_CALIB_END") {
         setComplete(true);
+        setTimeout(() => {
+          nextPage();
+        }, 3000);
       }
-
-      // 6.5초 경과 → 다음 페이지 이동
-      if (elapsed >= 6500) {
-        sendMessage({ type: "MODE_SELECT_ON" });
-        nextPage();
-        return; // stop checking
+      //CASE 4-2-2
+      if (msg.type === "EYE_CALIB_ERR") {
+        setIsOpen(true);
+        setTimeout(() => {
+          sendMessage({ type: "EYE_CALIB_ON" }); //다시 CASE 4-1 진입
+          setIsOpen(false);
+        }, 3000);
       }
-
-      requestAnimationFrame(check);
     };
 
-    requestAnimationFrame(check);
-  }, [sendMessage, nextPage, complete]);
-
+    addOnMessage(handle);
+    return () => removeOnMessage(handle);
+  }, [addOnMessage, removeOnMessage, sendMessage, nextPage]);
   return (
-    <Container>
-      <Title>아이트래킹을 위한 시선 초점 맞추는 중</Title>
+    <>
+      <EyeCalibrationFailModal isOpen={isErrOpen} />
+      <Container>
+        <Title>아이트래킹을 위한 시선 초점 맞추는 중</Title>
 
-      <TargetWrapper>
-        {/* 외부 링 */}
-        <OuterRing
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
-        />
+        <TargetWrapper>
+          {/* 외부 링 */}
+          <OuterRing
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{
+              duration: 2,
+              ease: "easeInOut",
+              repeat: Infinity,
+            }}
+          />
 
-        {/* 중간 링 */}
-        <MiddleRing
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.5, 0.8, 0.5],
-          }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            repeat: Infinity,
-            delay: 0.2,
-          }}
-        />
+          {/* 중간 링 */}
+          <MiddleRing
+            animate={{
+              scale: [1, 1.15, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              duration: 2,
+              ease: "easeInOut",
+              repeat: Infinity,
+              delay: 0.2,
+            }}
+          />
 
-        {/* 중심점 */}
-        <CenterDot
-          animate={{
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 1.5,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
-        />
-      </TargetWrapper>
+          {/* 중심점 */}
+          <CenterDot
+            animate={{
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 1.5,
+              ease: "easeInOut",
+              repeat: Infinity,
+            }}
+          />
+        </TargetWrapper>
 
-      <Instruction $isComplete={complete}>
-        {complete
-          ? "✓ 조정 완료이 완료되었습니다!"
-          : "중앙의 점을 계속 바라봐주세요"}
-      </Instruction>
-    </Container>
+        <Instruction $isComplete={complete}>
+          {complete
+            ? "✓ 조정 완료이 완료되었습니다!"
+            : "중앙의 점을 계속 바라봐주세요"}
+        </Instruction>
+      </Container>
+    </>
   );
 };
 

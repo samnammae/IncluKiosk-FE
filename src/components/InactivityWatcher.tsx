@@ -33,7 +33,7 @@ const InactivityWatcher = () => {
   //활동 시 잠금해제 기능
   useEffect(() => {
     if (!hasToken) return;
-    const events = ["mousemove", "keydown", "click", "scroll", "touchstart"];
+    const events = ["click", "scroll", "touchstart"];
 
     const handleActivity = () => {
       setLocked(false); // 활동 → 잠금 해제

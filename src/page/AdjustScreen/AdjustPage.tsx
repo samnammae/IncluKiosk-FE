@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdjustEye from "./AdjustEye";
 import AdjustHeight from "./AdjustHeight";
 import { useNavigate } from "react-router-dom";
+import { useLockStore } from "../../stores/lockStore";
 
 const AdjustPage = () => {
   const nav = useNavigate();
+  const { isLocked } = useLockStore();
   const [step, setStep] = useState(1);
+
+  //잠금화면 진입시 1페이지로 초기화
+  useEffect(() => {
+    if (isLocked) {
+      setStep(1);
+    }
+  }, [isLocked]);
+
   const nextPage = () => {
     if (step === 2) {
       setStep(1);
