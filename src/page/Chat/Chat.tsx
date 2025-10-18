@@ -139,11 +139,13 @@ const Chat = () => {
               //주문 완료/실패 처리
               if (answer.includes("주문이")) {
                 if (answer.includes("완료")) {
+                  console.log("isEnd변경->성공", isEnd);
                   setIsEnd("성공");
                   //CASE 6
                   setSucText(answer); //성공모달에 메세지 넘겨주기
                   setIsSucOpen(true); //성공 열기
                 } else if (answer.includes("실패")) {
+                  console.log("isEnd변경->실패", isEnd);
                   setIsEnd("실패");
                   setIsErrOpen(true); //에러 모달 열기
                 }
@@ -166,22 +168,6 @@ const Chat = () => {
         // CASE 7-5: 음성 출력 종료 → 다시 STT 시작
         case "TTS_OFF":
           console.log("음성 출력 종료 → 다음 발화 대기");
-
-          //주문이 완료되거나 실패한 경우
-          //CASE 6
-          if (isEnd) {
-            if (isEnd === "성공") {
-              setIsSucOpen(false); //성공 모달 닫기
-              sendMessage({ type: "ALL_RESET" });
-              setLocked(true); //잠금 화면으로 이동
-              break;
-            } else {
-              setIsErrOpen(false); //에러 모달 닫기
-              nav("/start");
-              break;
-            }
-          }
-
           sendMessage({ type: "STT_ON" });
           setIsListening(true);
           setIsProcessing(false);
@@ -235,6 +221,29 @@ const Chat = () => {
     addOnMessage,
     removeOnMessage,
   ]);
+  // 주문 완료 / 실패 후 후처리 CASE6
+  useEffect(() => {
+    if (!isEnd) return;
+
+    if (isEnd === "성공") {
+      console.log("🎉 주문 성공! 5초 뒤 잠금 화면으로 이동");
+      const timeout = setTimeout(() => {
+        setIsSucOpen(false); // 성공 모달 닫기
+        sendMessage({ type: "ALL_RESET" }); // 라즈베리파이에 리셋 신호
+        setLocked(true); // 잠금 화면 이동
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+
+    if (isEnd === "실패") {
+      console.log("❌ 주문 실패! 5초 뒤 다시 시작 화면으로 이동");
+      const timeout = setTimeout(() => {
+        setIsErrOpen(false);
+        nav("/start");
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [isEnd, sendMessage, setLocked, nav]);
 
   return (
     <>
