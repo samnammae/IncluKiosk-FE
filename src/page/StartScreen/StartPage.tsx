@@ -91,7 +91,7 @@ const StartPge = () => {
       timerRef.current = null;
     }
   };
-  const canUseEye = localStorage.getItem("canUseEye");
+  const canUseEye = localStorage.getItem("canUseEye") === "true";
   return (
     <BaseContainer>
       <TranslateContainer />
