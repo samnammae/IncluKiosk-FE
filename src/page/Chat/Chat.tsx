@@ -353,14 +353,7 @@ const ChatContainer = styled.div`
     border-radius: 3px;
   }
 `;
-const WelcomeMessage = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizes.sm};
-  text-align: center;
-  color: #7f8c8d;
-  font-style: italic;
-  margin-bottom: 50px;
-  margin-top: 30px;
-`;
+
 const ChatWrapper = styled.div<{ $isBotMessage: boolean }>`
   display: flex;
   justify-content: ${({ $isBotMessage }) =>
