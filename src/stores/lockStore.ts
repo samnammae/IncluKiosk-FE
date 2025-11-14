@@ -15,7 +15,7 @@ export const useLockStore = create<LockStore>((set) => ({
 
   setLocked: (locked: boolean) => {
     set({ isLocked: locked });
-    localStorage.setItem("canUseEye", "true");
+    if (locked === true) localStorage.setItem("canUseEye", "true");
   },
 
   resetTimer: () => {
