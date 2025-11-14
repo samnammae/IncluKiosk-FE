@@ -257,30 +257,6 @@ const Chat = () => {
     removeOnMessage,
   ]);
 
-  // // 주문 완료 / 실패 후 후처리 CASE6
-  // useEffect(() => {
-  //   if (!isEnd) return;
-
-  //   if (isEnd === "성공") {
-  //     console.log("🎉 주문 성공! 5초 뒤 잠금 화면으로 이동");
-  //     const timeout = setTimeout(() => {
-  //       setIsSucOpen(false); // 성공 모달 닫기
-  //       sendMessage({ type: "ALL_RESET" }); // 라즈베리파이에 리셋 신호
-  //       setLocked(true); // 잠금 화면 이동
-  //     }, 5000);
-  //     return () => clearTimeout(timeout);
-  //   }
-
-  //   if (isEnd === "실패") {
-  //     console.log("❌ 주문 실패! 5초 뒤 다시 시작 화면으로 이동");
-  //     const timeout = setTimeout(() => {
-  //       setIsErrOpen(false);
-  //       nav("/start");
-  //     }, 5000);
-  //     return () => clearTimeout(timeout);
-  //   }
-  // }, [isEnd, sendMessage, setLocked, nav]);
-
   return (
     <>
       <ErrorModal isOpen={isErrOpen} />
