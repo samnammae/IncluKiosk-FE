@@ -3,10 +3,17 @@ import { useLockStore } from "../stores/lockStore";
 import { useSocketStore } from "../stores/socketStore";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 const LockButton = ({ isHeader = false }: { isHeader?: boolean }) => {
   const { setLocked } = useLockStore();
   const { sendMessage } = useSocketStore();
   const nav = useNavigate();
+  const [canTouch, setCanTouch] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setCanTouch(true);
+    }, 1000);
+  }, []);
   return (
     <Container
       onClick={(e) => {
@@ -19,6 +26,7 @@ const LockButton = ({ isHeader = false }: { isHeader?: boolean }) => {
         }
       }}
       $isHeader={isHeader}
+      disabled={!canTouch}
     >
       {isHeader ? <HomeOutlinedIcon /> : <></>}
 
