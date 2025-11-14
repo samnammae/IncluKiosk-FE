@@ -6,7 +6,6 @@ import kioskBottom from "../../assets/imgs/kioskBottom.webp";
 import UserNotFoundModal from "./UserNotFoundModal";
 import LockButton from "../../components/LockButton";
 import { useNavigate } from "react-router-dom";
-import { useEyeTrackingStore } from "../../stores/eyeTrackingStore";
 
 const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   const { connect, addOnMessage, removeOnMessage, sendMessage } =
@@ -15,7 +14,7 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isAdjusting, setIsAdjusting] = useState(true); //높이 조절 중 상태
   const [isErrOpen, setIsErrOpen] = useState(false); //에러 모달
-  const { setCanUseEye } = useEyeTrackingStore();
+
   const nav = useNavigate();
 
   const steps = [
@@ -47,10 +46,11 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
       //CASE 3-3
       if (msg.type === "HEIGHT_SET_ERR") {
         setIsErrOpen(true); //에러 모달 열기
+        localStorage.setItem("canUseEye", "false");
+
         setTimeout(() => {
           setIsErrOpen(false); //에러 모달 닫기
           nav("/start"); //모드선택화면으로 진입
-          setCanUseEye(false); //아이트래킹 진입 블락
         }, 5000);
       }
     };

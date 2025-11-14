@@ -7,7 +7,6 @@ import { setShopData } from "../../apis/setShopData";
 import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import TranslateContainer from "../../components/TranslateContainer";
 import LockButton from "../../components/LockButton";
-import { useEyeTrackingStore } from "../../stores/eyeTrackingStore";
 
 interface StyledProps {
   $isHovering?: boolean;
@@ -92,8 +91,7 @@ const StartPge = () => {
       timerRef.current = null;
     }
   };
-
-  const { canUseEye } = useEyeTrackingStore();
+  const canUseEye = localStorage.getItem("canUseEye");
   return (
     <BaseContainer>
       <TranslateContainer />

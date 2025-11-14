@@ -4,7 +4,6 @@ import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import * as motion from "motion/react-client";
 import EyeCalibrationFailModal from "./EyeCalibrationFailModal";
 import { useNavigate } from "react-router-dom";
-import { useEyeTrackingStore } from "../../stores/eyeTrackingStore";
 
 const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
   const { connect, addOnMessage, removeOnMessage, sendMessage } =
@@ -12,7 +11,6 @@ const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
   const [complete, setComplete] = useState(false);
   const [isErrOpen, setIsOpen] = useState(false);
 
-  const { setCanUseEye } = useEyeTrackingStore();
   const nav = useNavigate();
 
   useEffect(() => {
@@ -35,7 +33,8 @@ const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
       //CASE 4-2-2
       if (msg.type === "EYE_CALIB_ERR") {
         setIsOpen(true);
-        setCanUseEye(false); //아이트래킹 진입 블락
+        localStorage.setItem("canUseEye", "false");
+
         setTimeout(() => {
           nav("/start");
           setIsOpen(false);

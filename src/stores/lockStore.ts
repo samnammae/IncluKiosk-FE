@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { useEyeTrackingStore } from "./eyeTrackingStore";
 
 interface LockStore {
   isLocked: boolean;
@@ -16,7 +15,7 @@ export const useLockStore = create<LockStore>((set) => ({
 
   setLocked: (locked: boolean) => {
     set({ isLocked: locked });
-    useEyeTrackingStore.getState().setCanUseEye(true); //아이트래킹 변수 초기화
+    localStorage.setItem("canUseEye", "true");
   },
 
   resetTimer: () => {
