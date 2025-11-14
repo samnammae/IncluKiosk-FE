@@ -115,7 +115,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
   color: white;
-  font-size: 2rem;
+  font-size: ${({ theme }) => theme.fonts.sizes.xl};
   font-weight: 600;
   margin: 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -124,7 +124,7 @@ const Title = styled.h1`
 const TargetWrapper = styled.div`
   position: relative;
   width: 350px;
-  height: 350px;
+  height: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,7 +159,7 @@ const CenterDot = styled(motion.div)`
 
 const Instruction = styled.div<{ $isComplete: boolean }>`
   color: ${({ $isComplete }) => ($isComplete ? "#4ecdc4" : "#fff")};
-  font-size: 1.8rem;
+  font-size: ${({ theme }) => theme.fonts.sizes.xl};
   font-weight: 600;
   text-align: center;
   opacity: 0.9;
