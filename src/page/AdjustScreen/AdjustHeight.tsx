@@ -61,15 +61,18 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
 
   // 문구 수정
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentStep((prev) => {
-        if (prev < steps.length - 2) return prev + 1;
-        else return 0;
-      });
-    }, 6000);
+    if (isAdjusting) {
+      // 조절 중일 때만 타이머 실행
+      const timer = setInterval(() => {
+        setCurrentStep((prev) => {
+          if (prev < steps.length - 2) return prev + 1;
+          else return 0;
+        });
+      }, 6000);
 
-    return () => clearInterval(timer);
-  }, []);
+      return () => clearInterval(timer);
+    }
+  }, [isAdjusting]);
 
   return (
     <>
