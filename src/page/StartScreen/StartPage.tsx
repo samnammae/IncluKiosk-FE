@@ -7,6 +7,7 @@ import { setShopData } from "../../apis/setShopData";
 import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import TranslateContainer from "../../components/TranslateContainer";
 import LockButton from "../../components/LockButton";
+import { useEyeTrackingStore } from "../../stores/eyeTrackingStore";
 
 interface StyledProps {
   $isHovering?: boolean;
@@ -92,6 +93,7 @@ const StartPge = () => {
     }
   };
 
+  const { canUseEye } = useEyeTrackingStore();
   return (
     <BaseContainer>
       <TranslateContainer />
@@ -120,23 +122,27 @@ const StartPge = () => {
             <OrderText>기본 주문하기</OrderText>
           </OrderButton>
         </OrderOptionsContainer>
-        <EyeTrackingSection
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          $isHovering={isHovering}
-        >
-          <ProgressBar $progress={progress} />
-          <EyeTrackingText>아이트래킹으로 주문하기</EyeTrackingText>
-          <EyeTrackingInstruction>
-            터치가 어려우시다면 이 곳을 응시해 주세요
-          </EyeTrackingInstruction>
-          {isHovering && (
-            <ProgressText>
-              {Math.round(progress)}% ({Math.ceil((100 - progress) / 20)}초
-              남음)
-            </ProgressText>
-          )}
-        </EyeTrackingSection>
+        {canUseEye ? (
+          <EyeTrackingSection
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            $isHovering={isHovering}
+          >
+            <ProgressBar $progress={progress} />
+            <EyeTrackingText>아이트래킹으로 주문하기</EyeTrackingText>
+            <EyeTrackingInstruction>
+              터치가 어려우시다면 이 곳을 응시해 주세요
+            </EyeTrackingInstruction>
+            {isHovering && (
+              <ProgressText>
+                {Math.round(progress)}% ({Math.ceil((100 - progress) / 20)}초
+                남음)
+              </ProgressText>
+            )}
+          </EyeTrackingSection>
+        ) : (
+          <></>
+        )}
       </ModeContaier>
     </BaseContainer>
   );
