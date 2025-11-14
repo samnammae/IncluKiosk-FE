@@ -151,7 +151,7 @@ const ContentWrapper = styled.div`
 const StatusText = styled.p<{ $isComplete: boolean }>`
   font-size: ${({ theme }) => theme.fonts.sizes.xl};
   color: ${({ $isComplete }) => ($isComplete ? "#4ecdc4" : "#fff")};
-  font-weight: ${({ $isComplete }) => ($isComplete ? "bold" : "normal")};
+  font-weight: bold;
   animation: ${({ $isComplete }) => ($isComplete ? pulse : "none")} 2s
     ease-in-out infinite;
   text-align: center;
