@@ -94,7 +94,7 @@ const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
 
         <Instruction $isComplete={complete}>
           {complete
-            ? "✓ 조정 완료이 완료되었습니다!"
+            ? "✓ 조정이 완료되었습니다!"
             : "중앙의 점을 계속 바라봐주세요"}
         </Instruction>
       </Container>
