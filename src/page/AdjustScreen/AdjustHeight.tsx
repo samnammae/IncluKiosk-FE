@@ -5,6 +5,7 @@ import kioskTop from "../../assets/imgs/kioskTop.webp";
 import kioskBottom from "../../assets/imgs/kioskBottom.webp";
 import { useLockStore } from "../../stores/lockStore";
 import UserNotFoundModal from "./UserNotFoundModal";
+import LockButton from "../../components/LockButton";
 
 const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   const { connect, addOnMessage, removeOnMessage, sendMessage } =
@@ -71,6 +72,7 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
     <>
       <UserNotFoundModal isOpen={isErrOpen} />
       <Container>
+        <LockButton />
         <ContentWrapper>
           <KioskWrapper>
             {/* 하단 고정된 받침대 */}

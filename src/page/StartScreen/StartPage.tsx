@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { setShopData } from "../../apis/setShopData";
 import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import TranslateContainer from "../../components/TranslateContainer";
+import LockButton from "../../components/LockButton";
+
 interface StyledProps {
   $isHovering?: boolean;
   $progress?: number;
@@ -93,6 +95,7 @@ const StartPge = () => {
   return (
     <BaseContainer>
       <TranslateContainer />
+      <LockButton />
       {startBackground && <Background src={startBackground} />}
       <LogoWrapper>
         {logoimg ? <LogoContainer src={logoimg} /> : <Title>{name}</Title>}
