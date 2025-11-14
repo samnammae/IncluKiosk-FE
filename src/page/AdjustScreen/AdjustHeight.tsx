@@ -3,17 +3,20 @@ import styled, { keyframes } from "styled-components";
 import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import kioskTop from "../../assets/imgs/kioskTop.webp";
 import kioskBottom from "../../assets/imgs/kioskBottom.webp";
-import { useLockStore } from "../../stores/lockStore";
 import UserNotFoundModal from "./UserNotFoundModal";
 import LockButton from "../../components/LockButton";
+import { useNavigate } from "react-router-dom";
+import { useEyeTrackingStore } from "../../stores/eyeTrackingStore";
 
 const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
   const { connect, addOnMessage, removeOnMessage, sendMessage } =
     useSocketStore();
-  const { setLocked } = useLockStore();
+
   const [currentStep, setCurrentStep] = useState(0);
   const [isAdjusting, setIsAdjusting] = useState(true); //높이 조절 중 상태
   const [isErrOpen, setIsErrOpen] = useState(false); //에러 모달
+  const { setCanUseEye } = useEyeTrackingStore();
+  const nav = useNavigate();
 
   const steps = [
     "키오스크 높이를 조절하는 중입니다 ...",
@@ -42,12 +45,12 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
       }
 
       //CASE 3-3
-      if (msg.type === "HEIGHT_SET_CANCEL") {
+      if (msg.type === "HEIGHT_SET_ERR") {
         setIsErrOpen(true); //에러 모달 열기
         setTimeout(() => {
           setIsErrOpen(false); //에러 모달 닫기
-          sendMessage({ type: "ALL_RESET" });
-          setLocked(true); //잠금화면으로 돌아가기
+          nav("/start"); //모드선택화면으로 진입
+          setCanUseEye(false); //아이트래킹 진입 블락
         }, 5000);
       }
     };
