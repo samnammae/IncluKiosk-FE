@@ -66,7 +66,7 @@ const AdjustHeight = ({ nextPage }: { nextPage: () => void }) => {
         if (prev < steps.length - 2) return prev + 1;
         else return 0;
       });
-    }, 4000);
+    }, 6000);
 
     return () => clearInterval(timer);
   }, []);
