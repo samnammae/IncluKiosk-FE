@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useEyeTrackingStore } from "./eyeTrackingStore";
 
 interface LockStore {
   isLocked: boolean;
@@ -13,7 +14,10 @@ let timer: NodeJS.Timeout | null = null;
 export const useLockStore = create<LockStore>((set) => ({
   isLocked: false,
 
-  setLocked: (locked: boolean) => set({ isLocked: locked }),
+  setLocked: (locked: boolean) => {
+    set({ isLocked: locked });
+    useEyeTrackingStore.getState().setCanUseEye(true); //아이트래킹 변수 초기화
+  },
 
   resetTimer: () => {
     if (timer) clearTimeout(timer);
