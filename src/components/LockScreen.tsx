@@ -6,8 +6,11 @@ import { SocketMessage, useSocketStore } from "../stores/socketStore";
 
 const LockScreen = () => {
   const { isLocked, setLocked, resetTimer } = useLockStore();
-  const { sendMessage, addOnMessage, removeOnMessage } = useSocketStore();
-
+  const { connect, sendMessage, addOnMessage, removeOnMessage } =
+    useSocketStore();
+  useEffect(() => {
+    connect();
+  }, [connect]);
   useEffect(() => {
     if (isLocked) {
       sendMessage({ type: "ALL_RESET" });
@@ -25,7 +28,10 @@ const LockScreen = () => {
       }
     };
     addOnMessage(handle);
-    return () => removeOnMessage(handle);
+    return () => {
+      connect(); // 언마운트 시 추가 실행
+      removeOnMessage(handle);
+    };
   }, [isLocked, addOnMessage, removeOnMessage]);
 
   return (

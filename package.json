@@ -42,7 +42,7 @@
     },
     "publish": {
       "provider": "s3",
-      "bucket": "inclukiosk-fe",
+      "bucket": "inclukiosk-kiosk-fe",
       "region": "ap-northeast-2",
       "path": "/releases",
       "acl": null

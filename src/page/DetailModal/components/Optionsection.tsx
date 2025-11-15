@@ -204,14 +204,15 @@ const OptionLabel = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 10px 0px;
 `;
 
 const OptionName = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizes.xs};
+  font-size: ${({ theme }) => theme.fonts.sizes.sm};
 `;
 
 const OptionPrice = styled.div<{ $isSelected?: boolean }>`
-  font-size: ${({ theme }) => theme.fonts.sizes.xs};
+  font-size: ${({ theme }) => theme.fonts.sizes.sm};
   color: ${({ theme, $isSelected }) =>
     $isSelected ? theme.colors.white : theme.colors.grey[600]};
   transition: all 0.1s ease-in;

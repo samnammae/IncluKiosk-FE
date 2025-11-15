@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { setShopData } from "../../apis/setShopData";
 import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import TranslateContainer from "../../components/TranslateContainer";
+import LockButton from "../../components/LockButton";
+
 interface StyledProps {
   $isHovering?: boolean;
   $progress?: number;
@@ -59,8 +61,8 @@ const StartPge = () => {
     setIsHovering(true);
     setProgress(0);
 
-    // 5초(5000ms)에 걸쳐 progress를 100까지 증가
-    const duration = 5000;
+    // 3초(3000ms)에 걸쳐 progress를 100까지 증가
+    const duration = 3000;
     const interval = 50; // 50ms마다 업데이트
     const increment = (100 * interval) / duration;
 
@@ -89,10 +91,11 @@ const StartPge = () => {
       timerRef.current = null;
     }
   };
-
+  const canUseEye = localStorage.getItem("canUseEye") === "true";
   return (
     <BaseContainer>
       <TranslateContainer />
+      <LockButton />
       {startBackground && <Background src={startBackground} />}
       <LogoWrapper>
         {logoimg ? <LogoContainer src={logoimg} /> : <Title>{name}</Title>}
@@ -117,23 +120,27 @@ const StartPge = () => {
             <OrderText>기본 주문하기</OrderText>
           </OrderButton>
         </OrderOptionsContainer>
-        <EyeTrackingSection
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          $isHovering={isHovering}
-        >
-          <ProgressBar $progress={progress} />
-          <EyeTrackingText>아이트래킹으로 주문하기</EyeTrackingText>
-          <EyeTrackingInstruction>
-            터치가 어려우시다면 이 곳을 응시해 주세요
-          </EyeTrackingInstruction>
-          {isHovering && (
-            <ProgressText>
-              {Math.round(progress)}% ({Math.ceil((100 - progress) / 20)}초
-              남음)
-            </ProgressText>
-          )}
-        </EyeTrackingSection>
+        {canUseEye ? (
+          <EyeTrackingSection
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            $isHovering={isHovering}
+          >
+            <ProgressBar $progress={progress} />
+            <EyeTrackingText>아이트래킹으로 주문하기</EyeTrackingText>
+            <EyeTrackingInstruction>
+              터치가 어려우시다면 이 곳을 응시해 주세요
+            </EyeTrackingInstruction>
+            {isHovering && (
+              <ProgressText>
+                {Math.round(progress)}% (
+                {Math.ceil(((100 - progress) / 100) * 3)}초 남음)
+              </ProgressText>
+            )}
+          </EyeTrackingSection>
+        ) : (
+          <></>
+        )}
       </ModeContaier>
     </BaseContainer>
   );
