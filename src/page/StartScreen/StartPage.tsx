@@ -61,8 +61,8 @@ const StartPge = () => {
     setIsHovering(true);
     setProgress(0);
 
-    // 5초(5000ms)에 걸쳐 progress를 100까지 증가
-    const duration = 5000;
+    // 3초(3000ms)에 걸쳐 progress를 100까지 증가
+    const duration = 3000;
     const interval = 50; // 50ms마다 업데이트
     const increment = (100 * interval) / duration;
 
@@ -133,8 +133,8 @@ const StartPge = () => {
             </EyeTrackingInstruction>
             {isHovering && (
               <ProgressText>
-                {Math.round(progress)}% ({Math.ceil((100 - progress) / 20)}초
-                남음)
+                {Math.round(progress)}% (
+                {Math.ceil(((100 - progress) / 100) * 3)}초 남음)
               </ProgressText>
             )}
           </EyeTrackingSection>
