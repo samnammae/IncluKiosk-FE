@@ -3,12 +3,16 @@ import styled from "styled-components";
 import { SocketMessage, useSocketStore } from "../../stores/socketStore";
 import * as motion from "motion/react-client";
 import EyeCalibrationFailModal from "./EyeCalibrationFailModal";
+import { useNavigate } from "react-router-dom";
 
 const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
   const { connect, addOnMessage, removeOnMessage, sendMessage } =
     useSocketStore();
   const [complete, setComplete] = useState(false);
   const [isErrOpen, setIsOpen] = useState(false);
+
+  const nav = useNavigate();
+
   useEffect(() => {
     connect();
   }, [connect]);
@@ -29,8 +33,10 @@ const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
       //CASE 4-2-2
       if (msg.type === "EYE_CALIB_ERR") {
         setIsOpen(true);
+        localStorage.setItem("canUseEye", "false");
+
         setTimeout(() => {
-          sendMessage({ type: "EYE_CALIB_ON" }); //다시 CASE 4-1 진입
+          nav("/start");
           setIsOpen(false);
         }, 3000);
       }
@@ -88,7 +94,7 @@ const AdjustEye = ({ nextPage }: { nextPage: () => void }) => {
 
         <Instruction $isComplete={complete}>
           {complete
-            ? "✓ 조정 완료이 완료되었습니다!"
+            ? "✓ 조정이 완료되었습니다!"
             : "중앙의 점을 계속 바라봐주세요"}
         </Instruction>
       </Container>
@@ -115,7 +121,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
   color: white;
-  font-size: 2rem;
+  font-size: ${({ theme }) => theme.fonts.sizes.xl};
   font-weight: 600;
   margin: 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -124,7 +130,7 @@ const Title = styled.h1`
 const TargetWrapper = styled.div`
   position: relative;
   width: 350px;
-  height: 350px;
+  height: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,7 +165,7 @@ const CenterDot = styled(motion.div)`
 
 const Instruction = styled.div<{ $isComplete: boolean }>`
   color: ${({ $isComplete }) => ($isComplete ? "#4ecdc4" : "#fff")};
-  font-size: 1.8rem;
+  font-size: ${({ theme }) => theme.fonts.sizes.xl};
   font-weight: 600;
   text-align: center;
   opacity: 0.9;

@@ -3,6 +3,7 @@ import { useShopStore } from "../../../stores/shopStore";
 import { useEffect } from "react";
 import { setShopData } from "../../../apis/setShopData";
 import TranslateContainer from "../../../components/TranslateContainer";
+import LockButton from "../../../components/LockButton";
 
 const Header = () => {
   const { titleImg } = useShopStore();
@@ -14,6 +15,7 @@ const Header = () => {
 
   return (
     <BaseContainer>
+      <LockButton isHeader={true} />
       {titleImg ? <BrandLogo src={titleImg} alt="브랜드 로고 이미지" /> : <></>}
       <TranslateContainer />
     </BaseContainer>

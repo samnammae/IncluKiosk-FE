@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 interface ButtonSectionProps {
   onSubmit: () => void;
 }
@@ -20,7 +20,7 @@ const ButtonWrapper = styled.div`
 
 const AddCartButton = styled.button`
   flex: 1;
-  padding: 16px 24px;
+  padding: 24px 24px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.fonts.sizes.md};
   font-weight: ${({ theme }) => theme.fonts.weights.medium};

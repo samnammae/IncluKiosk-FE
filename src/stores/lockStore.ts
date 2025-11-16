@@ -13,7 +13,10 @@ let timer: NodeJS.Timeout | null = null;
 export const useLockStore = create<LockStore>((set) => ({
   isLocked: false,
 
-  setLocked: (locked: boolean) => set({ isLocked: locked }),
+  setLocked: (locked: boolean) => {
+    set({ isLocked: locked });
+    if (locked === true) localStorage.setItem("canUseEye", "true");
+  },
 
   resetTimer: () => {
     if (timer) clearTimeout(timer);

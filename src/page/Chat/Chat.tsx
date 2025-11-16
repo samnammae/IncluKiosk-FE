@@ -31,7 +31,13 @@ const Chat = () => {
   // 대화 세션 ID (대화 시작할 때 1회 생성)
   const [sessionId] = useState(generateSessionId(shopId));
 
-  const [chatLogs, setChatLogs] = useState<ChatMessage[]>([]);
+  const [chatLogs, setChatLogs] = useState<ChatMessage[]>([
+    {
+      message:
+        "안녕하세요 음성으로 주문을 도와드릴게요.\n무엇을 드시고 싶으신가요?",
+      isBot: true,
+    },
+  ]);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isEnd, setIsEnd] = useState<"성공" | "실패" | false>(false); //성공 상태
@@ -42,25 +48,25 @@ const Chat = () => {
 
   // 채팅 animation 기능
   const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
+
   useEffect(() => {
     if (chatLogs.length === 0) return;
 
     const lastIndex = chatLogs.length - 1;
     const lastChat = chatLogs[lastIndex];
     const words = lastChat.message.split(" ");
+
     let i = 0;
 
-    // 말풍선 초기화
-    setVisibleTexts((prev) => ({ ...prev, [lastIndex]: words[0] }));
-
     const interval = setInterval(() => {
-      if (i < words.length - 1) {
+      if (i < words.length) {
+        const currentText = words.slice(0, i + 1).join(" ");
+
         setVisibleTexts((prev) => ({
           ...prev,
-          [lastIndex]: prev[lastIndex]
-            ? prev[lastIndex] + " " + words[i]
-            : words[i],
+          [lastIndex]: currentText,
         }));
+
         i++;
       } else {
         clearInterval(interval);
@@ -257,30 +263,6 @@ const Chat = () => {
     removeOnMessage,
   ]);
 
-  // // 주문 완료 / 실패 후 후처리 CASE6
-  // useEffect(() => {
-  //   if (!isEnd) return;
-
-  //   if (isEnd === "성공") {
-  //     console.log("🎉 주문 성공! 5초 뒤 잠금 화면으로 이동");
-  //     const timeout = setTimeout(() => {
-  //       setIsSucOpen(false); // 성공 모달 닫기
-  //       sendMessage({ type: "ALL_RESET" }); // 라즈베리파이에 리셋 신호
-  //       setLocked(true); // 잠금 화면 이동
-  //     }, 5000);
-  //     return () => clearTimeout(timeout);
-  //   }
-
-  //   if (isEnd === "실패") {
-  //     console.log("❌ 주문 실패! 5초 뒤 다시 시작 화면으로 이동");
-  //     const timeout = setTimeout(() => {
-  //       setIsErrOpen(false);
-  //       nav("/start");
-  //     }, 5000);
-  //     return () => clearTimeout(timeout);
-  //   }
-  // }, [isEnd, sendMessage, setLocked, nav]);
-
   return (
     <>
       <ErrorModal isOpen={isErrOpen} />
@@ -290,11 +272,11 @@ const Chat = () => {
         <Background>
           <ChatTestButton setChatLogs={setChatLogs} />
           <ChatContainer ref={containerRef}>
-            <WelcomeMessage>
+            {/* <WelcomeMessage>
               안녕하세요 음성으로 주문을 도와드릴게요.
               <br />
               무엇을 드시고 싶으신가요?
-            </WelcomeMessage>
+            </WelcomeMessage> */}
 
             {/* 음성 입력/처리 상태 */}
             <VoiceStatus
@@ -371,14 +353,7 @@ const ChatContainer = styled.div`
     border-radius: 3px;
   }
 `;
-const WelcomeMessage = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizes.sm};
-  text-align: center;
-  color: #7f8c8d;
-  font-style: italic;
-  margin-bottom: 50px;
-  margin-top: 30px;
-`;
+
 const ChatWrapper = styled.div<{ $isBotMessage: boolean }>`
   display: flex;
   justify-content: ${({ $isBotMessage }) =>
