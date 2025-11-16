@@ -48,25 +48,25 @@ const Chat = () => {
 
   // 채팅 animation 기능
   const [visibleTexts, setVisibleTexts] = useState<Record<number, string>>({});
+
   useEffect(() => {
     if (chatLogs.length === 0) return;
 
     const lastIndex = chatLogs.length - 1;
     const lastChat = chatLogs[lastIndex];
     const words = lastChat.message.split(" ");
+
     let i = 0;
 
-    // 말풍선 초기화
-    setVisibleTexts((prev) => ({ ...prev, [lastIndex]: words[0] }));
-
     const interval = setInterval(() => {
-      if (i < words.length - 1) {
+      if (i < words.length) {
+        const currentText = words.slice(0, i + 1).join(" ");
+
         setVisibleTexts((prev) => ({
           ...prev,
-          [lastIndex]: prev[lastIndex]
-            ? prev[lastIndex] + " " + words[i]
-            : words[i],
+          [lastIndex]: currentText,
         }));
+
         i++;
       } else {
         clearInterval(interval);
